@@ -12,6 +12,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Threading;
+using System.Windows.Media.Animation;
 
 namespace t2_imitation
 {
@@ -27,10 +28,60 @@ namespace t2_imitation
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
+            rectangle_rulon.Visibility = Visibility.Hidden;
+            rectangle_tube.Visibility = Visibility.Hidden;
             schema.Visibility = Visibility.Visible;
         }
 
         private void button1_Click(object sender, RoutedEventArgs e)
+        {
+            //MessageBox.Show(rectangle_rulon.Width.ToString());
+            Rectangle rectangle_rulon_error = new Rectangle();
+            rectangle_rulon_error.Height = 6;
+            rectangle_rulon_error.Width = 2;
+
+            SolidColorBrush myBrush = new SolidColorBrush(Colors.Red);
+            rectangle_rulon_error.Fill = myBrush;
+
+            schema.Children.Add(rectangle_rulon_error);
+            Canvas.SetTop(rectangle_rulon_error, 53);
+            Canvas.SetLeft(rectangle_rulon_error, 7 + rectangle_rulon.Width);
+        }
+
+        private void button3_Click(object sender, RoutedEventArgs e)
+        {
+            rectangle_rulon.Visibility = Visibility.Visible;
+            button3.IsEnabled = false;
+            DoubleAnimation da = new DoubleAnimation();
+            da.Completed += new EventHandler(da_Completed);
+            da.From = 0;
+            da.To = rectangle_rulon.Width;
+            da.Duration = TimeSpan.FromSeconds(3);
+            rectangle_rulon.BeginAnimation(Rectangle.WidthProperty, da);
+        }
+
+        void da_Completed(object sender, EventArgs e)
+        {
+            rectangle_tube.Visibility = Visibility.Visible;
+
+            DoubleAnimation da = new DoubleAnimation();
+            
+            da.From = rectangle_rulon.Width;
+            da.To = rectangle_tube.Width;
+            da.Duration = TimeSpan.FromSeconds(3);
+            rectangle_rulon.BeginAnimation(Rectangle.WidthProperty, da);
+
+            DoubleAnimation da1 = new DoubleAnimation();
+            da1.Completed += new EventHandler(da1_Completed);
+            da1.From = 0;
+            da1.To = rectangle_tube.Width;
+            da1.Duration = TimeSpan.FromSeconds(3);
+            rectangle_tube.BeginAnimation(Rectangle.WidthProperty, da1);
+
+            button3.IsEnabled = true;
+        }
+
+        void da1_Completed(object sender, EventArgs e)
         {
 
         }
