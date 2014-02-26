@@ -10,6 +10,8 @@
 *.suo
 *.user
 *.sln.docstates
+t2_imitation/bin/*
+t2_imitation/obj/*
 
 # Build results
 [Dd]ebug/
