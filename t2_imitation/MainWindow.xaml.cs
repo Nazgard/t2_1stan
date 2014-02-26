@@ -27,12 +27,12 @@ namespace t2_imitation
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-
+            schema.Visibility = Visibility.Visible;
         }
 
         private void button1_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("123");
+
         }
     }
 }
