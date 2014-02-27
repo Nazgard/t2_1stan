@@ -5,7 +5,7 @@ using System.Data;
 using System.Linq;
 using System.Windows;
 
-namespace t2_imitation
+namespace t2_1stan_imitation
 {
     /// <summary>
     /// Логика взаимодействия для App.xaml

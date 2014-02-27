@@ -8,8 +8,8 @@
     <ProjectGuid>{6FDDF495-A12B-452C-BEB0-1816F531C398}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>t2_imitation</RootNamespace>
-    <AssemblyName>t2_imitation</AssemblyName>
+    <RootNamespace>t2_1stan_imitation</RootNamespace>
+    <AssemblyName>t2_1stan_imitation</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <TargetFrameworkProfile>Client</TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
