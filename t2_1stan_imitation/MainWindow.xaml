@@ -6,12 +6,13 @@
         <Rectangle Height="15" HorizontalAlignment="Left" Name="rectangle_tube" Stroke="Black" VerticalAlignment="Top" Width="100" RadiusX="3" RadiusY="3" Fill="#FFBABABA" Canvas.Left="12" Canvas.Top="95" />
         <Button Content="Start" Name="button3" Width="45" Height="23" Canvas.Left="67" Canvas.Top="115" Click="button3_Click" />
         <Rectangle Canvas.Left="235" Canvas.Top="12" Height="51" Name="rectangle3" Stroke="Black" Width="16" />
-        <Rectangle Canvas.Left="222" Canvas.Top="62" Height="21" Name="rectangle5" Stroke="Black" Width="44" />
+        <Rectangle Canvas.Left="222" Canvas.Top="62" Height="21" Name="rectangle5" Stroke="Black" Width="42" />
         <Button Canvas.Left="153" Canvas.Top="12" Content="UP" Height="23" Name="button4" Width="55" Click="button4_Click" />
         <Button Canvas.Left="153" Canvas.Top="40" Content="DOWN" Height="23" Name="button5" Width="55" Click="button5_Click" />
         <Button Canvas.Left="222" Canvas.Top="115" Content="ER" Height="23" Name="button6" Width="44" />
-        <TextBox Canvas.Left="12" Canvas.Top="13" Height="22" Name="textBox1" Width="107" Text="900" />
+        <TextBox Canvas.Left="12" Canvas.Top="33" Height="22" Name="textBox1" Width="107" Text="900" PreviewTextInput="textBox1_PreviewTextInput" />
         <Button Canvas.Left="12" Canvas.Top="115" Content="Pause" Height="23" Name="button1" Width="45" Click="button1_Click" />
-        <Button Canvas.Left="12" Canvas.Top="40" Content="Reset" Height="23" Name="button2" Width="75" Click="button2_Click" />
+        <Button Canvas.Left="12" Canvas.Top="60" Content="Reset" Height="23" Name="button2" Width="75" Click="button2_Click" />
+        <Label Content="Длина трубы (см)" Canvas.Left="12" Canvas.Top="7"/>
     </Canvas>
 </Window>

@@ -22,8 +22,9 @@ namespace t2_1stan_imitation
     public partial class MainWindow : Window
     {
         private bool position_defectoscope = false;
-        double position_stop = 0;
-        System.Windows.Threading.DispatcherTimer move_tubeTimer = new System.Windows.Threading.DispatcherTimer();
+        private double position_stop = 0;
+        private System.Windows.Threading.DispatcherTimer move_tubeTimer = new System.Windows.Threading.DispatcherTimer();
+        private DoubleAnimation animation1 = new DoubleAnimation();
 
         public MainWindow()
         {
@@ -32,7 +33,7 @@ namespace t2_1stan_imitation
             {
                 position_stop = Canvas.GetLeft(rectangle5) + rectangle5.Width;
                 move_tubeTimer.Tick += new EventHandler(move_tube);
-                move_tubeTimer.Interval = new TimeSpan(0, 0, 1);
+                move_tubeTimer.Interval = TimeSpan.FromMilliseconds(500);
             }
             catch (Exception ex)
             {
@@ -71,7 +72,10 @@ namespace t2_1stan_imitation
         private void reset_position_tube(double left)
         {
             move_tubeTimer.Stop();
-            Canvas.SetLeft(rectangle_tube, -left);
+            animation1.From = Canvas.GetLeft(rectangle_tube);
+            animation1.To = -left;
+            animation1.Duration = TimeSpan.FromMilliseconds(500);
+            rectangle_tube.BeginAnimation(Canvas.LeftProperty, animation1);
         }
 
         private void move_tube(object sender, EventArgs e)
@@ -80,7 +84,10 @@ namespace t2_1stan_imitation
             {
                 if (position_stop > Canvas.GetLeft(rectangle_tube))
                 {
-                    Canvas.SetLeft(rectangle_tube, Canvas.GetLeft(rectangle_tube) + 20);
+                    animation1.From = Canvas.GetLeft(rectangle_tube);
+                    animation1.To = Canvas.GetLeft(rectangle_tube) + 20;
+                    animation1.Duration = TimeSpan.FromMilliseconds(500);
+                    rectangle_tube.BeginAnimation(Canvas.LeftProperty, animation1);
                 }                    
                 else
                 {
@@ -100,6 +107,16 @@ namespace t2_1stan_imitation
 
         private void button2_Click(object sender, RoutedEventArgs e)
         {
+            reset_rectangle_tube_width();
+        }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            reset_rectangle_tube_width();
+        }
+
+        private void reset_rectangle_tube_width()
+        {
             try
             {
                 double len_tube = Convert.ToInt32(textBox1.Text);
@@ -112,9 +129,12 @@ namespace t2_1stan_imitation
             }
         }
 
-        private void Window_Loaded(object sender, RoutedEventArgs e)
+        private void textBox1_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
-
+            if (!char.IsDigit(e.Text, e.Text.Length - 1))
+            {
+                e.Handled = true;
+            }
         }
     }
 }
