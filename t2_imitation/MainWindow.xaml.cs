@@ -11,7 +11,6 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using System.Threading;
 using System.Windows.Media.Animation;
 
 namespace t2_imitation
@@ -21,6 +20,8 @@ namespace t2_imitation
     /// </summary>
     public partial class MainWindow : Window
     {
+        private bool position_defectoscope = false;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -44,12 +45,13 @@ namespace t2_imitation
             rectangle_rulon_error.Fill = myBrush;
 
             schema.Children.Add(rectangle_rulon_error);
-            Canvas.SetTop(rectangle_rulon_error, 53);
-            Canvas.SetLeft(rectangle_rulon_error, 7 + rectangle_rulon.Width);
+            Canvas.SetTop(rectangle_rulon_error, 110);
+            Canvas.SetLeft(rectangle_rulon_error, 11 + rectangle_rulon.Width);
         }
 
         private void button3_Click(object sender, RoutedEventArgs e)
         {
+            rectangle_tube.Visibility = Visibility.Hidden;
             rectangle_rulon.Visibility = Visibility.Visible;
             button3.IsEnabled = false;
             DoubleAnimation da = new DoubleAnimation();
@@ -58,16 +60,16 @@ namespace t2_imitation
             da.To = rectangle_rulon.Width;
             da.Duration = TimeSpan.FromSeconds(3);
             rectangle_rulon.BeginAnimation(Rectangle.WidthProperty, da);
+            rectangle_rulon.HorizontalAlignment = HorizontalAlignment.Right;
         }
 
         void da_Completed(object sender, EventArgs e)
         {
             rectangle_tube.Visibility = Visibility.Visible;
 
-            DoubleAnimation da = new DoubleAnimation();
-            
-            da.From = rectangle_rulon.Width;
-            da.To = rectangle_tube.Width;
+            DoubleAnimation da = new DoubleAnimation();            
+            da.From = 0;
+            da.To = rectangle_rulon.Width;
             da.Duration = TimeSpan.FromSeconds(3);
             rectangle_rulon.BeginAnimation(Rectangle.WidthProperty, da);
 
@@ -84,6 +86,20 @@ namespace t2_imitation
         void da1_Completed(object sender, EventArgs e)
         {
 
+        }
+
+        private void button4_Click(object sender, RoutedEventArgs e)
+        {
+            position_defectoscope = false;
+            Canvas.SetTop(rectangle3, 12);
+            Canvas.SetTop(rectangle5, 62);
+        }
+
+        private void button5_Click(object sender, RoutedEventArgs e)
+        {
+            position_defectoscope = true;
+            Canvas.SetTop(rectangle3, 32);
+            Canvas.SetTop(rectangle5, 82);
         }
     }
 }
