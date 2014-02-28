@@ -27,7 +27,7 @@ namespace t2_1stan_imitation
         private double position_stop = 0;
         private System.Windows.Threading.DispatcherTimer move_tubeTimer = new System.Windows.Threading.DispatcherTimer();
         private DoubleAnimation animation1 = new DoubleAnimation();
-        SerialPort serialPort = new SerialPort();
+        private SerialPort serialPort = new SerialPort();
 
         public MainWindow()
         {
@@ -172,7 +172,7 @@ namespace t2_1stan_imitation
             }
         }
 
-        private void PacOut()
+        private void PacOut(int type)
         {
             // ======================================================
             // структура пакетов :
@@ -200,14 +200,18 @@ namespace t2_1stan_imitation
             //    0xCRC          контрольная сумма
             //    0x00 0x00 0x00 окончание пакета
             // ======================================================
+            // 30 импульсов на метр.
+            // 5 импульсов = 1 сегмент
+            // контрольная сумма = crc8buf
+            // ======================================================
 
             byte[] Packets = new byte[10];
 
             Packets[0]  = 0xE6;
             Packets[1]  = 0x19;
             Packets[2]  = 0xFF;
-
             Packets[3]  = 0x08;
+
             Packets[4]  = 0x00;
             Packets[5]  = 0x00;
             Packets[6]  = 0x00;
