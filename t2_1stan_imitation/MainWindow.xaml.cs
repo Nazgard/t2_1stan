@@ -13,6 +13,8 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Media.Animation;
 using System.Threading;
+using System.IO;
+using System.IO.Ports;
 
 namespace t2_1stan_imitation
 {
@@ -25,6 +27,7 @@ namespace t2_1stan_imitation
         private double position_stop = 0;
         private System.Windows.Threading.DispatcherTimer move_tubeTimer = new System.Windows.Threading.DispatcherTimer();
         private DoubleAnimation animation1 = new DoubleAnimation();
+        SerialPort serialPort = new SerialPort();
 
         public MainWindow()
         {
@@ -117,6 +120,10 @@ namespace t2_1stan_imitation
             this.Left = ps.Left; 
 
             reset_rectangle_tube_width();
+
+            serialPort.PortName = "COM3";
+            serialPort.BaudRate = 38400;
+            serialPort.Open();                      
         }
 
         private void reset_rectangle_tube_width()
@@ -147,6 +154,56 @@ namespace t2_1stan_imitation
             ps.Top = this.Top;
             ps.Left = this.Left;
             ps.Save();
+
+            serialPort.Close();
+        }
+
+        private void PacOut()
+        {
+            // ======================================================
+            // структура пакетов :
+            // 1) 0xE6 0x19 0xFF заголовок
+            //    0x08           длина пакета (включая контрольную сумму)
+            //    0x01           вид пакета - состояние дефектоскопов при простое стана
+            //    0xXX           байт состояния дефектов
+            //    0x00           выравнивание длины
+            //    0xCRC          контрольная сумма
+            //    0x00 0x00 0x00 окончание пакета
+            //
+            // 2) 0xE6 0x19 0xFF заголовок
+            //    0x08           длина пакета (включая контрольную сумму)
+            //    0x02           вид пакета - сегмент трубы
+            //    0xNN           номер сегмента по раскладке трубы
+            //    0xXX           байт состояния дефектов
+            //    0xCRC          контрольная сумма
+            //    0x00 0x00 0x00 окончание пакета
+            //
+            // 3) 0xE6 0x19 0xFF заголовок
+            //    0x08           длина пакета (включая контрольную сумму)
+            //    0x03           вид пакета - новая труба
+            //    0xDL           длина трубы в сегментах ( один сегмент = 5 импульсов колеса )
+            //    0x00           выравнивание длины
+            //    0xCRC          контрольная сумма
+            //    0x00 0x00 0x00 окончание пакета
+            // ======================================================
+
+            byte[] Packets = new byte[10];
+
+            Packets[0]  = 0xE6;
+            Packets[1]  = 0x19;
+            Packets[2]  = 0xFF;
+
+            Packets[3]  = 0x08;
+            Packets[4]  = 0x00;
+            Packets[5]  = 0x00;
+            Packets[6]  = 0x00;
+            Packets[7] =  0x00;
+
+            Packets[8]  = 0x00;
+            Packets[9]  = 0x00;
+            Packets[10] = 0x00;
+
+            serialPort.Write(Packets, 0, Packets.Length-1);
         }
     }
 }
