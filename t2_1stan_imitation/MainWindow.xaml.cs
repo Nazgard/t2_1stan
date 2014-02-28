@@ -112,6 +112,10 @@ namespace t2_1stan_imitation
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
+            Properties.Settings ps = Properties.Settings.Default;
+            this.Top = ps.Top;
+            this.Left = ps.Left; 
+
             reset_rectangle_tube_width();
         }
 
@@ -135,6 +139,14 @@ namespace t2_1stan_imitation
             {
                 e.Handled = true;
             }
+        }
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            Properties.Settings ps = Properties.Settings.Default;
+            ps.Top = this.Top;
+            ps.Left = this.Left;
+            ps.Save();
         }
     }
 }
