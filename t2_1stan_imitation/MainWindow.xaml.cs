@@ -115,15 +115,22 @@ namespace t2_1stan_imitation
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            Properties.Settings ps = Properties.Settings.Default;
-            this.Top = ps.Top;
-            this.Left = ps.Left; 
+            try
+            {
+                Properties.Settings ps = Properties.Settings.Default;
+                this.Top = ps.Top;
+                this.Left = ps.Left;
 
-            reset_rectangle_tube_width();
+                reset_rectangle_tube_width();
 
-            serialPort.PortName = "COM3";
-            serialPort.BaudRate = 38400;
-            serialPort.Open();                      
+                serialPort.PortName = "COM3";
+                serialPort.BaudRate = 38400;
+                serialPort.Open(); 
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }                                 
         }
 
         private void reset_rectangle_tube_width()
@@ -150,12 +157,19 @@ namespace t2_1stan_imitation
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            Properties.Settings ps = Properties.Settings.Default;
-            ps.Top = this.Top;
-            ps.Left = this.Left;
-            ps.Save();
+            try
+            {
+                Properties.Settings ps = Properties.Settings.Default;
+                ps.Top = this.Top;
+                ps.Left = this.Left;
+                ps.Save();
 
-            serialPort.Close();
+                serialPort.Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
         }
 
         private void PacOut()
