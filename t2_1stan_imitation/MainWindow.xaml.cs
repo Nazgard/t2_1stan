@@ -27,6 +27,7 @@ namespace t2_1stan_imitation
         private byte segments_tube = 0x00;
         private byte current_segment_tube = 0x00;
         private bool position_defectoscope = false;
+        private bool error_state = false;
         private double position_stop = 0;
         private System.Windows.Threading.DispatcherTimer move_tubeTimer = new System.Windows.Threading.DispatcherTimer();
         private DoubleAnimation animation1 = new DoubleAnimation();
@@ -42,7 +43,8 @@ namespace t2_1stan_imitation
                 serialPort.Open(); 
                 position_stop = Canvas.GetLeft(rectangle5) + rectangle5.Width;
                 move_tubeTimer.Tick += new EventHandler(move_tube);
-                move_tubeTimer.Interval = TimeSpan.FromMilliseconds(500);
+                move_tubeTimer.Interval = TimeSpan.FromMilliseconds(slider1.Value);
+                animation1.Duration = TimeSpan.FromMilliseconds(slider1.Value);
             }
             catch (Exception ex)
             {
@@ -87,7 +89,6 @@ namespace t2_1stan_imitation
             move_tubeTimer.Stop();
             animation1.From = Canvas.GetLeft(rectangle_tube);
             animation1.To = -left;
-            animation1.Duration = TimeSpan.FromMilliseconds(500);
             rectangle_tube.BeginAnimation(Canvas.LeftProperty, animation1);
             PacOut3();
         }
@@ -96,25 +97,34 @@ namespace t2_1stan_imitation
         {
             try
             {
-                if (position_stop > Canvas.GetLeft(rectangle_tube))
-                {
-                    animation1.From = Canvas.GetLeft(rectangle_tube);
-                    animation1.To = Canvas.GetLeft(rectangle_tube) + 5;
-                    animation1.Duration = TimeSpan.FromMilliseconds(500);
-                    rectangle_tube.BeginAnimation(Canvas.LeftProperty, animation1);
+                animation1.From = rectangle_tube.Width;
+                animation1.To = rectangle_tube.Width + 5;
+                rectangle_tube.BeginAnimation(Rectangle.WidthProperty, animation1);
 
-                    if (Canvas.GetLeft(rectangle5) <= (Canvas.GetLeft(rectangle_tube) + rectangle_tube.Width) && Canvas.GetLeft(rectangle5) >= Canvas.GetLeft(rectangle_tube))
+                if (Canvas.GetLeft(rectangle5) <= (Canvas.GetLeft(rectangle_tube) + rectangle_tube.Width) && current_segment_tube < segments_tube)
+                {
+                    if (error_state)
+                    {
+                        PacOut2(current_segment_tube, 1);
+                        error_state = false;
+                    }
+                    else
                     {
                         PacOut2(current_segment_tube, 0);
-                        current_segment_tube++;
                     }
 
-                    Label1.Content = current_segment_tube.ToString();
-                }                    
+                    current_segment_tube++;
+                }
                 else
                 {
-                    move_tubeTimer.Stop();
-                }                    
+                    if (Canvas.GetLeft(rectangle5) <= (Canvas.GetLeft(rectangle_tube) + rectangle_tube.Width) && current_segment_tube > segments_tube-1)
+                    {
+                        current_segment_tube = 0;
+                        PacOut3();
+                    }
+                }
+
+                Label1.Content = current_segment_tube.ToString();                   
             }
             catch (Exception ex)
             {
@@ -156,7 +166,7 @@ namespace t2_1stan_imitation
             {
                 double len_tube = Convert.ToInt32(textBox1.Text);
                 rectangle_tube.Width = (len_tube / 100) * px_meter_factor;
-                segments_tube = Convert.ToByte((rectangle_tube.Width / px_meter_factor) * 30 / 5);
+                segments_tube = Convert.ToByte((len_tube / 100) * 30 / 5);
                 reset_position_tube(rectangle_tube.Width - 112);
             }
             catch (Exception ex)
@@ -284,6 +294,17 @@ namespace t2_1stan_imitation
             Packets[10] = 0x00;
 
             serialPort.Write(Packets, 0, Packets.Length);
+        }
+
+        private void button6_Click(object sender, RoutedEventArgs e)
+        {
+            error_state = true;
+        }
+
+        private void slider1_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            move_tubeTimer.Interval = TimeSpan.FromMilliseconds(slider1.Value);
+            animation1.Duration = TimeSpan.FromMilliseconds(slider1.Value);
         }
     }
 }
