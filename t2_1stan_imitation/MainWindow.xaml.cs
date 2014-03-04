@@ -120,8 +120,8 @@ namespace t2_1stan_imitation
                 {
                     if (Canvas.GetLeft(rectangle5) <= (Canvas.GetLeft(rectangle_tube) + rectangle_tube.Width) && current_segment_tube > segments_tube-1)
                     {
+                        PacOut3();                        
                         current_segment_tube = 0;
-                        PacOut3();
                     }
                 }
 
@@ -228,7 +228,7 @@ namespace t2_1stan_imitation
             Packets[4]  = 0x01;
             Packets[5]  = deffect;
             Packets[6]  = 0x00;
-            Packets[7]  = crc8.ComputeChecksum(Packets, 11 - 4);
+            Packets[7]  = crc8.ComputeChecksum(Packets, 7);
 
             Packets[8]  = 0x00;
             Packets[9]  = 0x00;
@@ -258,7 +258,7 @@ namespace t2_1stan_imitation
             Packets[4]  = 0x02;
             Packets[5]  = NN;
             Packets[6]  = deffect;
-            Packets[7]  = crc8.ComputeChecksum(Packets, 11-4);
+            Packets[7]  = crc8.ComputeChecksum(Packets, 7);
 
             Packets[8]  = 0x00;
             Packets[9]  = 0x00;
@@ -288,7 +288,7 @@ namespace t2_1stan_imitation
             Packets[4]  = 0x03;
             Packets[5]  = segments_tube;
             Packets[6]  = 0x00;
-            Packets[7]  = crc8.ComputeChecksum(Packets, 11-4);
+            Packets[7]  = crc8.ComputeChecksum(Packets, 7);
 
             Packets[8]  = 0x00;
             Packets[9]  = 0x00;

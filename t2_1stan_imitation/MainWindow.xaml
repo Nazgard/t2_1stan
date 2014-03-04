@@ -13,8 +13,9 @@
         <TextBox Canvas.Left="12" Canvas.Top="33" Height="22" Name="textBox1" Width="107" Text="951" PreviewTextInput="textBox1_PreviewTextInput" />
         <Button Canvas.Left="12" Canvas.Top="115" Content="Pause" Height="23" Name="button1" Width="45" Click="button1_Click" />
         <Button Canvas.Left="12" Canvas.Top="60" Content="Reset" Height="23" Name="button2" Width="75" Click="button2_Click" />
-        <Label Content="Длина трубы (см)" Canvas.Left="12" Canvas.Top="7"/>
+        <Label Content="Длина трубы (см)" Canvas.Left="12" Canvas.Top="7" />
         <Label Name="Label1" Content="" Canvas.Left="319" Canvas.Top="12"/>
         <Slider Canvas.Left="229" Canvas.Top="114" Height="23" Name="slider1" Width="100" Maximum="1500" Minimum="50" ValueChanged="slider1_ValueChanged" Value="500" Delay="100" />
+        <Rectangle Name="l1" Fill="Blue" Width="3" Height="29" Canvas.Left="223" Canvas.Top="87" RadiusX="3" RadiusY="3"/>
     </Canvas>
 </Window>
