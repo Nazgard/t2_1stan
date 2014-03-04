@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="Имитация работы первого стана" Loaded="Window_Loaded" ResizeMode="CanMinimize" WindowStyle="ToolWindow" Closing="Window_Closing" mc:Ignorable="d" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" Height="188" Width="393">
     <Canvas Name="schema" Background="#FFEAEAEA">
-        <Rectangle Height="15" HorizontalAlignment="Left" Name="rectangle_tube" Stroke="Black" VerticalAlignment="Top" Width="100" RadiusX="3" RadiusY="3" Fill="#FFBABABA" Canvas.Left="12" Canvas.Top="95" />
+        <Rectangle Height="15" HorizontalAlignment="Left" Name="rectangle_tube" Stroke="Black" VerticalAlignment="Top" Width="100" RadiusX="3" RadiusY="3" Fill="#FFBABABA" Canvas.Left="12" Canvas.Top="95" ClipToBounds="False" />
         <Button Content="Start" Name="button3" Width="45" Height="23" Canvas.Left="67" Canvas.Top="115" Click="button3_Click" />
         <Rectangle Canvas.Left="235" Canvas.Top="12" Height="51" Name="rectangle3" Stroke="Black" Width="16" />
         <Rectangle Canvas.Left="222" Canvas.Top="62" Height="21" Name="rectangle5" Stroke="Black" Width="42" />

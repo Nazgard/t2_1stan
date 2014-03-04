@@ -103,13 +103,14 @@ namespace t2_1stan_imitation
 
                 if (Canvas.GetLeft(rectangle5) <= (Canvas.GetLeft(rectangle_tube) + rectangle_tube.Width) && current_segment_tube < segments_tube)
                 {
-                    if (error_state)
+                    if (error_state && position_defectoscope)
                     {
                         PacOut2(current_segment_tube, 1);
                         error_state = false;
                     }
                     else
                     {
+                        error_state = false;
                         PacOut2(current_segment_tube, 0);
                     }
 
