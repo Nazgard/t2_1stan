@@ -64,6 +64,8 @@
                     <Label Content="Установка" Height="28" HorizontalAlignment="Left" Margin="40,238,0,0" Name="label10" VerticalAlignment="Top" />
                     <Label Content="Порог" Height="28" HorizontalAlignment="Left" Margin="40,276,0,0" Name="label11" VerticalAlignment="Top" />
                     <Label Content="Ток" Height="28" HorizontalAlignment="Left" Margin="40,314,0,0" Name="label12" VerticalAlignment="Top" />
+                    <Label Content="d" Grid.Column="1" Height="28" HorizontalAlignment="Left" Margin="18,129,0,0" Name="label13" VerticalAlignment="Top" />
+                    <Label Content="Но" Grid.Column="1" Height="28" HorizontalAlignment="Left" Margin="145,129,0,0" Name="label14" VerticalAlignment="Top" />
                 </Grid>
             </TabItem>
             <TabItem Header="Контроль" Name="tabItem3">
