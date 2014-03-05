@@ -12,6 +12,8 @@
 *.sln.docstates
 t2_imitation/bin/*
 t2_imitation/obj/*
+t2_1stan_writer/bin/*
+t2_1stan_writer/obj/*
 
 # Build results
 [Dd]ebug/

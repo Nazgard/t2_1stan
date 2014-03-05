@@ -24,11 +24,11 @@ namespace t2_1stan_imitation
     public partial class MainWindow : Window
     {
         private double px_meter_factor = 30;
+        private double position_stop = 0;
         private byte segments_tube = 0x00;
         private byte current_segment_tube = 0x00;
         private bool position_defectoscope = false;
         private bool error_state = false;
-        private double position_stop = 0;
         private System.Windows.Threading.DispatcherTimer move_tubeTimer = new System.Windows.Threading.DispatcherTimer();
         private DoubleAnimation animation1 = new DoubleAnimation();
         private SerialPort serialPort = new SerialPort();
