@@ -11,12 +11,12 @@
             <ColumnDefinition Width="732*" />
             <ColumnDefinition Width="262*" />
         </Grid.ColumnDefinitions>
-        <Button Content="Новая смена" Height="35" HorizontalAlignment="Left" Name="button1" VerticalAlignment="Top" Width="115" Grid.Column="1" />
-        <Button Content="Новая плавка" Grid.Column="1" Height="35" HorizontalAlignment="Left" Margin="147,0,0,0" Name="button2" VerticalAlignment="Top" Width="115" />
-        <Button Content="Контроль" Grid.Column="1" Height="35" HorizontalAlignment="Left" Margin="0,41,0,0" Name="button3" VerticalAlignment="Top" Width="115" />
-        <Button Content="Печать" Grid.Column="1" Height="35" HorizontalAlignment="Left" Margin="147,41,0,0" Name="button4" VerticalAlignment="Top" Width="115" />
-        <Button Content="Настройка" Grid.Column="1" Height="35" HorizontalAlignment="Left" Margin="0,82,0,0" Name="button5" VerticalAlignment="Top" Width="115" />
-        <Button Content="Редактор БД" Height="35" HorizontalAlignment="Left" Margin="147,82,0,0" Name="button6" VerticalAlignment="Top" Width="115" Grid.Column="1" />
+        <Button Content="Новая смена" Height="35" HorizontalAlignment="Left" Name="button1" VerticalAlignment="Top" Width="115" Grid.Column="1" Margin="2,10,0,0" />
+        <Button Content="Новая плавка" Grid.Column="1" Height="35" HorizontalAlignment="Left" Margin="141,12,0,0" Name="button2" VerticalAlignment="Top" Width="115" />
+        <Button Content="Контроль" Grid.Column="1" Height="35" HorizontalAlignment="Left" Margin="2,52,0,0" Name="button3" VerticalAlignment="Top" Width="115" />
+        <Button Content="Печать" Grid.Column="1" Height="35" HorizontalAlignment="Left" Margin="141,52,0,0" Name="button4" VerticalAlignment="Top" Width="115" />
+        <Button Content="Настройка" Grid.Column="1" Height="35" HorizontalAlignment="Left" Margin="2,92,0,0" Name="button5" VerticalAlignment="Top" Width="115" />
+        <Button Content="Редактор БД" Height="35" HorizontalAlignment="Left" Margin="141,92,0,0" Name="button6" VerticalAlignment="Top" Width="115" Grid.Column="1" />
         
         
         <TextBlock Name="textBlock1" Text="" Grid.RowSpan="2" Margin="0,0,3,0" />
