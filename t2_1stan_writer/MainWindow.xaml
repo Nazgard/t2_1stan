@@ -11,9 +11,9 @@
             <ColumnDefinition Width="372*" />
             <ColumnDefinition Width="129*"/>
         </Grid.ColumnDefinitions>
-        <Button Content="Новая смена" Height="35" HorizontalAlignment="Left" Name="button1" VerticalAlignment="Top" Width="115" Grid.Column="1" Margin="2,10,0,0" Grid.ColumnSpan="2" />
+        <Button Content="Новая смена" Height="35" HorizontalAlignment="Left" Name="button1" VerticalAlignment="Top" Width="115" Grid.Column="1" Margin="2,10,0,0" Grid.ColumnSpan="2" Click="button1_Click" />
         <Button Content="Новая плавка" Grid.Column="2" Height="35" HorizontalAlignment="Left" Margin="133,12,0,0" Name="button2" VerticalAlignment="Top" Width="115" />
-        <Button Content="Контроль" Grid.Column="1" Height="35" HorizontalAlignment="Left" Margin="2,52,0,0" Name="button3" VerticalAlignment="Top" Width="115" Grid.ColumnSpan="2" />
+        <Button Content="Контроль" Grid.Column="1" Height="35" HorizontalAlignment="Left" Margin="2,52,0,0" Name="button3" VerticalAlignment="Top" Width="115" Grid.ColumnSpan="2" Click="button2_Click" />
         <Button Content="Печать" Grid.Column="2" Height="35" HorizontalAlignment="Left" Margin="133,52,0,0" Name="button4" VerticalAlignment="Top" Width="115" />
         <Button Content="Настройка" Grid.Column="1" Height="35" HorizontalAlignment="Left" Margin="2,92,0,0" Name="button5" VerticalAlignment="Top" Width="115" Grid.ColumnSpan="2" />
         <Button Content="Редактор БД" Height="35" HorizontalAlignment="Left" Margin="133,92,0,0" Name="button6" VerticalAlignment="Top" Width="115" Grid.Column="2" />
@@ -30,10 +30,10 @@
                         <ColumnDefinition Width="359*" />
                     </Grid.ColumnDefinitions>
                     <Button Content="Далее" Height="40" HorizontalAlignment="Left" Margin="253,455,0,0" Name="button7" VerticalAlignment="Top" Width="100" Grid.Column="1" />
-                    <ComboBox Height="23" Margin="40,43,0,0" Name="comboBox1" VerticalAlignment="Top" Grid.Column="1" HorizontalAlignment="Left" Width="211" />
-                    <ComboBox Height="23" HorizontalAlignment="Left" Margin="40,91,0,0" Name="comboBox2" VerticalAlignment="Top" Width="211" Grid.Column="1" />
-                    <ComboBox Height="23" HorizontalAlignment="Left" Margin="40,214,0,0" Name="comboBox3" VerticalAlignment="Top" Width="211" Grid.Column="1" />
-                    <ComboBox Height="23" HorizontalAlignment="Left" Margin="40,262,0,0" Name="comboBox4" VerticalAlignment="Top" Width="211" Grid.Column="1" />
+                    <ComboBox Height="23" Margin="40,43,0,0" Name="comboBox1" VerticalAlignment="Top" Grid.Column="1" HorizontalAlignment="Left" Width="211" DisplayMemberPath="Value" />
+                    <ComboBox Height="23" HorizontalAlignment="Left" Margin="40,91,0,0" Name="comboBox2" VerticalAlignment="Top" Width="211" Grid.Column="1" DisplayMemberPath="Value" />
+                    <ComboBox Height="23" HorizontalAlignment="Left" Margin="40,214,0,0" Name="comboBox3" VerticalAlignment="Top" Width="211" Grid.Column="1" DisplayMemberPath="Value" />
+                    <ComboBox Height="23" HorizontalAlignment="Left" Margin="40,262,0,0" Name="comboBox4" VerticalAlignment="Top" Width="211" Grid.Column="1" DisplayMemberPath="Value" />
                     <Label Content="Смена" Height="28" HorizontalAlignment="Left" Margin="40,43,0,0" Name="label1" VerticalAlignment="Top" />
                     <Label Content="Время смены" Height="28" HorizontalAlignment="Left" Margin="40,86,0,0" Name="label2" VerticalAlignment="Top" />
                     <Label Content="Специалист АСК ТЭСЦ 2" Height="28" HorizontalAlignment="Left" Margin="40,209,0,0" Name="label3" VerticalAlignment="Top" />
