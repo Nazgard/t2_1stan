@@ -9,7 +9,12 @@ namespace t2_1stan_writer
     class Parameters
     {
         private Connection connection = new Connection();
-        
+
+        //===========================================================================
+        //===========================================================================
+        //СМЕНА
+        //===========================================================================
+        //===========================================================================
         public Dictionary<int, string> get_db_worksmens()
         {
             connection.open();
@@ -68,6 +73,106 @@ namespace t2_1stan_writer
             return surnames;
         }
 
+
+        //===========================================================================
+        //===========================================================================
+        //ПЛАВКА
+        //===========================================================================
+        //===========================================================================
         
+        public Dictionary<int, string> get_db_gosts()
+        {
+            connection.open();
+            Dictionary<int, string> gosts = new Dictionary<int, string>();
+
+            MySqlCommand myCommand = new MySqlCommand("SELECT Id_Gost, NameGost FROM gosts", connection.myConnection);
+
+            MySqlDataReader MyDataReader;
+            MyDataReader = myCommand.ExecuteReader();
+
+            while (MyDataReader.Read())
+            {
+                gosts.Add(MyDataReader.GetInt32(0), MyDataReader.GetString(1));
+            }
+            MyDataReader.Close();
+            connection.close();
+            return gosts;
+        }
+
+        public Dictionary<int, string> get_db_sizetubes()
+        {
+            connection.open();
+            Dictionary<int, string> sizetubes = new Dictionary<int, string>();
+
+            MySqlCommand myCommand = new MySqlCommand("SELECT Id_SizeTube, SizeTube FROM sizetubes", connection.myConnection);
+
+            MySqlDataReader MyDataReader;
+            MyDataReader = myCommand.ExecuteReader();
+
+            while (MyDataReader.Read())
+            {
+                sizetubes.Add(MyDataReader.GetInt32(0), MyDataReader.GetString(1));
+            }
+            MyDataReader.Close();
+            connection.close();
+            return sizetubes;
+        }
+
+        public Dictionary<int, string> get_db_controlsamples()
+        {
+            connection.open();
+            Dictionary<int, string> controlsamples = new Dictionary<int, string>();
+
+            MySqlCommand myCommand = new MySqlCommand("SELECT Id_ControlSample, NameControlSample FROM controlsamples", connection.myConnection);
+
+            MySqlDataReader MyDataReader;
+            MyDataReader = myCommand.ExecuteReader();
+
+            while (MyDataReader.Read())
+            {
+                controlsamples.Add(MyDataReader.GetInt32(0), MyDataReader.GetString(1));
+            }
+            MyDataReader.Close();
+            connection.close();
+            return controlsamples;
+        }
+
+        public Dictionary<int, string> get_db_listdefects()
+        {
+            connection.open();
+            Dictionary<int, string> listdefects = new Dictionary<int, string>();
+
+            MySqlCommand myCommand = new MySqlCommand("SELECT Id_NameDefect, NameDefect FROM listdefects", connection.myConnection);
+
+            MySqlDataReader MyDataReader;
+            MyDataReader = myCommand.ExecuteReader();
+
+            while (MyDataReader.Read())
+            {
+                listdefects.Add(MyDataReader.GetInt32(0), MyDataReader.GetString(1));
+            }
+            MyDataReader.Close();
+            connection.close();
+            return listdefects;
+        }
+
+        public Dictionary<int, string> get_db_device()
+        {
+            connection.open();
+            Dictionary<int, string> device = new Dictionary<int, string>();
+
+            MySqlCommand myCommand = new MySqlCommand("SELECT Id_Device, NameDevice FROM device", connection.myConnection);
+
+            MySqlDataReader MyDataReader;
+            MyDataReader = myCommand.ExecuteReader();
+
+            while (MyDataReader.Read())
+            {
+                device.Add(MyDataReader.GetInt32(0), MyDataReader.GetString(1));
+            }
+            MyDataReader.Close();
+            connection.close();
+            return device;
+        }
     }
 }
