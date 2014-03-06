@@ -62,7 +62,7 @@
                     <Label Content="Ток" Height="28" HorizontalAlignment="Left" Margin="40,309,0,0" Name="label12" VerticalAlignment="Top" />
                     <Label Content="d" Grid.Column="1" Height="28" HorizontalAlignment="Left" Margin="18,129,0,0" Name="label13" VerticalAlignment="Top" />
                     <Label Content="Но" Grid.Column="1" Height="28" HorizontalAlignment="Left" Margin="145,129,0,0" Name="label14" VerticalAlignment="Top" />
-                    <TextBox Grid.Column="1" Height="23" HorizontalAlignment="Left" Margin="174,129,0,0" Name="textBox1" VerticalAlignment="Top" Width="77" />
+                    <TextBox Grid.Column="1" Height="23" HorizontalAlignment="Left" Margin="174,129,0,0" Name="textBox1" VerticalAlignment="Top" Width="77" PreviewTextInput="textBox1_PreviewTextInput" />
                     <TextBox Grid.Column="1" Height="23" HorizontalAlignment="Left" Margin="41,281,0,0" Name="textBox2" VerticalAlignment="Top" Width="210" Text="50" PreviewTextInput="textBox2_PreviewTextInput" />
                     <TextBox Grid.Column="1" Height="23" HorizontalAlignment="Left" Margin="42,314,0,0" Name="textBox3" VerticalAlignment="Top" Width="210" Text="1" PreviewTextInput="textBox3_PreviewTextInput" />
                     <TextBox Grid.Column="1" Height="23" HorizontalAlignment="Left" Margin="41,48,0,0" Name="textBox4" VerticalAlignment="Top" Width="210" Text="1" PreviewTextInput="textBox4_PreviewTextInput" />
