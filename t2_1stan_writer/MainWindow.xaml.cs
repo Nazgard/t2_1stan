@@ -20,6 +20,7 @@ namespace t2_1stan_writer
     public partial class MainWindow : Window
     {
         private Parameters parameters = new Parameters();
+        Writer writer = new Writer();
 
         public MainWindow()
         {
@@ -28,6 +29,13 @@ namespace t2_1stan_writer
 
         private void button1_Click(object sender, RoutedEventArgs e)
         {
+            tabItem2.Visibility = Visibility.Hidden;
+            tabItem3.Visibility = Visibility.Hidden;
+            tabItem4.Visibility = Visibility.Hidden;
+            tabItem5.Visibility = Visibility.Hidden;
+            tabItem6.Visibility = Visibility.Hidden;
+            tabItem7.Visibility = Visibility.Hidden;
+            tabItem1.Visibility = Visibility.Visible;
             tabControl1.SelectedIndex = 0;
             comboBox1.ItemsSource = parameters.get_db_worksmens();
             comboBox2.ItemsSource = parameters.get_db_timeintervalsmens();
@@ -37,12 +45,58 @@ namespace t2_1stan_writer
 
         private void button2_Click(object sender, RoutedEventArgs e)
         {
+            tabItem1.Visibility = Visibility.Hidden;
+            tabItem3.Visibility = Visibility.Hidden;
+            tabItem4.Visibility = Visibility.Hidden;
+            tabItem5.Visibility = Visibility.Hidden;
+            tabItem6.Visibility = Visibility.Hidden;
+            tabItem7.Visibility = Visibility.Hidden;
+            tabItem2.Visibility = Visibility.Visible;
             tabControl1.SelectedIndex = 1;
             comboBox7.ItemsSource  = parameters.get_db_gosts();
             comboBox5.ItemsSource  = parameters.get_db_sizetubes();
             comboBox8.ItemsSource  = parameters.get_db_controlsamples();
             comboBox9.ItemsSource  = parameters.get_db_listdefects();
             comboBox11.ItemsSource = parameters.get_db_device();
+        }
+
+        private void button3_Click(object sender, RoutedEventArgs e)
+        {
+            tabItem1.Visibility = Visibility.Hidden;
+            tabItem2.Visibility = Visibility.Hidden;
+            tabItem4.Visibility = Visibility.Hidden;
+            tabItem5.Visibility = Visibility.Hidden;
+            tabItem6.Visibility = Visibility.Hidden;
+            tabItem7.Visibility = Visibility.Hidden;
+            tabItem3.Visibility = Visibility.Visible;
+            tabControl1.SelectedIndex = 2;
+
+            SolidColorBrush greenBrush = new SolidColorBrush();
+            greenBrush.Color = Colors.Green;
+
+            for (int i = 0; i < 14; i++)
+            {
+                Line myLine = new Line();
+
+                if (i == 0)
+                {
+                    myLine.X1 = 50;
+                }
+                else
+                {
+                    myLine.X1 = i * 50;
+                }
+                myLine.X2 = myLine.X1;
+
+                myLine.Y1 = 150;
+                myLine.Y2 = 400;
+
+                myLine.StrokeThickness = 2;
+                myLine.Stroke = greenBrush;
+
+                Canvas.Children.Add(myLine);
+            }
+            
         }
 
         private void textBox4_PreviewTextInput(object sender, TextCompositionEventArgs e)
@@ -75,6 +129,23 @@ namespace t2_1stan_writer
             {
                 e.Handled = true;
             }
+        }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            Properties.Settings ps = Properties.Settings.Default;
+            this.Top = ps.Top;
+            this.Left = ps.Left;
+        }
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            Properties.Settings ps = Properties.Settings.Default;
+            ps.Top = this.Top;
+            ps.Left = this.Left;
+            ps.Save();
+
+            writer.port_Close();
         }
     }
 }
