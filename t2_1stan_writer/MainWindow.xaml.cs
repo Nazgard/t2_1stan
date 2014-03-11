@@ -79,14 +79,15 @@ namespace t2_1stan_writer
             for (int i = 0; i < 14; i++)
             {
                 Line myLine = new Line();
+                Canvas.SetLeft(myLine, 50);
 
                 if (i == 0)
                 {
-                    myLine.X1 = 50;
+                    myLine.X1 = 0;
                 }
                 else
                 {
-                    myLine.X1 = i * 50;
+                    myLine.X1 = i * 48;
                 }
                 myLine.X2 = myLine.X1;
 
@@ -95,6 +96,7 @@ namespace t2_1stan_writer
 
                 myLine.StrokeThickness = 2;
                 myLine.Stroke = greenBrush;
+                myLine.Fill = greenBrush;
 
                 Canvas.Children.Add(myLine);
             }

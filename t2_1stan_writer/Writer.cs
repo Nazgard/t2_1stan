@@ -12,7 +12,7 @@ namespace t2_1stan_writer
 {
     class Writer
     {
-        private SerialPort port = new SerialPort("COM2");
+        private SerialPort port = new SerialPort("COM3");
         private Byte[] BuffForRead = new byte[11];
         private Crc8 crc8 = new Crc8();
         public MainWindow mw;
