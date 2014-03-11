@@ -71,7 +71,7 @@
             <TabItem Header="Контроль" Name="tabItem3" Visibility="Hidden">
                 <Grid>
                     <Canvas x:Name="Canvas" Background="Black" >
-
+                        <Rectangle Canvas.Left="6" Canvas.Top="181" Height="100" Name="tube" Stroke="Green" Width="200" Fill="Green" />
                     </Canvas>
                 </Grid>
             </TabItem>

@@ -11,6 +11,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Threading;
 
 namespace t2_1stan_writer
 {
@@ -20,11 +21,12 @@ namespace t2_1stan_writer
     public partial class MainWindow : Window
     {
         private Parameters parameters = new Parameters();
-        Writer writer = new Writer();
+        private Writer writer = new Writer(); 
 
         public MainWindow()
         {
-            InitializeComponent();
+            InitializeComponent();            
+            writer.mw = this;
         }
 
         private void button1_Click(object sender, RoutedEventArgs e)
@@ -96,7 +98,16 @@ namespace t2_1stan_writer
 
                 Canvas.Children.Add(myLine);
             }
-            
+        }
+
+        public void new_tube()
+        {
+            Dispatcher.BeginInvoke(new ThreadStart(delegate { tube.Width = 0; }));
+        }
+
+        public void move_tube()
+        {
+            Dispatcher.BeginInvoke(new ThreadStart(delegate { tube.Width += 8; }));
         }
 
         private void textBox4_PreviewTextInput(object sender, TextCompositionEventArgs e)

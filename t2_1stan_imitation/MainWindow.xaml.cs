@@ -40,6 +40,7 @@ namespace t2_1stan_imitation
             try
             {
                 serialPort.PortName = "COM3";
+                serialPort.BaudRate = 9600;
                 serialPort.Open(); 
                 position_stop = Canvas.GetLeft(rectangle5) + rectangle5.Width;
                 move_tubeTimer.Tick += new EventHandler(move_tube);
