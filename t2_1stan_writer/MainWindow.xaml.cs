@@ -97,7 +97,7 @@ namespace t2_1stan_writer
                 myLine.Y1 = 150;
                 myLine.Y2 = 400;
 
-                myLine.StrokeThickness = 1;
+                myLine.StrokeThickness = 2;
                 myLine.Stroke = greenBrush;
 
                 Canvas.Children.Add(myLine);
