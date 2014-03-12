@@ -44,13 +44,13 @@ namespace t2_1stan_writer
                 
                 // read byte
                 BuffForRead[10] = (Byte)port.ReadByte();
-                if (BuffForRead[0] != 0xE6) continue;
-                if (BuffForRead[1] != 0x19) continue;
-                if (BuffForRead[2] != 0xFF) continue;
-                if (BuffForRead[3] != 0x08) continue;
+                if (BuffForRead[0]  != 0xE6) continue;
+                if (BuffForRead[1]  != 0x19) continue;
+                if (BuffForRead[2]  != 0xFF) continue;
+                if (BuffForRead[3]  != 0x08) continue;
 
-                if (BuffForRead[8] != 0x00) continue;
-                if (BuffForRead[9] != 0x00) continue;
+                if (BuffForRead[8]  != 0x00) continue;
+                if (BuffForRead[9]  != 0x00) continue;
                 if (BuffForRead[10] != 0x00) continue;
 
 

@@ -57,10 +57,10 @@ namespace t2_1stan_writer
             tabItem7.Visibility = Visibility.Hidden;
             tabItem2.Visibility = Visibility.Visible;
             tabControl1.SelectedIndex = 1;
-            comboBox7.ItemsSource = parameters.get_db_gosts();
-            comboBox5.ItemsSource = parameters.get_db_sizetubes();
-            comboBox8.ItemsSource = parameters.get_db_controlsamples();
-            comboBox9.ItemsSource = parameters.get_db_listdefects();
+            comboBox7.ItemsSource  = parameters.get_db_gosts();
+            comboBox5.ItemsSource  = parameters.get_db_sizetubes();
+            comboBox8.ItemsSource  = parameters.get_db_controlsamples();
+            comboBox9.ItemsSource  = parameters.get_db_listdefects();
             comboBox11.ItemsSource = parameters.get_db_device();
         }
 
