@@ -12,7 +12,7 @@ namespace t2_1stan_writer
 {
     class Writer
     {
-        private SerialPort port = new SerialPort("COM3");
+        private SerialPort port = new SerialPort("COM2");
         private Byte[] BuffForRead = new byte[11];
         private Crc8 crc8 = new Crc8();
         public MainWindow mw;
@@ -22,7 +22,15 @@ namespace t2_1stan_writer
             port.DataReceived += new SerialDataReceivedEventHandler(port_DataReceived);
             port.BaudRate = 9600;
             port.Parity = Parity.None;
-            port.Open();
+        }
+
+        public void port_Open()
+        {
+            try
+            {
+                port.Open();
+            }
+            catch { }
         }
 
         private void port_DataReceived(object sender, SerialDataReceivedEventArgs e)
@@ -48,6 +56,8 @@ namespace t2_1stan_writer
                 mw.new_tube();
             if (BuffForRead[4] == 0x02)
                 mw.move_tube();
+            if (BuffForRead[4] == 0x02 && BuffForRead[6] > 0)
+                mw.error_segment();
         }
 
         public void port_Close()
