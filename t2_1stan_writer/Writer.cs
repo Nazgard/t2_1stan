@@ -49,15 +49,22 @@ namespace t2_1stan_writer
                 if (BuffForRead[2] != 0xFF) continue;
                 if (BuffForRead[3] != 0x08) continue;
 
-                if (BuffForRead[4] != 0x03 || BuffForRead[4] != 0x02) continue;
+                if (BuffForRead[8] != 0x00) continue;
+                if (BuffForRead[9] != 0x00) continue;
+                if (BuffForRead[10] != 0x00) continue;
+
+
+                //if (BuffForRead[4] != 0x03 || BuffForRead[4] != 0x02) continue;
                 if (BuffForRead[7] != crc8.ComputeChecksum(BuffForRead, 7)) continue;
+
+                if (BuffForRead[4] == 0x03)
+                    mw.new_tube();
+                if (BuffForRead[4] == 0x02)
+                    mw.move_tube();
+                if (BuffForRead[4] == 0x02 && BuffForRead[6] > 0)
+                    mw.error_segment();
             }
-            if (BuffForRead[4] == 0x03)
-                mw.new_tube();
-            if (BuffForRead[4] == 0x02)
-                mw.move_tube();
-            if (BuffForRead[4] == 0x02 && BuffForRead[6] > 0)
-                mw.error_segment();
+            
         }
 
         public void port_Close()

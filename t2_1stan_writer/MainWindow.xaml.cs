@@ -97,9 +97,8 @@ namespace t2_1stan_writer
                 myLine.Y1 = 150;
                 myLine.Y2 = 400;
 
-                myLine.StrokeThickness = 2;
+                myLine.StrokeThickness = 1;
                 myLine.Stroke = greenBrush;
-                myLine.Fill = greenBrush;
 
                 Canvas.Children.Add(myLine);
             }
@@ -137,8 +136,8 @@ namespace t2_1stan_writer
                     Canvas.SetLeft(errorLine, tube.Width + Canvas.GetLeft(tube) - 4);
                     errorLine.X1 = 0;
                     errorLine.X2 = 0;
-                    errorLine.Y1 = Canvas.GetTop(tube) - 8;
-                    errorLine.Y2 = tube.Height + 8;
+                    errorLine.Y1 = 220 - 8;
+                    errorLine.Y2 = 320 + 8;
                     errorLine.StrokeThickness = 8;
                     errorLine.Stroke = redBrush;
                     errorLine.Fill = redBrush;
