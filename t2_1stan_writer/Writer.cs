@@ -7,6 +7,7 @@ using System.Windows.Shapes;
 using System.IO;
 using System.IO.Ports;
 using System.Windows;
+using MySql.Data.MySqlClient;
 
 namespace t2_1stan_writer
 {
@@ -16,6 +17,7 @@ namespace t2_1stan_writer
         private Byte[] BuffForRead = new byte[11];
         private Crc8 crc8 = new Crc8();
         public MainWindow mw;
+        public Connection connection;
 
         public Writer()
         {
@@ -35,7 +37,9 @@ namespace t2_1stan_writer
 
         private void port_DataReceived(object sender, SerialDataReceivedEventArgs e)
         {
+            byte[] BuffferRecive = new byte[90];
             int n = port.BytesToRead;
+
             for (int i = 0; i < n; i++)
             {
                 // shift
@@ -53,14 +57,42 @@ namespace t2_1stan_writer
                 if (BuffForRead[9]  != 0x00) continue;
                 if (BuffForRead[10] != 0x00) continue;
 
-
-                //if (BuffForRead[4] != 0x03 || BuffForRead[4] != 0x02) continue;
                 if (BuffForRead[7] != crc8.ComputeChecksum(BuffForRead, 7)) continue;
 
+                //НОВАЯ ТРУБА
                 if (BuffForRead[4] == 0x03)
+                {
                     mw.new_tube();
+
+                    connection.open();
+
+                    MySqlCommand myCommand = new MySqlCommand("INSERT INTO defectsdata(NumberPart,NumberTube,NumberSegments,DataSensors,DatePr,TimePr,Porog,Current) values(:A,:B,:C,:D,:E,:F,:G,:H)", connection.myConnection);
+                    //НОМЕР ПЛАВКИ
+                    myCommand.Parameters.AddWithValue("A", mw.textBox4.Text);
+                    //НОМЕР ТРУБЫ
+                    myCommand.Parameters.AddWithValue("B", LastNumberTube());
+                    //РАЗМЕР ТРУБЫ
+                    myCommand.Parameters.AddWithValue("C", BuffForRead[5]);
+                    //ДЕФЕКТЫ
+                    MemoryStream MS = new MemoryStream();
+                    MS.Write(BuffferRecive, 0, (int)BuffForRead[5]);
+                    myCommand.Parameters.AddWithValue("D", MS);
+                    //ТЕКУЩАЯ ДАТА
+                    myCommand.Parameters.AddWithValue("E", DateTime.Now.Date);
+                    //ТЕКУЩИЕ ВРЕМЯ
+                    myCommand.Parameters.AddWithValue("F", DateTime.Now.Date.TimeOfDay);
+                    //ПОРОГ
+                    myCommand.Parameters.AddWithValue("G", mw.textBox2.Text);
+                    //ТОК
+                    myCommand.Parameters.AddWithValue("H", mw.textBox3.Text);
+                }
+
+                //СЕГМЕНТ ТРУБЫ
                 if (BuffForRead[4] == 0x02)
+                {
                     mw.move_tube();
+                    BuffferRecive[BuffForRead[5]] = BuffForRead[6];
+                }
                 if (BuffForRead[4] == 0x02 && BuffForRead[6] > 0)
                     mw.error_segment();
             }
@@ -70,6 +102,49 @@ namespace t2_1stan_writer
         public void port_Close()
         {
             port.Close();
+        }
+
+        private int LastNumberTube()
+        {
+            int last = 0;
+
+            connection.open();
+            MySqlCommand myCommand = new MySqlCommand("SELECT NumberTube FROM DefectsData WHERE IndexData = (SELECT IndexData FROM defectsdata WHERE NumberTube <> 0 ORDER BY IndexData DESC LIMIT 1)", connection.myConnection);
+
+            MySqlDataReader MyDataReader;
+            MyDataReader = myCommand.ExecuteReader();
+
+            while (MyDataReader.Read())
+            {
+                last = MyDataReader.GetInt32(0);
+            }
+            MyDataReader.Close();
+            connection.close();
+
+            return last;
+        }
+
+        private int LastNumberPart()
+        {
+            int last = 0;
+
+            connection.open();
+            MySqlCommand myCommand = new MySqlCommand("SELECT NumberPart FROM defectsdata ORDER BY defectsdata.IndexData DESC LIMIT 1", connection.myConnection);
+
+            MySqlDataReader MyDataReader;
+            MyDataReader = myCommand.ExecuteReader();
+
+            while (MyDataReader.Read())
+            {
+                if (MyDataReader.GetValue(0) == null)
+                    last = 0;
+                else
+                    last = MyDataReader.GetInt32(0);
+            }
+            MyDataReader.Close();
+            connection.close();
+
+            return last;
         }
     }
 }
