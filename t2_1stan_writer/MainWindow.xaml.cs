@@ -195,5 +195,10 @@ namespace t2_1stan_writer
 
             writer.port_Close();
         }
+
+        private void comboBox7_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            comboBox5.ItemsSource = parameters.get_db_sizetubes_current(((KeyValuePair<int, string>)comboBox7.SelectedItem).Key);            
+        }
     }
 }

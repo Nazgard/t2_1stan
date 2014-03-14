@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using MySql.Data.MySqlClient;
+using System.Windows;
 
 
 namespace t2_1stan_writer
@@ -18,9 +19,9 @@ namespace t2_1stan_writer
             {
                 myConnection.Open();
             }
-            catch
+            catch(Exception e)
             {
-                
+                MessageBox.Show(e.ToString());
             }
         }
 
@@ -30,9 +31,9 @@ namespace t2_1stan_writer
             {
                 myConnection.Close();
             }
-            catch
+            catch(Exception e)
             {
-
+                MessageBox.Show(e.ToString());
             }
         }
     }

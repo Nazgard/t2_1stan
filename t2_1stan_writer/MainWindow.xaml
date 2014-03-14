@@ -47,7 +47,7 @@
                         <ColumnDefinition Width="359*" />
                     </Grid.ColumnDefinitions>
                     <Button Content="Далее" Height="40" HorizontalAlignment="Left" Margin="253,455,0,0" Name="button8" VerticalAlignment="Top" Width="100" Grid.Column="1" />
-                    <ComboBox Height="23" HorizontalAlignment="Left" Margin="40,91,0,0" Name="comboBox7" VerticalAlignment="Top" Width="211" Grid.Column="1" DisplayMemberPath="Value" />
+                    <ComboBox Height="23" HorizontalAlignment="Left" Margin="40,91,0,0" Name="comboBox7" VerticalAlignment="Top" Width="211" Grid.Column="1" DisplayMemberPath="Value" SelectionChanged="comboBox7_SelectionChanged" />
                     <ComboBox Height="23" HorizontalAlignment="Left" Margin="40,167,0,0" Name="comboBox8" VerticalAlignment="Top" Width="211" Grid.Column="1" DisplayMemberPath="Value" />
                     <ComboBox Height="23" HorizontalAlignment="Left" Margin="40,205,0,0" Name="comboBox9" VerticalAlignment="Top" Width="211" Grid.Column="1" DisplayMemberPath="Value" />
                     <Label Content="Номер плавки" Height="28" HorizontalAlignment="Left" Margin="40,43,0,0" Name="label5" VerticalAlignment="Top" />

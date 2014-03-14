@@ -8,6 +8,7 @@ using System.IO;
 using System.IO.Ports;
 using System.Windows;
 using MySql.Data.MySqlClient;
+using System.Threading;
 
 namespace t2_1stan_writer
 {
@@ -17,7 +18,7 @@ namespace t2_1stan_writer
         private Byte[] BuffForRead = new byte[11];
         private Crc8 crc8 = new Crc8();
         public MainWindow mw;
-        public Connection connection;
+        private Connection connection = new Connection();
 
         public Writer()
         {
@@ -65,12 +66,18 @@ namespace t2_1stan_writer
                     mw.new_tube();
 
                     connection.open();
-
-                    MySqlCommand myCommand = new MySqlCommand("INSERT INTO defectsdata(NumberPart,NumberTube,NumberSegments,DataSensors,DatePr,TimePr,Porog,Current) values(:A,:B,:C,:D,:E,:F,:G,:H)", connection.myConnection);
-                    //НОМЕР ПЛАВКИ
-                    myCommand.Parameters.AddWithValue("A", mw.textBox4.Text);
+                    MySqlCommand myCommand = new MySqlCommand("INSERT INTO defectsdata(NumberPart,NumberTube,NumberSegments,DataSensors,DatePr,TimePr,Porog,Current) values(@A,@B,@C,@D,@E,@F,@G,@H)", connection.myConnection);
+                    mw.Dispatcher.BeginInvoke(new ThreadStart(delegate
+                        {
+                            //НОМЕР ПАРТИИ
+                            myCommand.Parameters.AddWithValue("A", mw.textBox4.Text);
+                            //ПОРОГ
+                            myCommand.Parameters.AddWithValue("G", mw.textBox2.Text);
+                            //ТОК
+                            myCommand.Parameters.AddWithValue("H", mw.textBox3.Text);
+                        }));
                     //НОМЕР ТРУБЫ
-                    myCommand.Parameters.AddWithValue("B", LastNumberTube());
+                    myCommand.Parameters.AddWithValue("B", LastNumberTube() + 1);
                     //РАЗМЕР ТРУБЫ
                     myCommand.Parameters.AddWithValue("C", BuffForRead[5]);
                     //ДЕФЕКТЫ
@@ -78,13 +85,52 @@ namespace t2_1stan_writer
                     MS.Write(BuffferRecive, 0, (int)BuffForRead[5]);
                     myCommand.Parameters.AddWithValue("D", MS);
                     //ТЕКУЩАЯ ДАТА
-                    myCommand.Parameters.AddWithValue("E", DateTime.Now.Date);
+                    DateTime theDate = DateTime.Now;
+                    myCommand.Parameters.AddWithValue("E", theDate.ToString("yyyy-MM-dd"));
                     //ТЕКУЩИЕ ВРЕМЯ
-                    myCommand.Parameters.AddWithValue("F", DateTime.Now.Date.TimeOfDay);
-                    //ПОРОГ
-                    myCommand.Parameters.AddWithValue("G", mw.textBox2.Text);
-                    //ТОК
-                    myCommand.Parameters.AddWithValue("H", mw.textBox3.Text);
+                    myCommand.Parameters.AddWithValue("F", theDate.ToString("H:mm:ss"));
+                    myCommand.ExecuteNonQuery();
+
+                    myCommand = new MySqlCommand(@"
+                        SELECT sizetubes.Id_SizeTube,
+                        gosts.Id_Gost,
+                        controlsamples.Id_ControlSample,
+                        worksmens.Id_WorkSmen,
+                        TimeIntervalSmens.Id_TimeIntervalSmen,
+                        ListDefects.Id_NameDefect,
+                        operators.Id_Operator,
+                        device.Id_Device,
+                        operators.Id_Operator as 'Id_Operator_OKKP'
+                        FROM sizetubes,
+                        gosts,
+                        controlsamples,
+                        worksmens,
+                        TimeIntervalSmens,
+                        ListDefects,
+                        operators,
+                        device
+                        WHERE sizetubes.Id_SizeTube = @B AND
+                        gosts.Id_Gost = @C AND
+                        controlsamples.Id_ControlSample = @D AND
+                        worksmens.Id_WorkSmen = @E AND
+                        TimeIntervalSmens.Id_TimeIntervalSmen = @H AND
+                        ListDefects.Id_NameDefect = @I AND
+                        operators.Id_Operator = @F AND
+                        device.Id_Device = @G
+                    ", connection.myConnection);
+                    mw.Dispatcher.BeginInvoke(new ThreadStart(delegate
+                    {
+                        myCommand.Parameters.AddWithValue("B", ((KeyValuePair<int, string>)mw.comboBox5.SelectedItem).Key);
+                        myCommand.Parameters.AddWithValue("C", ((KeyValuePair<int, string>)mw.comboBox7.SelectedItem).Key);
+                        myCommand.Parameters.AddWithValue("D", ((KeyValuePair<int, string>)mw.comboBox8.SelectedItem).Key);
+                        myCommand.Parameters.AddWithValue("E", ((KeyValuePair<int, string>)mw.comboBox1.SelectedItem).Key);
+                        myCommand.Parameters.AddWithValue("H", ((KeyValuePair<int, string>)mw.comboBox2.SelectedItem).Key);
+                        myCommand.Parameters.AddWithValue("I", ((KeyValuePair<int, string>)mw.comboBox9.SelectedItem).Key);
+                        myCommand.Parameters.AddWithValue("F", ((KeyValuePair<int, string>)mw.comboBox3.SelectedItem).Key);
+                        myCommand.Parameters.AddWithValue("G", ((KeyValuePair<int, string>)mw.comboBox11.SelectedItem).Key);
+                    }));
+                    myCommand.ExecuteNonQuery();
+                    connection.close();
                 }
 
                 //СЕГМЕНТ ТРУБЫ
@@ -95,8 +141,7 @@ namespace t2_1stan_writer
                 }
                 if (BuffForRead[4] == 0x02 && BuffForRead[6] > 0)
                     mw.error_segment();
-            }
-            
+            }            
         }
 
         public void port_Close()
@@ -108,7 +153,6 @@ namespace t2_1stan_writer
         {
             int last = 0;
 
-            connection.open();
             MySqlCommand myCommand = new MySqlCommand("SELECT NumberTube FROM DefectsData WHERE IndexData = (SELECT IndexData FROM defectsdata WHERE NumberTube <> 0 ORDER BY IndexData DESC LIMIT 1)", connection.myConnection);
 
             MySqlDataReader MyDataReader;
@@ -119,7 +163,6 @@ namespace t2_1stan_writer
                 last = MyDataReader.GetInt32(0);
             }
             MyDataReader.Close();
-            connection.close();
 
             return last;
         }
@@ -128,7 +171,6 @@ namespace t2_1stan_writer
         {
             int last = 0;
 
-            connection.open();
             MySqlCommand myCommand = new MySqlCommand("SELECT NumberPart FROM defectsdata ORDER BY defectsdata.IndexData DESC LIMIT 1", connection.myConnection);
 
             MySqlDataReader MyDataReader;
@@ -142,7 +184,27 @@ namespace t2_1stan_writer
                     last = MyDataReader.GetInt32(0);
             }
             MyDataReader.Close();
-            connection.close();
+
+            return last;
+        }
+
+        private int LastIndexData()
+        {
+            int last = 0;
+
+            MySqlCommand myCommand = new MySqlCommand("SELECT IndexData as maximum FROM defectsdata ORDER BY IndexData DESC LIMIT 1", connection.myConnection);
+
+            MySqlDataReader MyDataReader;
+            MyDataReader = myCommand.ExecuteReader();
+
+            while (MyDataReader.Read())
+            {
+                if (MyDataReader.GetValue(0) == null)
+                    last = 0;
+                else
+                    last = MyDataReader.GetInt32(0);
+            }
+            MyDataReader.Close();
 
             return last;
         }

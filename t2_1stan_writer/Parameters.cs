@@ -174,5 +174,33 @@ namespace t2_1stan_writer
             connection.close();
             return device;
         }
+
+        public Dictionary<int, string> get_db_sizetubes_current(int id)
+        {
+            connection.open();
+            Dictionary<int, string> sizetubes = new Dictionary<int, string>();
+
+            MySqlCommand myCommand = new MySqlCommand(@"
+                SELECT
+                sizetubes.Id_SizeTube,
+                sizetubes.SizeTube
+                FROM
+                bufferdata
+                Inner Join sizetubes ON sizetubes.Id_SizeTube = bufferdata.Id_SizeTube
+                WHERE bufferdata.Id_Gost =  @A
+            ", connection.myConnection);
+            myCommand.Parameters.AddWithValue("A", id);
+
+            MySqlDataReader MyDataReader;
+            MyDataReader = myCommand.ExecuteReader();
+
+            while (MyDataReader.Read())
+            {
+                sizetubes.Add(MyDataReader.GetInt32(0), MyDataReader.GetString(1));
+            }
+            MyDataReader.Close();
+            connection.close();
+            return sizetubes;
+        }
     }
 }
