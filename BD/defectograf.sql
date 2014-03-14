@@ -4,7 +4,7 @@ Source Host: localhost
 Source Database: defectograf
 Target Host: localhost
 Target Database: defectograf
-Date: 06.03.2014 15:36:42
+Date: 14.03.2014 14:49:31
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -14,8 +14,10 @@ SET FOREIGN_KEY_CHECKS=0;
 CREATE TABLE `bufferdata` (
   `Id` int(11) NOT NULL auto_increment,
   `Id_Gost` int(11) default NULL,
-  `Diameter` varchar(20) default NULL,
-  PRIMARY KEY  (`Id`)
+  `Id_SizeTube` int(11) default NULL,
+  PRIMARY KEY  (`Id`),
+  KEY `Id_SizeTube` (`Id_SizeTube`),
+  CONSTRAINT `bufferdata_ibfk_1` FOREIGN KEY (`Id_SizeTube`) REFERENCES `sizetubes` (`Id_SizeTube`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=75 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -44,7 +46,7 @@ CREATE TABLE `defectsdata` (
   `Porog` int(11) default NULL,
   `Current` int(11) default NULL,
   PRIMARY KEY  (`IndexData`)
-) ENGINE=InnoDB AUTO_INCREMENT=9651 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=9653 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for device
@@ -147,80 +149,80 @@ CREATE TABLE `worksmens` (
 -- ----------------------------
 -- Records 
 -- ----------------------------
-INSERT INTO `bufferdata` VALUES ('1', '1', '89');
-INSERT INTO `bufferdata` VALUES ('2', '1', '102');
-INSERT INTO `bufferdata` VALUES ('3', '1', '133');
-INSERT INTO `bufferdata` VALUES ('4', '1', '108');
-INSERT INTO `bufferdata` VALUES ('5', '1', '114');
-INSERT INTO `bufferdata` VALUES ('6', '1', '146');
-INSERT INTO `bufferdata` VALUES ('7', '1', '127');
-INSERT INTO `bufferdata` VALUES ('8', '1', '152');
-INSERT INTO `bufferdata` VALUES ('9', '1', '152,4');
-INSERT INTO `bufferdata` VALUES ('10', '1', '159');
-INSERT INTO `bufferdata` VALUES ('11', '1', '168');
-INSERT INTO `bufferdata` VALUES ('12', '1', '219');
-INSERT INTO `bufferdata` VALUES ('13', '2', '114');
-INSERT INTO `bufferdata` VALUES ('14', '2', '146');
-INSERT INTO `bufferdata` VALUES ('15', '2', '159');
-INSERT INTO `bufferdata` VALUES ('16', '2', '168');
-INSERT INTO `bufferdata` VALUES ('17', '2', '219');
-INSERT INTO `bufferdata` VALUES ('18', '3', '88,5');
-INSERT INTO `bufferdata` VALUES ('19', '3', '114');
-INSERT INTO `bufferdata` VALUES ('20', '4', '89');
-INSERT INTO `bufferdata` VALUES ('21', '4', '102');
-INSERT INTO `bufferdata` VALUES ('22', '4', '108');
-INSERT INTO `bufferdata` VALUES ('23', '4', '114');
-INSERT INTO `bufferdata` VALUES ('24', '4', '127');
-INSERT INTO `bufferdata` VALUES ('25', '4', '133');
-INSERT INTO `bufferdata` VALUES ('26', '4', '146');
-INSERT INTO `bufferdata` VALUES ('27', '4', '152');
-INSERT INTO `bufferdata` VALUES ('28', '4', '159');
-INSERT INTO `bufferdata` VALUES ('29', '4', '168');
-INSERT INTO `bufferdata` VALUES ('30', '4', '219');
-INSERT INTO `bufferdata` VALUES ('31', '5', '114');
-INSERT INTO `bufferdata` VALUES ('32', '5', '159');
-INSERT INTO `bufferdata` VALUES ('33', '5', '168');
-INSERT INTO `bufferdata` VALUES ('34', '5', '219');
-INSERT INTO `bufferdata` VALUES ('35', '6', '100x100');
-INSERT INTO `bufferdata` VALUES ('36', '6', '120x120');
-INSERT INTO `bufferdata` VALUES ('37', '6', '120x60');
-INSERT INTO `bufferdata` VALUES ('38', '6', '120x80');
-INSERT INTO `bufferdata` VALUES ('39', '6', '140x60');
-INSERT INTO `bufferdata` VALUES ('40', '6', '140x100');
-INSERT INTO `bufferdata` VALUES ('41', '6', '150x100');
-INSERT INTO `bufferdata` VALUES ('42', '6', '160x80');
-INSERT INTO `bufferdata` VALUES ('43', '7', '88,9');
-INSERT INTO `bufferdata` VALUES ('44', '7', '108,0');
-INSERT INTO `bufferdata` VALUES ('45', '7', '114,3');
-INSERT INTO `bufferdata` VALUES ('46', '7', '127,0');
-INSERT INTO `bufferdata` VALUES ('47', '7', '133,0');
-INSERT INTO `bufferdata` VALUES ('48', '7', '152,4');
-INSERT INTO `bufferdata` VALUES ('49', '7', '159,0');
-INSERT INTO `bufferdata` VALUES ('50', '7', '168,3');
-INSERT INTO `bufferdata` VALUES ('51', '7', '219,1');
-INSERT INTO `bufferdata` VALUES ('52', '8', '88,9');
-INSERT INTO `bufferdata` VALUES ('53', '8', '114,3');
-INSERT INTO `bufferdata` VALUES ('54', '8', '127,0');
-INSERT INTO `bufferdata` VALUES ('55', '8', '133,0');
-INSERT INTO `bufferdata` VALUES ('56', '8', '152,4');
-INSERT INTO `bufferdata` VALUES ('57', '8', '159,0');
-INSERT INTO `bufferdata` VALUES ('58', '8', '168,3');
-INSERT INTO `bufferdata` VALUES ('59', '8', '219,1');
-INSERT INTO `bufferdata` VALUES ('60', '9', '88,9');
-INSERT INTO `bufferdata` VALUES ('61', '9', '101,6');
-INSERT INTO `bufferdata` VALUES ('62', '9', '108,0');
-INSERT INTO `bufferdata` VALUES ('63', '9', '114,3');
-INSERT INTO `bufferdata` VALUES ('64', '9', '127,0');
-INSERT INTO `bufferdata` VALUES ('65', '9', '133,0');
-INSERT INTO `bufferdata` VALUES ('66', '9', '152,4');
-INSERT INTO `bufferdata` VALUES ('67', '9', '159,0');
-INSERT INTO `bufferdata` VALUES ('68', '9', '168,3');
-INSERT INTO `bufferdata` VALUES ('69', '9', '219,1');
-INSERT INTO `bufferdata` VALUES ('70', '10', '88,9');
-INSERT INTO `bufferdata` VALUES ('71', '10', '101,6');
-INSERT INTO `bufferdata` VALUES ('72', '10', '114,3');
-INSERT INTO `bufferdata` VALUES ('73', '10', '168,3');
-INSERT INTO `bufferdata` VALUES ('74', '10', '219,1');
+INSERT INTO `bufferdata` VALUES ('1', '1', '3');
+INSERT INTO `bufferdata` VALUES ('2', '1', '5');
+INSERT INTO `bufferdata` VALUES ('3', '1', '10');
+INSERT INTO `bufferdata` VALUES ('4', '1', '6');
+INSERT INTO `bufferdata` VALUES ('5', '1', '7');
+INSERT INTO `bufferdata` VALUES ('6', '1', '11');
+INSERT INTO `bufferdata` VALUES ('7', '1', '9');
+INSERT INTO `bufferdata` VALUES ('8', '1', '12');
+INSERT INTO `bufferdata` VALUES ('9', '1', '13');
+INSERT INTO `bufferdata` VALUES ('10', '1', '14');
+INSERT INTO `bufferdata` VALUES ('11', '1', '15');
+INSERT INTO `bufferdata` VALUES ('12', '1', '17');
+INSERT INTO `bufferdata` VALUES ('13', '2', '7');
+INSERT INTO `bufferdata` VALUES ('14', '2', '11');
+INSERT INTO `bufferdata` VALUES ('15', '2', '14');
+INSERT INTO `bufferdata` VALUES ('16', '2', '15');
+INSERT INTO `bufferdata` VALUES ('17', '2', '17');
+INSERT INTO `bufferdata` VALUES ('18', '3', '1');
+INSERT INTO `bufferdata` VALUES ('19', '3', '7');
+INSERT INTO `bufferdata` VALUES ('20', '4', '3');
+INSERT INTO `bufferdata` VALUES ('21', '4', '5');
+INSERT INTO `bufferdata` VALUES ('22', '4', '6');
+INSERT INTO `bufferdata` VALUES ('23', '4', '7');
+INSERT INTO `bufferdata` VALUES ('24', '4', '9');
+INSERT INTO `bufferdata` VALUES ('25', '4', '10');
+INSERT INTO `bufferdata` VALUES ('26', '4', '11');
+INSERT INTO `bufferdata` VALUES ('27', '4', '12');
+INSERT INTO `bufferdata` VALUES ('28', '4', '14');
+INSERT INTO `bufferdata` VALUES ('29', '4', '15');
+INSERT INTO `bufferdata` VALUES ('30', '4', '17');
+INSERT INTO `bufferdata` VALUES ('31', '5', '7');
+INSERT INTO `bufferdata` VALUES ('32', '5', '14');
+INSERT INTO `bufferdata` VALUES ('33', '5', '15');
+INSERT INTO `bufferdata` VALUES ('34', '5', '17');
+INSERT INTO `bufferdata` VALUES ('35', '6', '19');
+INSERT INTO `bufferdata` VALUES ('36', '6', '20');
+INSERT INTO `bufferdata` VALUES ('37', '6', '21');
+INSERT INTO `bufferdata` VALUES ('38', '6', '22');
+INSERT INTO `bufferdata` VALUES ('39', '6', '23');
+INSERT INTO `bufferdata` VALUES ('40', '6', '24');
+INSERT INTO `bufferdata` VALUES ('41', '6', '25');
+INSERT INTO `bufferdata` VALUES ('42', '6', '26');
+INSERT INTO `bufferdata` VALUES ('43', '7', '2');
+INSERT INTO `bufferdata` VALUES ('44', '7', '6');
+INSERT INTO `bufferdata` VALUES ('45', '7', '8');
+INSERT INTO `bufferdata` VALUES ('46', '7', '9');
+INSERT INTO `bufferdata` VALUES ('47', '7', '10');
+INSERT INTO `bufferdata` VALUES ('48', '7', '13');
+INSERT INTO `bufferdata` VALUES ('49', '7', '14');
+INSERT INTO `bufferdata` VALUES ('50', '7', '16');
+INSERT INTO `bufferdata` VALUES ('51', '7', '18');
+INSERT INTO `bufferdata` VALUES ('52', '8', '2');
+INSERT INTO `bufferdata` VALUES ('53', '8', '8');
+INSERT INTO `bufferdata` VALUES ('54', '8', '9');
+INSERT INTO `bufferdata` VALUES ('55', '8', '10');
+INSERT INTO `bufferdata` VALUES ('56', '8', '13');
+INSERT INTO `bufferdata` VALUES ('57', '8', '14');
+INSERT INTO `bufferdata` VALUES ('58', '8', '16');
+INSERT INTO `bufferdata` VALUES ('59', '8', '18');
+INSERT INTO `bufferdata` VALUES ('60', '9', '2');
+INSERT INTO `bufferdata` VALUES ('61', '9', '4');
+INSERT INTO `bufferdata` VALUES ('62', '9', '6');
+INSERT INTO `bufferdata` VALUES ('63', '9', '8');
+INSERT INTO `bufferdata` VALUES ('64', '9', '9');
+INSERT INTO `bufferdata` VALUES ('65', '9', '10');
+INSERT INTO `bufferdata` VALUES ('66', '9', '13');
+INSERT INTO `bufferdata` VALUES ('67', '9', '14');
+INSERT INTO `bufferdata` VALUES ('68', '9', '16');
+INSERT INTO `bufferdata` VALUES ('69', '9', '18');
+INSERT INTO `bufferdata` VALUES ('70', '10', '2');
+INSERT INTO `bufferdata` VALUES ('71', '10', '4');
+INSERT INTO `bufferdata` VALUES ('72', '10', '8');
+INSERT INTO `bufferdata` VALUES ('73', '10', '16');
+INSERT INTO `bufferdata` VALUES ('74', '10', '18');
 INSERT INTO `controlsamples` VALUES ('1', 'КО МД 89*2,3-2,6 (№114)', '89', '2,3', '2,6');
 INSERT INTO `controlsamples` VALUES ('2', 'КО МД 89*2,7-3,3 (№113)', '89', '2,7', '3,3');
 INSERT INTO `controlsamples` VALUES ('3', 'КО МД 89*3,2-3,5 (№107)', '89', '3,2', '3,5');
