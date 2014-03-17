@@ -19,7 +19,6 @@ namespace t2_1stan_writer
         private Crc8 crc8 = new Crc8();
         public MainWindow mw;
         private Connection connection = new Connection();
-        //List<byte> BuffferRecive = new List<byte>();
         byte[] BuffferRecive = new byte[90];
 
         public Writer()
