@@ -19,6 +19,8 @@ namespace t2_1stan_writer
         private Crc8 crc8 = new Crc8();
         public MainWindow mw;
         private Connection connection = new Connection();
+        //List<byte> BuffferRecive = new List<byte>();
+        byte[] BuffferRecive = new byte[90];
 
         public Writer()
         {
@@ -59,14 +61,14 @@ namespace t2_1stan_writer
 
                 if (BuffForRead[7] != crc8.ComputeChecksum(BuffForRead, 7)) continue;
 
-                byte[] BuffferRecive = new byte[(int)BuffForRead[5]];
-
                 //НОВАЯ ТРУБА
                 if (BuffForRead[4] == 0x03)
                 {
                     mw.new_tube();
 
-                    MySqlCommand myCommand = new MySqlCommand("INSERT INTO defectsdata(NumberPart,NumberTube,NumberSegments,DataSensors,DatePr,TimePr,Porog,Current) values(@A,@B,@C,@D,@E,@F,@G,@H)", connection.myConnection);
+                    int has_deffect = 0;
+
+                    MySqlCommand myCommand = new MySqlCommand("INSERT INTO defectsdata(NumberPart,NumberTube,NumberSegments,DataSensors,DatePr,TimePr,Porog,Current, Deffects) values(@A,@B,@C,@D,@E,@F,@G,@H,@I)", connection.myConnection);
                     mw.Dispatcher.BeginInvoke(new ThreadStart(delegate
                         {
                             //НОМЕР ПАРТИИ
@@ -81,58 +83,52 @@ namespace t2_1stan_writer
                             //РАЗМЕР ТРУБЫ
                             myCommand.Parameters.AddWithValue("C", BuffForRead[5]);
                             //ДЕФЕКТЫ
-                            myCommand.Parameters.AddWithValue("D", BuffferRecive);
+                            byte[] DeffectsArray = new byte[(int)BuffForRead[5]];
+                            for (int k = 0; k < (int)BuffForRead[5]; k++)
+                            {
+                                if (BuffferRecive[k] != 0) has_deffect = 1;
+                                DeffectsArray[k] = BuffferRecive[k];
+                            }
+                            myCommand.Parameters.AddWithValue("D", DeffectsArray);
                             //ТЕКУЩАЯ ДАТА
                             DateTime theDate = DateTime.Now;
                             myCommand.Parameters.AddWithValue("E", theDate.ToString("yyyy-MM-dd"));
                             //ТЕКУЩИЕ ВРЕМЯ
                             myCommand.Parameters.AddWithValue("F", theDate.ToString("H:mm:ss"));
+                            //НАЛИЧИЕ ДЕФФЕКТОВ
+                            myCommand.Parameters.AddWithValue("I", has_deffect);
+
 
                             connection.open();
                             myCommand.ExecuteNonQuery();
                             connection.close();
-                        }));
-                    //mw.Dispatcher.ShutdownFinished += new EventHandler(Dispatcher_ShutdownFinished(myCommand, BuffferRecive));               
 
-                    /*myCommand = new MySqlCommand(@"
-                        SELECT sizetubes.Id_SizeTube,
-                        gosts.Id_Gost,
-                        controlsamples.Id_ControlSample,
-                        worksmens.Id_WorkSmen,
-                        TimeIntervalSmens.Id_TimeIntervalSmen,
-                        ListDefects.Id_NameDefect,
-                        operators.Id_Operator,
-                        device.Id_Device,
-                        operators.Id_Operator as 'Id_Operator_OKKP'
-                        FROM sizetubes,
-                        gosts,
-                        controlsamples,
-                        worksmens,
-                        TimeIntervalSmens,
-                        ListDefects,
-                        operators,
-                        device
-                        WHERE sizetubes.Id_SizeTube = @B AND
-                        gosts.Id_Gost = @C AND
-                        controlsamples.Id_ControlSample = @D AND
-                        worksmens.Id_WorkSmen = @E AND
-                        TimeIntervalSmens.Id_TimeIntervalSmen = @H AND
-                        ListDefects.Id_NameDefect = @I AND
-                        operators.Id_Operator = @F AND
-                        device.Id_Device = @G
-                    ", connection.myConnection);
-                    mw.Dispatcher.BeginInvoke(new ThreadStart(delegate
-                    {
-                        myCommand.Parameters.AddWithValue("B", ((KeyValuePair<int, string>)mw.comboBox5.SelectedItem).Key);
-                        myCommand.Parameters.AddWithValue("C", ((KeyValuePair<int, string>)mw.comboBox7.SelectedItem).Key);
-                        myCommand.Parameters.AddWithValue("D", ((KeyValuePair<int, string>)mw.comboBox8.SelectedItem).Key);
-                        myCommand.Parameters.AddWithValue("E", ((KeyValuePair<int, string>)mw.comboBox1.SelectedItem).Key);
-                        myCommand.Parameters.AddWithValue("H", ((KeyValuePair<int, string>)mw.comboBox2.SelectedItem).Key);
-                        myCommand.Parameters.AddWithValue("I", ((KeyValuePair<int, string>)mw.comboBox9.SelectedItem).Key);
-                        myCommand.Parameters.AddWithValue("F", ((KeyValuePair<int, string>)mw.comboBox3.SelectedItem).Key);
-                        myCommand.Parameters.AddWithValue("G", ((KeyValuePair<int, string>)mw.comboBox11.SelectedItem).Key);
-                    }));
-                    myCommand.ExecuteNonQuery();*/
+
+                            myCommand = new MySqlCommand(@"
+                                INSERT INTO indexes
+                                (Version,IndexData,Id_SizeTube,Id_Gost,Id_ControlSample
+                                ,Id_WorkSmen,Id_TimeIntervalSmen,Id_Operator1,Id_Operator2,Id_Device,
+                                Id_Sensor, Id_NameDefect)
+                                values (1, 
+                                (SELECT IndexData FROM defectsdata ORDER BY IndexData DESC LIMIT 1),
+                                @Id_SizeTube, @Id_Gost, @Id_ControlSample, @Id_WorkSmen, @Id_TimeIntervalSmen,
+                                @Id_Operator1, @Id_Operator2, @Id_Device, @Id_Sensor, @Id_NameDefect)
+                            ", connection.myConnection);
+                            myCommand.Parameters.AddWithValue("Id_SizeTube",            ((KeyValuePair<int, string>)mw.comboBox5.SelectedItem).Key);
+                            myCommand.Parameters.AddWithValue("Id_Gost",                ((KeyValuePair<int, string>)mw.comboBox7.SelectedItem).Key);
+                            myCommand.Parameters.AddWithValue("Id_ControlSample",       ((KeyValuePair<int, string>)mw.comboBox8.SelectedItem).Key);
+                            myCommand.Parameters.AddWithValue("Id_WorkSmen",            ((KeyValuePair<int, string>)mw.comboBox1.SelectedItem).Key);
+                            myCommand.Parameters.AddWithValue("Id_TimeIntervalSmen",    ((KeyValuePair<int, string>)mw.comboBox2.SelectedItem).Key);
+                            myCommand.Parameters.AddWithValue("Id_Operator1",           ((KeyValuePair<int, string>)mw.comboBox3.SelectedItem).Key);
+                            myCommand.Parameters.AddWithValue("Id_Operator2",           ((KeyValuePair<int, string>)mw.comboBox4.SelectedItem).Key);
+                            myCommand.Parameters.AddWithValue("Id_Device",              ((KeyValuePair<int, string>)mw.comboBox11.SelectedItem).Key);
+                            myCommand.Parameters.AddWithValue("Id_Sensor",              Convert.ToInt32(mw.textBox1.Text));
+                            myCommand.Parameters.AddWithValue("Id_NameDefect",          ((KeyValuePair<int, string>)mw.comboBox9.SelectedItem).Key);
+                                                        
+                            connection.open();
+                            myCommand.ExecuteNonQuery();
+                            connection.close();
+                        }));                    
                 }
 
                 //СЕГМЕНТ ТРУБЫ
@@ -144,11 +140,6 @@ namespace t2_1stan_writer
                 if (BuffForRead[4] == 0x02 && BuffForRead[6] != 0)
                     mw.error_segment();
             }            
-        }
-
-        void Dispatcher_ShutdownFinished(MySqlCommand myCommand, byte[] BuffferRecive, object sender)
-        {
-            
         }
 
         public void port_Close()
