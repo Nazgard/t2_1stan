@@ -97,10 +97,8 @@ namespace t2_1stan_writer
                             //НАЛИЧИЕ ДЕФФЕКТОВ
                             myCommand.Parameters.AddWithValue("I", has_deffect);
 
-
                             connection.open();
                             myCommand.ExecuteNonQuery();
-                            connection.close();
 
 
                             myCommand = new MySqlCommand(@"
@@ -123,8 +121,7 @@ namespace t2_1stan_writer
                             myCommand.Parameters.AddWithValue("Id_Device",              ((KeyValuePair<int, string>)mw.comboBox11.SelectedItem).Key);
                             myCommand.Parameters.AddWithValue("Id_Sensor",              Convert.ToInt32(mw.textBox1.Text));
                             myCommand.Parameters.AddWithValue("Id_NameDefect",          ((KeyValuePair<int, string>)mw.comboBox9.SelectedItem).Key);
-                                                        
-                            connection.open();
+
                             myCommand.ExecuteNonQuery();
                             connection.close();
                         }));                    

@@ -33,12 +33,8 @@ namespace t2_1stan_writer
 
         private void button1_Click(object sender, RoutedEventArgs e)
         {
-            tabItem2.Visibility = Visibility.Hidden;
-            tabItem3.Visibility = Visibility.Hidden;
-            tabItem4.Visibility = Visibility.Hidden;
-            tabItem5.Visibility = Visibility.Hidden;
-            tabItem6.Visibility = Visibility.Hidden;
-            tabItem7.Visibility = Visibility.Hidden;
+            tabItem2.IsEnabled = false;
+            tabItem3.IsEnabled = false;
             tabItem1.Visibility = Visibility.Visible;
             tabControl1.SelectedIndex = 0;
             comboBox1.ItemsSource = parameters.get_db_worksmens();
@@ -49,12 +45,8 @@ namespace t2_1stan_writer
 
         private void button2_Click(object sender, RoutedEventArgs e)
         {
-            tabItem1.Visibility = Visibility.Hidden;
-            tabItem3.Visibility = Visibility.Hidden;
-            tabItem4.Visibility = Visibility.Hidden;
-            tabItem5.Visibility = Visibility.Hidden;
-            tabItem6.Visibility = Visibility.Hidden;
-            tabItem7.Visibility = Visibility.Hidden;
+            tabItem1.IsEnabled = false;
+            tabItem3.IsEnabled = false;
             tabItem2.Visibility = Visibility.Visible;
             tabControl1.SelectedIndex = 1;
             comboBox7.ItemsSource  = parameters.get_db_gosts();
@@ -66,42 +58,57 @@ namespace t2_1stan_writer
 
         private void button3_Click(object sender, RoutedEventArgs e)
         {
-            writer.port_Open();
-            tabItem1.Visibility = Visibility.Hidden;
-            tabItem2.Visibility = Visibility.Hidden;
-            tabItem4.Visibility = Visibility.Hidden;
-            tabItem5.Visibility = Visibility.Hidden;
-            tabItem6.Visibility = Visibility.Hidden;
-            tabItem7.Visibility = Visibility.Hidden;
-            tabItem3.Visibility = Visibility.Visible;
-            tabControl1.SelectedIndex = 2;
-
-            SolidColorBrush greenBrush = new SolidColorBrush();
-            greenBrush.Color = Colors.Green;
-
-            for (int i = 0; i < 14; i++)
+            if (comboBox1.SelectedIndex != -1 &&
+                comboBox2.SelectedIndex != -1 &&
+                comboBox3.SelectedIndex != -1 &&
+                comboBox4.SelectedIndex != -1 &&
+                textBox4.Text != "" &&                
+                comboBox8.SelectedIndex != -1 &&
+                comboBox5.SelectedIndex != -1 &&
+                textBox4.Text != "" &&   
+                comboBox9.SelectedIndex != -1 &&  
+                comboBox11.SelectedIndex != -1 && 
+                textBox2.Text != "" &&   
+                textBox3.Text != "")
             {
-                Line myLine = new Line();
-                Canvas.SetLeft(myLine, 50);
+                writer.port_Open();
+                tabItem1.IsEnabled = false;
+                tabItem2.IsEnabled = false;
+                tabItem3.Visibility = Visibility.Visible;
+                tabControl1.SelectedIndex = 2;
 
-                if (i == 0)
+                SolidColorBrush greenBrush = new SolidColorBrush();
+                greenBrush.Color = Colors.Green;
+
+                for (int i = 0; i < 14; i++)
                 {
-                    myLine.X1 = 0;
+                    Line myLine = new Line();
+                    Canvas.SetLeft(myLine, 50);
+
+                    if (i == 0)
+                    {
+                        myLine.X1 = 0;
+                    }
+                    else
+                    {
+                        myLine.X1 = i * 48;
+                    }
+                    myLine.X2 = myLine.X1;
+
+                    myLine.Y1 = 120;
+                    myLine.Y2 = 370;
+
+                    myLine.StrokeThickness = 2;
+                    myLine.Stroke = greenBrush;
+
+                    Canvas.Children.Add(myLine);
                 }
-                else
-                {
-                    myLine.X1 = i * 48;
-                }
-                myLine.X2 = myLine.X1;
-
-                myLine.Y1 = 150;
-                myLine.Y2 = 400;
-
-                myLine.StrokeThickness = 2;
-                myLine.Stroke = greenBrush;
-
-                Canvas.Children.Add(myLine);
             }
+            else
+            {
+                MessageBox.Show("Заполните все поля");
+            }
+            
         }
 
         public void new_tube()
