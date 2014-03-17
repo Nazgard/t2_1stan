@@ -71,14 +71,14 @@ namespace t2_1stan_writer
                     mw.Dispatcher.BeginInvoke(new ThreadStart(delegate
                         {
                             //НОМЕР ПАРТИИ
-                            myCommand.Parameters.AddWithValue("A", mw.textBox4.Text);
+                            myCommand.Parameters.AddWithValue("A", Convert.ToInt32(mw.textBox4.Text));
                             //ПОРОГ
-                            myCommand.Parameters.AddWithValue("G", mw.textBox2.Text);
+                            myCommand.Parameters.AddWithValue("G", Convert.ToInt32(mw.textBox2.Text));
                             //ТОК
-                            myCommand.Parameters.AddWithValue("H", mw.textBox3.Text);
+                            myCommand.Parameters.AddWithValue("H", Convert.ToInt32(mw.textBox3.Text));
 
                             //НОМЕР ТРУБЫ
-                            myCommand.Parameters.AddWithValue("B", LastNumberTube() + 1);
+                            myCommand.Parameters.AddWithValue("B", LastNumberTube(Convert.ToInt32(mw.textBox4.Text)) + 1);
                             //РАЗМЕР ТРУБЫ
                             myCommand.Parameters.AddWithValue("C", BuffForRead[5]);
                             //ДЕФЕКТЫ
@@ -146,11 +146,11 @@ namespace t2_1stan_writer
             port.Close();
         }
 
-        private int LastNumberTube()
+        private int LastNumberTube(int part)
         {
             int last = 0;
 
-            MySqlCommand myCommand = new MySqlCommand("SELECT NumberTube FROM DefectsData WHERE IndexData = (SELECT IndexData FROM defectsdata WHERE NumberTube <> 0 ORDER BY IndexData DESC LIMIT 1)", connection.myConnection);
+            MySqlCommand myCommand = new MySqlCommand("SELECT NumberTube, defectsdata.NumberPart FROM DefectsData WHERE IndexData = (SELECT IndexData FROM defectsdata WHERE NumberTube <> 0 ORDER BY IndexData DESC LIMIT 1)", connection.myConnection);
 
             MySqlDataReader MyDataReader;
             connection.open();
@@ -158,6 +158,9 @@ namespace t2_1stan_writer
 
             while (MyDataReader.Read())
             {
+                if (MyDataReader.GetValue(0) == null || MyDataReader.GetInt32(1) != part)
+                    last = 0;
+                else
                 last = MyDataReader.GetInt32(0);
             }
             MyDataReader.Close();
