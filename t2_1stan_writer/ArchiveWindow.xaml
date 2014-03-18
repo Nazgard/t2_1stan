@@ -1,0 +1,8 @@
+﻿<Window x:Class="t2_1stan_writer.ArchiveWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Просмотр данных стана 73-219" Height="340" Width="600" WindowStartupLocation="CenterOwner">
+    <Grid>
+        
+    </Grid>
+</Window>

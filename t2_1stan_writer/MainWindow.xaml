@@ -76,5 +76,6 @@
                 </Grid>
             </TabItem>
         </TabControl>
+        <Button Content="Архив" Height="35" HorizontalAlignment="Right" Margin="0,10,12,0" Name="button4" VerticalAlignment="Top" Width="115" Click="button4_Click" />
     </Grid>
 </Window>

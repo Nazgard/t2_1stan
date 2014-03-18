@@ -216,5 +216,12 @@ namespace t2_1stan_writer
             
             }
         }
+
+        private void button4_Click(object sender, RoutedEventArgs e)
+        {
+            ArchiveWindow AW = new ArchiveWindow();
+            AW.Owner = this;
+            AW.Show();
+        }
     }
 }
