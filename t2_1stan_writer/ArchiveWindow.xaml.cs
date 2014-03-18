@@ -22,5 +22,10 @@ namespace t2_1stan_writer
         {
             InitializeComponent();
         }
+
+        private void treeView1_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
+        {
+            MessageBox.Show(e.NewValue.ToString());
+        }
     }
 }
