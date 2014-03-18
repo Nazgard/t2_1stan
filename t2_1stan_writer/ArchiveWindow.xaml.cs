@@ -10,6 +10,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using System.Threading;
 
 namespace t2_1stan_writer
 {
@@ -18,14 +19,20 @@ namespace t2_1stan_writer
     /// </summary>
     public partial class ArchiveWindow : Window
     {
+        ArchiveControl AC = new ArchiveControl();
+
+
         public ArchiveWindow()
         {
             InitializeComponent();
+
+            AC.AW = this;
+            AC.First_TreeData();
         }
 
-        private void treeView1_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
+        private void trw_Expanded(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show(e.NewValue.ToString());
+            AC.Expander(e);
         }
     }
 }

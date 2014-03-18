@@ -222,9 +222,6 @@ namespace t2_1stan_writer
             ArchiveWindow AW = new ArchiveWindow();
             AW.Owner = this;
             AW.Show();
-            ArchiveControl AC = new ArchiveControl();
-            AC.AW = AW;
-            AC.Tree_Years();
         }
     }
 }
