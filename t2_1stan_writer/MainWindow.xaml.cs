@@ -172,7 +172,7 @@ namespace t2_1stan_writer
 
         private void textBox3_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
-            if (!char.IsDigit(e.Text, e.Text.Length - 1))
+            if (!char.IsDigit(e.Text, e.Text.Length - 1) && char.IsControl(e.Text, e.Text.Length - 1))
             {
                 e.Handled = true;
             }
@@ -180,10 +180,7 @@ namespace t2_1stan_writer
 
         private void textBox1_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
-            if (!char.IsDigit(e.Text, e.Text.Length - 1))
-            {
-                e.Handled = true;
-            }
+            //TODO Need to do it
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
@@ -206,6 +203,18 @@ namespace t2_1stan_writer
         private void comboBox7_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             comboBox5.ItemsSource = parameters.get_db_sizetubes_current(((KeyValuePair<int, string>)comboBox7.SelectedItem).Key);            
+        }
+
+        private void comboBox5_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            try
+            {
+                comboBox8.ItemsSource = parameters.get_db_controlsamples_current(((KeyValuePair<int, string>)comboBox5.SelectedItem).Key);
+            }
+            catch
+            { 
+            
+            }
         }
     }
 }

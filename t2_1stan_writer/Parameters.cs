@@ -202,5 +202,32 @@ namespace t2_1stan_writer
             connection.close();
             return sizetubes;
         }
+
+        public Dictionary<int, string> get_db_controlsamples_current(int id)
+        {
+            connection.open();
+            Dictionary<int, string> controlsamples = new Dictionary<int, string>();
+
+            MySqlCommand myCommand = new MySqlCommand(@"
+                SELECT
+                controlsamples.Id_ControlSample,
+                controlsamples.NameControlSample
+                FROM
+                controlsamples
+                WHERE controlsamples.Id_SizeTube = @A
+            ", connection.myConnection);
+            myCommand.Parameters.AddWithValue("A", id);
+
+            MySqlDataReader MyDataReader;
+            MyDataReader = myCommand.ExecuteReader();
+
+            while (MyDataReader.Read())
+            {
+                controlsamples.Add(MyDataReader.GetInt32(0), MyDataReader.GetString(1));
+            }
+            MyDataReader.Close();
+            connection.close();
+            return controlsamples;
+        }
     }
 }
