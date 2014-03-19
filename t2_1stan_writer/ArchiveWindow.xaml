@@ -3,8 +3,8 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="Просмотр данных стана 73-219" Height="490" Width="706" WindowStartupLocation="CenterOwner"  Background="#FFE0E0E0">
     <Grid>
-        <TreeView Margin="0,89,12,12" Name="treeView1" HorizontalAlignment="Right" Width="199" Background="{x:Null}" TreeViewItem.Expanded="trw_Expanded" />
+        <TreeView Margin="473,89,12,12" Name="treeView1" Background="{x:Null}" TreeViewItem.Expanded="trw_Expanded" />
         <ListBox Height="71" Margin="12,12,12,0" Name="listBox1" VerticalAlignment="Top" Background="{x:Null}" />
-        <Canvas Margin="12,89,217,12" Name="canvas1" Background="{x:Null}" />
+        <Canvas Margin="12,89,0,12" Name="canvas1" Background="{x:Null}" HorizontalAlignment="Left" Width="455" />
     </Grid>
 </Window>

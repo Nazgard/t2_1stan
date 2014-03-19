@@ -15,45 +15,55 @@ namespace t2_1stan_writer
         private string current_year;
         private string current_month;
         private string current_day;
+        private string current_smena;
+        MySqlCommand myCommand = new MySqlCommand();
+        MySqlDataReader MyDataReader;
+        List<string> list = new List<string>();
 
         public void First_TreeData()
         {
-            List<string> years = new List<string>();
-            MySqlCommand myCommand = new MySqlCommand();
+            list.Clear();
             myCommand.CommandText = "SELECT DISTINCT YEAR(defectsdata.DatePr) FROM defectsdata";
             myCommand.Connection = connection.myConnection;
 
-            MySqlDataReader MyDataReader;
-            connection.open();
-            MyDataReader = myCommand.ExecuteReader();
-
-            while (MyDataReader.Read())
+            try
             {
-                years.Add(MyDataReader.GetString(0));
-            }
-            MyDataReader.Close();
-            connection.close();
+                connection.open();
+                MyDataReader = myCommand.ExecuteReader();
 
-            foreach (string year in years)
-            {
-                TreeViewItem item = new TreeViewItem();
-                item.Tag = "year";
-                item.Header = year.ToString();
-                item.Items.Add("*");
-                AW.treeView1.Items.Add(item);
+                while (MyDataReader.Read())
+                {
+                    list.Add(MyDataReader.GetString(0));
+                }
+                MyDataReader.Close();
+                connection.close();
+
+                foreach (string year in list)
+                {
+                    TreeViewItem item = new TreeViewItem();
+                    item.Tag = "year";
+                    item.Header = year.ToString();
+                    item.Items.Add("*");
+                    AW.treeView1.Items.Add(item);
+                }
             }
+            catch
+            {
+                AW.Close();
+            }            
         }
 
         public void Expander(RoutedEventArgs e)
         {
-            TreeViewItem item = (TreeViewItem)e.OriginalSource;
-            item.Items.Clear();
-
-            if (item.Tag.ToString() == "year")
+            try
             {
-                List<string> months = new List<string>();
-                MySqlCommand myCommand = new MySqlCommand();
-                myCommand.CommandText = @"
+                TreeViewItem item = (TreeViewItem)e.OriginalSource;
+                item.Items.Clear();
+
+                if (item.Tag.ToString() == "year")
+                {
+                    list.Clear();
+                    myCommand.CommandText = @"
                     SELECT
                     DISTINCT
                     MONTHNAME(defectsdata.DatePr)
@@ -61,36 +71,35 @@ namespace t2_1stan_writer
                     defectsdata
                     WHERE YEAR(defectsdata.DatePr) = @A
                 ";
-                myCommand.Connection = connection.myConnection;
-                myCommand.Parameters.AddWithValue("A", item.Header.ToString());
+                    myCommand.Connection = connection.myConnection;
+                    myCommand.Parameters.Clear();
+                    myCommand.Parameters.AddWithValue("A", item.Header.ToString());
 
-                MySqlDataReader MyDataReader;
-                connection.open();
-                MyDataReader = myCommand.ExecuteReader();
+                    connection.open();
+                    MyDataReader = myCommand.ExecuteReader();
 
-                while (MyDataReader.Read())
-                {
-                    months.Add(MyDataReader.GetString(0));
+                    while (MyDataReader.Read())
+                    {
+                        list.Add(MyDataReader.GetString(0));
+                    }
+                    MyDataReader.Close();
+                    connection.close();
+
+                    foreach (string month in list)
+                    {
+                        TreeViewItem itemMonth = new TreeViewItem();
+                        itemMonth.Tag = "month";
+                        itemMonth.Header = month.ToString();
+                        itemMonth.Items.Add("*");
+                        item.Items.Add(itemMonth);
+                    }
+                    current_year = item.Header.ToString();
                 }
-                MyDataReader.Close();
-                connection.close();
 
-                foreach (string month in months)
+                if (item.Tag.ToString() == "month")
                 {
-                    TreeViewItem itemMonth = new TreeViewItem();
-                    itemMonth.Tag = "month";
-                    itemMonth.Header = month.ToString();
-                    itemMonth.Items.Add("*");
-                    item.Items.Add(itemMonth);
-                }
-                current_year = item.Header.ToString();
-            }
-
-            if (item.Tag.ToString() == "month")
-            {
-                List<string> days = new List<string>();
-                MySqlCommand myCommand = new MySqlCommand();
-                myCommand.CommandText = @"
+                    list.Clear();
+                    myCommand.CommandText = @"
                     SELECT
                     DISTINCT
                     DAY(defectsdata.DatePr)
@@ -98,36 +107,35 @@ namespace t2_1stan_writer
                     defectsdata
                     WHERE MONTHNAME(defectsdata.DatePr) = @A
                 ";
-                myCommand.Connection = connection.myConnection;
-                myCommand.Parameters.AddWithValue("A", item.Header.ToString());
+                    myCommand.Connection = connection.myConnection;
+                    myCommand.Parameters.Clear();
+                    myCommand.Parameters.AddWithValue("A", item.Header.ToString());
 
-                MySqlDataReader MyDataReader;
-                connection.open();
-                MyDataReader = myCommand.ExecuteReader();
+                    connection.open();
+                    MyDataReader = myCommand.ExecuteReader();
 
-                while (MyDataReader.Read())
-                {
-                    days.Add(MyDataReader.GetString(0));
+                    while (MyDataReader.Read())
+                    {
+                        list.Add(MyDataReader.GetString(0));
+                    }
+                    MyDataReader.Close();
+                    connection.close();
+
+                    foreach (string day in list)
+                    {
+                        TreeViewItem itemDays = new TreeViewItem();
+                        itemDays.Tag = "day";
+                        itemDays.Header = day.ToString();
+                        itemDays.Items.Add("*");
+                        item.Items.Add(itemDays);
+                    }
+                    current_month = item.Header.ToString();
                 }
-                MyDataReader.Close();
-                connection.close();
 
-                foreach (string day in days)
+                if (item.Tag.ToString() == "day")
                 {
-                    TreeViewItem itemDays = new TreeViewItem();
-                    itemDays.Tag = "day";
-                    itemDays.Header = day.ToString();
-                    itemDays.Items.Add("*");
-                    item.Items.Add(itemDays);
-                }
-                current_month = item.Header.ToString();
-            }
-
-            if (item.Tag.ToString() == "day")
-            {
-                List<string> smens = new List<string>();
-                MySqlCommand myCommand = new MySqlCommand();
-                myCommand.CommandText = @"
+                    list.Clear();
+                    myCommand.CommandText = @"
                     SELECT DISTINCT
                     worksmens.NameSmen
                     FROM
@@ -136,37 +144,36 @@ namespace t2_1stan_writer
                     INNER JOIN worksmens ON worksmens.Id_WorkSmen = indexes.Id_WorkSmen
                     WHERE DATE_FORMAT(defectsdata.DatePr, '%Y-%M-%d') = @A
                 ";
-                myCommand.Connection = connection.myConnection;
-                myCommand.Parameters.AddWithValue("A", current_year + "-" + current_month + "-" + string.Format("{0:00}",  Convert.ToInt32(item.Header.ToString())));
-                MySqlDataReader MyDataReader;
-                connection.open();
-                MyDataReader = myCommand.ExecuteReader();
+                    myCommand.Connection = connection.myConnection;
+                    myCommand.Parameters.Clear();
+                    myCommand.Parameters.AddWithValue("A", current_year + "-" + current_month + "-" + string.Format("{0:00}", Convert.ToInt32(item.Header.ToString())));
+                    connection.open();
+                    MyDataReader = myCommand.ExecuteReader();
 
-                while (MyDataReader.Read())
-                {
-                    smens.Add(MyDataReader.GetString(0));
+                    while (MyDataReader.Read())
+                    {
+                        list.Add(MyDataReader.GetString(0));
+                    }
+                    MyDataReader.Close();
+                    connection.close();
+
+                    foreach (string smena in list)
+                    {
+                        TreeViewItem itemSmens = new TreeViewItem();
+                        itemSmens.Tag = "smena";
+                        itemSmens.Header = smena.ToString();
+                        itemSmens.Items.Add("*");
+                        item.Items.Add(itemSmens);
+                    }
+                    current_day = item.Header.ToString();
                 }
-                MyDataReader.Close();
-                connection.close();
 
-                foreach (string smena in smens)
+                if (item.Tag.ToString() == "smena")
                 {
-                    TreeViewItem itemSmens = new TreeViewItem();
-                    itemSmens.Tag = "smena";
-                    itemSmens.Header = smena.ToString();
-                    itemSmens.Items.Add("*");
-                    item.Items.Add(itemSmens);
-                }
-                current_day = item.Header.ToString();
-            }
-
-            if (item.Tag.ToString() == "smena")
-            {
-                List<string> smens = new List<string>();
-                MySqlCommand myCommand = new MySqlCommand();
-                myCommand.CommandText = @"
-                   SELECT
-                    defectsdata.NumberTube
+                    list.Clear();
+                    myCommand.CommandText = @"
+                    SELECT DISTINCT
+                    defectsdata.NumberPart
                     FROM
                     indexes
                     INNER JOIN defectsdata ON defectsdata.IndexData = indexes.IndexData
@@ -174,30 +181,74 @@ namespace t2_1stan_writer
                     WHERE DATE_FORMAT(defectsdata.DatePr, '%Y-%M-%d') = @A AND
                           worksmens.NameSmen = @B  
                 ";
-                myCommand.Connection = connection.myConnection;
-                myCommand.Parameters.AddWithValue("A", current_year + "-" + current_month + "-" + string.Format("{0:00}", Convert.ToInt32(current_day)));
-                myCommand.Parameters.AddWithValue("B", item.Header.ToString());
-                MySqlDataReader MyDataReader;
-                connection.open();
-                MyDataReader = myCommand.ExecuteReader();
+                    myCommand.Connection = connection.myConnection;
+                    myCommand.Parameters.Clear();
+                    myCommand.Parameters.AddWithValue("A", current_year + "-" + current_month + "-" + string.Format("{0:00}", Convert.ToInt32(current_day)));
+                    myCommand.Parameters.AddWithValue("B", item.Header.ToString());
+                    connection.open();
+                    MyDataReader = myCommand.ExecuteReader();
 
-                while (MyDataReader.Read())
-                {
-                    smens.Add("Труба № " + MyDataReader.GetString(0));
+                    while (MyDataReader.Read())
+                    {
+                        list.Add(MyDataReader.GetString(0));
+                    }
+                    MyDataReader.Close();
+                    connection.close();
+
+                    foreach (string part in list)
+                    {
+                        TreeViewItem itemPart = new TreeViewItem();
+                        itemPart.Tag = "part";
+                        itemPart.Header = part.ToString();
+                        itemPart.Items.Add("*");
+                        item.Items.Add(itemPart);
+                    }
+
+                    current_smena = item.Header.ToString();
                 }
-                MyDataReader.Close();
-                connection.close();
 
-                foreach (string smena in smens)
+                if (item.Tag.ToString() == "part")
                 {
-                    TreeViewItem itemSmens = new TreeViewItem();
-                    itemSmens.Tag = "smena";
-                    itemSmens.Header = smena.ToString();
-                    itemSmens.Items.Add("*");
-                    item.Items.Add(itemSmens);
+                    list.Clear();
+                    myCommand.CommandText = @"
+                    SELECT
+                    defectsdata.NumberTube
+                    FROM
+                    indexes
+                    INNER JOIN defectsdata ON defectsdata.IndexData = indexes.IndexData
+                    INNER JOIN worksmens ON worksmens.Id_WorkSmen = indexes.Id_WorkSmen
+                    WHERE DATE_FORMAT(defectsdata.DatePr, '%Y-%M-%d') = @A AND
+                          worksmens.NameSmen = @B AND
+                          defectsdata.NumberPart = @C
+                ";
+                    myCommand.Connection = connection.myConnection;
+                    myCommand.Parameters.Clear();
+                    myCommand.Parameters.AddWithValue("A", current_year + "-" + current_month + "-" + string.Format("{0:00}", Convert.ToInt32(current_day)));
+                    myCommand.Parameters.AddWithValue("B", current_smena);
+                    myCommand.Parameters.AddWithValue("C", Convert.ToInt32(item.Header.ToString()));
+                    connection.open();
+                    MyDataReader = myCommand.ExecuteReader();
+
+                    while (MyDataReader.Read())
+                    {
+                        list.Add("Труба № " + MyDataReader.GetString(0));
+                    }
+                    MyDataReader.Close();
+                    connection.close();
+
+                    foreach (string tube in list)
+                    {
+                        TreeViewItem itemTube = new TreeViewItem();
+                        itemTube.Tag = "tube";
+                        itemTube.Header = tube.ToString();
+                        item.Items.Add(itemTube);
+                    }
                 }
             }
-
+            catch
+            {
+                AW.Close();
+            }
         }
 
 

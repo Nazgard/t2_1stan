@@ -221,7 +221,14 @@ namespace t2_1stan_writer
         {
             ArchiveWindow AW = new ArchiveWindow();
             AW.Owner = this;
-            AW.Show();
+            try
+            {
+                AW.Show();
+            }
+            catch
+            { 
+            
+            }            
         }
     }
 }
