@@ -67,7 +67,7 @@ namespace t2_1stan_writer
 
                     int has_deffect = 0;
 
-                    MySqlCommand myCommand = new MySqlCommand("INSERT INTO defectsdata(NumberPart,NumberTube,NumberSegments,DataSensors,DatePr,TimePr,Porog,Current, Deffects) values(@A,@B,@C,@D,@E,@F,@G,@H,@I)", connection.myConnection);
+                    MySqlCommand myCommand = new MySqlCommand("INSERT INTO defectsdata(NumberPart,NumberTube,NumberSegments,DataSensors,DatePr,TimePr,Porog,Current, FlDefectTube) values(@A,@B,@C,@D,@E,@F,@G,@H,@I)", connection.myConnection);
                     mw.Dispatcher.BeginInvoke(new ThreadStart(delegate
                         {
                             //НОМЕР ПАРТИИ
