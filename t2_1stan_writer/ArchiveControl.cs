@@ -6,6 +6,7 @@ using MySql.Data.MySqlClient;
 using System.IO;
 using System.Windows.Controls;
 using System.Windows;
+using System.Windows.Input;
 namespace t2_1stan_writer
 {
     class ArchiveControl
@@ -22,6 +23,7 @@ namespace t2_1stan_writer
 
         public void First_TreeData()
         {
+            Mouse.OverrideCursor = System.Windows.Input.Cursors.Wait;
             list.Clear();
             myCommand.CommandText = "SELECT DISTINCT YEAR(defectsdata.DatePr) FROM defectsdata";
             myCommand.Connection = connection.myConnection;
@@ -50,11 +52,13 @@ namespace t2_1stan_writer
             catch
             {
                 AW.Close();
-            }            
+            }
+            Mouse.OverrideCursor = System.Windows.Input.Cursors.Arrow;
         }
 
         public void Expander(RoutedEventArgs e)
         {
+            Mouse.OverrideCursor = System.Windows.Input.Cursors.Wait;
             try
             {
                 TreeViewItem item = (TreeViewItem)e.OriginalSource;
@@ -64,13 +68,13 @@ namespace t2_1stan_writer
                 {
                     list.Clear();
                     myCommand.CommandText = @"
-                    SELECT
-                    DISTINCT
-                    MONTHNAME(defectsdata.DatePr)
-                    FROM
-                    defectsdata
-                    WHERE YEAR(defectsdata.DatePr) = @A
-                ";
+                        SELECT
+                        DISTINCT
+                        MONTHNAME(defectsdata.DatePr)
+                        FROM
+                        defectsdata
+                        WHERE YEAR(defectsdata.DatePr) = @A
+                    ";
                     myCommand.Connection = connection.myConnection;
                     myCommand.Parameters.Clear();
                     myCommand.Parameters.AddWithValue("A", item.Header.ToString());
@@ -100,13 +104,13 @@ namespace t2_1stan_writer
                 {
                     list.Clear();
                     myCommand.CommandText = @"
-                    SELECT
-                    DISTINCT
-                    DAY(defectsdata.DatePr)
-                    FROM
-                    defectsdata
-                    WHERE MONTHNAME(defectsdata.DatePr) = @A
-                ";
+                        SELECT
+                        DISTINCT
+                        DAY(defectsdata.DatePr)
+                        FROM
+                        defectsdata
+                        WHERE MONTHNAME(defectsdata.DatePr) = @A
+                    ";
                     myCommand.Connection = connection.myConnection;
                     myCommand.Parameters.Clear();
                     myCommand.Parameters.AddWithValue("A", item.Header.ToString());
@@ -136,14 +140,14 @@ namespace t2_1stan_writer
                 {
                     list.Clear();
                     myCommand.CommandText = @"
-                    SELECT DISTINCT
-                    worksmens.NameSmen
-                    FROM
-                    indexes
-                    INNER JOIN defectsdata ON defectsdata.IndexData = indexes.IndexData
-                    INNER JOIN worksmens ON worksmens.Id_WorkSmen = indexes.Id_WorkSmen
-                    WHERE DATE_FORMAT(defectsdata.DatePr, '%Y-%M-%d') = @A
-                ";
+                        SELECT DISTINCT
+                        worksmens.NameSmen
+                        FROM
+                        indexes
+                        INNER JOIN defectsdata ON defectsdata.IndexData = indexes.IndexData
+                        INNER JOIN worksmens ON worksmens.Id_WorkSmen = indexes.Id_WorkSmen
+                        WHERE DATE_FORMAT(defectsdata.DatePr, '%Y-%M-%d') = @A
+                    ";
                     myCommand.Connection = connection.myConnection;
                     myCommand.Parameters.Clear();
                     myCommand.Parameters.AddWithValue("A", current_year + "-" + current_month + "-" + string.Format("{0:00}", Convert.ToInt32(item.Header.ToString())));
@@ -172,15 +176,15 @@ namespace t2_1stan_writer
                 {
                     list.Clear();
                     myCommand.CommandText = @"
-                    SELECT DISTINCT
-                    defectsdata.NumberPart
-                    FROM
-                    indexes
-                    INNER JOIN defectsdata ON defectsdata.IndexData = indexes.IndexData
-                    INNER JOIN worksmens ON worksmens.Id_WorkSmen = indexes.Id_WorkSmen
-                    WHERE DATE_FORMAT(defectsdata.DatePr, '%Y-%M-%d') = @A AND
-                          worksmens.NameSmen = @B  
-                ";
+                        SELECT DISTINCT
+                        defectsdata.NumberPart
+                        FROM
+                        indexes
+                        INNER JOIN defectsdata ON defectsdata.IndexData = indexes.IndexData
+                        INNER JOIN worksmens ON worksmens.Id_WorkSmen = indexes.Id_WorkSmen
+                        WHERE DATE_FORMAT(defectsdata.DatePr, '%Y-%M-%d') = @A AND
+                              worksmens.NameSmen = @B  
+                    ";
                     myCommand.Connection = connection.myConnection;
                     myCommand.Parameters.Clear();
                     myCommand.Parameters.AddWithValue("A", current_year + "-" + current_month + "-" + string.Format("{0:00}", Convert.ToInt32(current_day)));
@@ -211,16 +215,16 @@ namespace t2_1stan_writer
                 {
                     list.Clear();
                     myCommand.CommandText = @"
-                    SELECT
-                    defectsdata.NumberTube
-                    FROM
-                    indexes
-                    INNER JOIN defectsdata ON defectsdata.IndexData = indexes.IndexData
-                    INNER JOIN worksmens ON worksmens.Id_WorkSmen = indexes.Id_WorkSmen
-                    WHERE DATE_FORMAT(defectsdata.DatePr, '%Y-%M-%d') = @A AND
-                          worksmens.NameSmen = @B AND
-                          defectsdata.NumberPart = @C
-                ";
+                        SELECT
+                        defectsdata.NumberTube
+                        FROM
+                        indexes
+                        INNER JOIN defectsdata ON defectsdata.IndexData = indexes.IndexData
+                        INNER JOIN worksmens ON worksmens.Id_WorkSmen = indexes.Id_WorkSmen
+                        WHERE DATE_FORMAT(defectsdata.DatePr, '%Y-%M-%d') = @A AND
+                              worksmens.NameSmen = @B AND
+                              defectsdata.NumberPart = @C
+                    ";
                     myCommand.Connection = connection.myConnection;
                     myCommand.Parameters.Clear();
                     myCommand.Parameters.AddWithValue("A", current_year + "-" + current_month + "-" + string.Format("{0:00}", Convert.ToInt32(current_day)));
@@ -249,8 +253,8 @@ namespace t2_1stan_writer
             {
                 AW.Close();
             }
+            Mouse.OverrideCursor = System.Windows.Input.Cursors.Arrow;
         }
-
 
     }
 }
