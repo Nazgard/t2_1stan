@@ -10,7 +10,7 @@ namespace t2_1stan_writer
 {
     class Connection
     {
-        public static string Connect = "Database=def1;Data Source=10.0.20.236;User Id=root;Password=root";
+        public static string Connect = "Database=def;Data Source=10.0.20.236;User Id=root;Password=root";
         public MySqlConnection myConnection = new MySqlConnection(Connect);
 
         public void open()
