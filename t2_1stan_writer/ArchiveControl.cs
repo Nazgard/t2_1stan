@@ -66,6 +66,79 @@ namespace t2_1stan_writer
 
                 if (item.Tag.ToString() == "year")
                 {
+
+                    AW.listBox1.Items.Clear();
+                    AW.listBox1.Items.Add("ВРЕМЯ: " + item.Header.ToString());
+                    myCommand.CommandText = @"
+                        SELECT
+                        Count(defectsdata.IndexData)
+                        FROM
+                        defectsdata
+                        WHERE
+                        defectsdata.NumberTube <>  0 AND
+                        YEAR(defectsdata.DatePr) = @A
+                    ";
+                    myCommand.Connection = connection.myConnection;
+                    myCommand.Parameters.Clear();
+                    myCommand.Parameters.AddWithValue("A", item.Header.ToString());
+                    connection.open();
+                    MyDataReader = myCommand.ExecuteReader();
+
+                    while (MyDataReader.Read())
+                    {
+                        AW.listBox1.Items.Add("ТРУБ: " + MyDataReader.GetString(0));
+                    }
+                    MyDataReader.Close();
+                    connection.close();
+
+                    myCommand.CommandText = @"
+                        SELECT
+                        Count(defectsdata.IndexData)
+                        FROM
+                        defectsdata
+                        WHERE
+                        defectsdata.FlDefectTube =  1 AND
+                        defectsdata.NumberTube <>  0 AND
+                        YEAR(defectsdata.DatePr) = @A
+                    ";
+                    myCommand.Connection = connection.myConnection;
+                    connection.open();
+                    MyDataReader = myCommand.ExecuteReader();
+
+                    while (MyDataReader.Read())
+                    {
+                        AW.listBox1.Items.Add("ДЕФЕКТНЫХ ТРУБ: " + MyDataReader.GetString(0));
+                    }
+                    MyDataReader.Close();
+                    connection.close();
+
+
+                    myCommand.CommandText = @"
+                        SELECT 
+                        concat(round(( (SELECT
+                        Count(defectsdata.IndexData)
+                        FROM
+                        defectsdata
+                        WHERE
+                        defectsdata.FlDefectTube =  1 )  / Count(defectsdata.IndexData) * 100 ),2),'%') 
+                        FROM
+                        defectsdata
+                        WHERE
+                        defectsdata.NumberTube <>  0 AND
+                        YEAR(defectsdata.DatePr) = @A
+                    ";
+                    myCommand.Connection = connection.myConnection;
+                    connection.open();
+                    MyDataReader = myCommand.ExecuteReader();
+
+                    while (MyDataReader.Read())
+                    {
+                        AW.listBox1.Items.Add("ПРОЦЕНТ БРАКА: " + MyDataReader.GetString(0));
+                    }
+                    MyDataReader.Close();
+                    connection.close();
+
+
                     list.Clear();
                     myCommand.CommandText = @"
                         SELECT
@@ -76,8 +149,6 @@ namespace t2_1stan_writer
                         WHERE YEAR(defectsdata.DatePr) = @A
                     ";
                     myCommand.Connection = connection.myConnection;
-                    myCommand.Parameters.Clear();
-                    myCommand.Parameters.AddWithValue("A", item.Header.ToString());
 
                     connection.open();
                     MyDataReader = myCommand.ExecuteReader();
