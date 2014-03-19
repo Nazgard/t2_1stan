@@ -216,7 +216,14 @@ namespace t2_1stan_writer
 
         private void comboBox7_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            comboBox5.ItemsSource = parameters.get_db_sizetubes_current(((KeyValuePair<int, string>)comboBox7.SelectedItem).Key);            
+            try
+            {
+                comboBox5.ItemsSource = parameters.get_db_sizetubes_current(((KeyValuePair<int, string>)comboBox7.SelectedItem).Key);            
+            }
+            catch
+            { 
+            
+            }
         }
 
         private void comboBox5_SelectionChanged(object sender, SelectionChangedEventArgs e)
