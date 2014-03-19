@@ -49,8 +49,9 @@ namespace t2_1stan_writer
                     AW.treeView1.Items.Add(item);
                 }
             }
-            catch
+            catch (Exception ex)
             {
+                MessageBox.Show(ex.ToString());
                 AW.Close();
             }
             Mouse.OverrideCursor = System.Windows.Input.Cursors.Arrow;
@@ -173,6 +174,86 @@ namespace t2_1stan_writer
 
                 if (item.Tag.ToString() == "month")
                 {
+                    AW.listBox1.Items.Clear();
+                    AW.listBox1.Items.Add("ВРЕМЯ: " + current_year + "-" + item.Header.ToString());
+                    myCommand.CommandText = @"
+                        SELECT
+                        Count(defectsdata.IndexData)
+                        FROM
+                        defectsdata
+                        WHERE
+                        defectsdata.NumberTube <>  0 AND
+                        YEAR(defectsdata.DatePr) = @A AND
+                        MONTHNAME(defectsdata.DatePr) = @B
+                    ";
+                    myCommand.Connection = connection.myConnection;
+                    myCommand.Parameters.Clear();
+                    myCommand.Parameters.AddWithValue("A", current_year);
+                    myCommand.Parameters.AddWithValue("B", item.Header.ToString());
+                    connection.open();
+                    MyDataReader = myCommand.ExecuteReader();
+
+                    while (MyDataReader.Read())
+                    {
+                        AW.listBox1.Items.Add("ТРУБ: " + MyDataReader.GetString(0));
+                    }
+                    MyDataReader.Close();
+                    connection.close();
+
+                    myCommand.CommandText = @"
+                        SELECT
+                        Count(defectsdata.IndexData)
+                        FROM
+                        defectsdata
+                        WHERE
+                        defectsdata.FlDefectTube =  1 AND
+                        defectsdata.NumberTube <>  0 AND
+                        YEAR(defectsdata.DatePr) = @A AND
+                        MONTHNAME(defectsdata.DatePr) = @B
+                    ";
+                    myCommand.Connection = connection.myConnection;
+                    connection.open();
+                    MyDataReader = myCommand.ExecuteReader();
+
+                    while (MyDataReader.Read())
+                    {
+                        AW.listBox1.Items.Add("ДЕФЕКТНЫХ ТРУБ: " + MyDataReader.GetString(0));
+                    }
+                    MyDataReader.Close();
+                    connection.close();
+
+
+                    myCommand.CommandText = @"
+                        SELECT 
+                        concat(round(( (SELECT
+                        Count(defectsdata.IndexData)
+                        FROM
+                        defectsdata
+                        WHERE
+                        defectsdata.FlDefectTube =  1 AND
+                        YEAR(defectsdata.DatePr) = @A AND
+                        MONTHNAME(defectsdata.DatePr) = @B )  / Count(defectsdata.IndexData) * 100 ),2),'%') 
+                        FROM
+                        defectsdata
+                        WHERE
+                        defectsdata.NumberTube <>  0 AND
+                        YEAR(defectsdata.DatePr) = @A AND
+                        MONTHNAME(defectsdata.DatePr) = @B
+                    ";
+                    myCommand.Connection = connection.myConnection;
+                    connection.open();
+                    MyDataReader = myCommand.ExecuteReader();
+
+                    while (MyDataReader.Read())
+                    {
+                        AW.listBox1.Items.Add("ПРОЦЕНТ БРАКА: " + MyDataReader.GetString(0));
+                    }
+                    MyDataReader.Close();
+                    connection.close();
+
+
+                    //=============================
+
                     list.Clear();
                     myCommand.CommandText = @"
                         SELECT
@@ -209,6 +290,90 @@ namespace t2_1stan_writer
 
                 if (item.Tag.ToString() == "day")
                 {
+                    AW.listBox1.Items.Clear();
+                    AW.listBox1.Items.Add("ВРЕМЯ: " + current_year + "-" + current_month + "-" + item.Header.ToString());
+                    myCommand.CommandText = @"
+                        SELECT
+                        Count(defectsdata.IndexData)
+                        FROM
+                        defectsdata
+                        WHERE
+                        defectsdata.NumberTube <>  0 AND
+                        YEAR(defectsdata.DatePr) = @A AND
+                        MONTHNAME(defectsdata.DatePr) = @B AND
+                        DAY(defectsdata.DatePr) = @C
+                    ";
+                    myCommand.Connection = connection.myConnection;
+                    myCommand.Parameters.Clear();
+                    myCommand.Parameters.AddWithValue("A", current_year);
+                    myCommand.Parameters.AddWithValue("B", current_month);
+                    myCommand.Parameters.AddWithValue("C", string.Format("{0:00}", Convert.ToInt32(item.Header.ToString())));
+                    connection.open();
+                    MyDataReader = myCommand.ExecuteReader();
+
+                    while (MyDataReader.Read())
+                    {
+                        AW.listBox1.Items.Add("ТРУБ: " + MyDataReader.GetString(0));
+                    }
+                    MyDataReader.Close();
+                    connection.close();
+
+                    myCommand.CommandText = @"
+                        SELECT
+                        Count(defectsdata.IndexData)
+                        FROM
+                        defectsdata
+                        WHERE
+                        defectsdata.FlDefectTube =  1 AND
+                        defectsdata.NumberTube <>  0 AND
+                        YEAR(defectsdata.DatePr) = @A AND
+                        MONTHNAME(defectsdata.DatePr) = @B AND
+                        DAY(defectsdata.DatePr) = @C
+                    ";
+                    myCommand.Connection = connection.myConnection;
+                    connection.open();
+                    MyDataReader = myCommand.ExecuteReader();
+
+                    while (MyDataReader.Read())
+                    {
+                        AW.listBox1.Items.Add("ДЕФЕКТНЫХ ТРУБ: " + MyDataReader.GetString(0));
+                    }
+                    MyDataReader.Close();
+                    connection.close();
+
+
+                    myCommand.CommandText = @"
+                        SELECT 
+                        concat(round(( (SELECT
+                        Count(defectsdata.IndexData)
+                        FROM
+                        defectsdata
+                        WHERE
+                        defectsdata.FlDefectTube =  1 AND
+                        YEAR(defectsdata.DatePr) = @A AND
+                        MONTHNAME(defectsdata.DatePr) = @B AND
+                        DAY(defectsdata.DatePr) = @C)  / Count(defectsdata.IndexData) * 100 ),2),'%') 
+                        FROM
+                        defectsdata
+                        WHERE
+                        defectsdata.NumberTube <>  0 AND
+                        YEAR(defectsdata.DatePr) = @A AND
+                        MONTHNAME(defectsdata.DatePr) = @B AND
+                        DAY(defectsdata.DatePr) = @C
+                    ";
+                    myCommand.Connection = connection.myConnection;
+                    connection.open();
+                    MyDataReader = myCommand.ExecuteReader();
+
+                    while (MyDataReader.Read())
+                    {
+                        AW.listBox1.Items.Add("ПРОЦЕНТ БРАКА: " + MyDataReader.GetString(0));
+                    }
+                    MyDataReader.Close();
+                    connection.close();
+
+
+                    //=============================
                     list.Clear();
                     myCommand.CommandText = @"
                         SELECT DISTINCT
@@ -320,8 +485,9 @@ namespace t2_1stan_writer
                     }
                 }
             }
-            catch
+            catch (Exception ex)
             {
+                MessageBox.Show(ex.ToString());
                 AW.Close();
             }
             Mouse.OverrideCursor = System.Windows.Input.Cursors.Arrow;
