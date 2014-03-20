@@ -7,8 +7,18 @@
             <ColumnDefinition Width="396*" />
             <ColumnDefinition Width="288*" />
         </Grid.ColumnDefinitions>
-        <TreeView Margin="77,89,12,12" Name="treeView1" Background="{x:Null}" TreeViewItem.Expanded="trw_Expanded" Grid.Column="1" />
+        <TreeView Margin="77,89,12,12" Name="treeView1" Background="{x:Null}" TreeViewItem.Expanded="trw_Expanded" Grid.Column="1" VirtualizingStackPanel.IsVirtualizing="True" VirtualizingStackPanel.VirtualizationMode="Recycling" />
         <ListBox Height="71" Margin="12,12,12,0" Name="listBox1" VerticalAlignment="Top" Background="{x:Null}" Grid.ColumnSpan="2" />
-        <Canvas Margin="12,89,0,12" Name="canvas1" Background="{x:Null}" Grid.ColumnSpan="2" HorizontalAlignment="Left" Width="455" />
+        <Canvas Margin="12,89,0,12" Name="canvas1" Background="{x:Null}" Grid.ColumnSpan="2" HorizontalAlignment="Left" Width="455">
+            <Line X1="40" X2="40" Y1="120" Y2="250" Stroke="Black" Height="350" Width="454" StrokeThickness="1" />
+            <Line X1="88" X2="88" Y1="120" Y2="250" Stroke="Black" Height="350" Width="454" StrokeThickness="1" />
+            <Line X1="136" X2="136" Y1="120" Y2="250" Stroke="Black" Height="350" Width="454" StrokeThickness="1" />
+            <Line X1="184" X2="184" Y1="120" Y2="250" Stroke="Black" Height="350" Width="454" StrokeThickness="1" />
+            <Line X1="232" X2="232" Y1="120" Y2="250" Stroke="Black" Height="350" Width="454" StrokeThickness="1" />
+            <Line X1="280" X2="280" Y1="120" Y2="250" Stroke="Black" Height="350" Width="454" StrokeThickness="1" />
+            <Line X1="328" X2="328" Y1="120" Y2="250" Stroke="Black" Height="350" Width="454" StrokeThickness="1" />
+            <Line X1="376" X2="376" Y1="120" Y2="250" Stroke="Black" Height="350" Width="454" StrokeThickness="1" />
+            <Rectangle Canvas.Left="40" Canvas.Top="151" Height="70" Name="rectangle1" Stroke="#FFFFF7BE" Width="0" Fill="#FFFFF7BE" />
+        </Canvas>
     </Grid>
 </Window>

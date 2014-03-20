@@ -1,12 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using MySql.Data.MySqlClient;
-using System.IO;
 using System.Windows.Controls;
 using System.Windows;
 using System.Windows.Input;
+
 namespace t2_1stan_writer
 {
     class ArchiveControl
@@ -19,35 +16,29 @@ namespace t2_1stan_writer
         private string current_smena;
         MySqlCommand myCommand = new MySqlCommand();
         MySqlDataReader MyDataReader;
-        List<string> list = new List<string>();
 
         public void First_TreeData()
         {
             Mouse.OverrideCursor = System.Windows.Input.Cursors.Wait;
-            list.Clear();
             myCommand.CommandText = "SELECT DISTINCT YEAR(defectsdata.DatePr) FROM defectsdata";
             myCommand.Connection = connection.myConnection;
-
+            
             try
             {
+
                 connection.open();
                 MyDataReader = myCommand.ExecuteReader();
 
                 while (MyDataReader.Read())
                 {
-                    list.Add(MyDataReader.GetString(0));
-                }
-                MyDataReader.Close();
-                connection.close();
-
-                foreach (string year in list)
-                {
                     TreeViewItem item = new TreeViewItem();
                     item.Tag = "year";
-                    item.Header = year.ToString();
+                    item.Header = MyDataReader.GetString(0);
                     item.Items.Add("*");
                     AW.treeView1.Items.Add(item);
                 }
+                MyDataReader.Close();
+                connection.close();
             }
             catch (Exception ex)
             {
@@ -62,12 +53,12 @@ namespace t2_1stan_writer
             Mouse.OverrideCursor = System.Windows.Input.Cursors.Wait;
             try
             {
+                connection.open();
                 TreeViewItem item = (TreeViewItem)e.OriginalSource;
                 item.Items.Clear();
 
                 if (item.Tag.ToString() == "year")
                 {
-
                     AW.listBox1.Items.Clear();
                     AW.listBox1.Items.Add("ВРЕМЯ: " + item.Header.ToString());
                     myCommand.CommandText = @"
@@ -82,7 +73,6 @@ namespace t2_1stan_writer
                     myCommand.Connection = connection.myConnection;
                     myCommand.Parameters.Clear();
                     myCommand.Parameters.AddWithValue("A", item.Header.ToString());
-                    connection.open();
                     MyDataReader = myCommand.ExecuteReader();
 
                     while (MyDataReader.Read())
@@ -90,7 +80,6 @@ namespace t2_1stan_writer
                         AW.listBox1.Items.Add("ТРУБ: " + MyDataReader.GetString(0));
                     }
                     MyDataReader.Close();
-                    connection.close();
 
                     myCommand.CommandText = @"
                         SELECT
@@ -103,7 +92,6 @@ namespace t2_1stan_writer
                         YEAR(defectsdata.DatePr) = @A
                     ";
                     myCommand.Connection = connection.myConnection;
-                    connection.open();
                     MyDataReader = myCommand.ExecuteReader();
 
                     while (MyDataReader.Read())
@@ -111,7 +99,6 @@ namespace t2_1stan_writer
                         AW.listBox1.Items.Add("ДЕФЕКТНЫХ ТРУБ: " + MyDataReader.GetString(0));
                     }
                     MyDataReader.Close();
-                    connection.close();
 
 
                     myCommand.CommandText = @"
@@ -121,7 +108,9 @@ namespace t2_1stan_writer
                         FROM
                         defectsdata
                         WHERE
-                        defectsdata.FlDefectTube =  1 )  / Count(defectsdata.IndexData) * 100 ),2),'%') 
+                        defectsdata.FlDefectTube =  1 AND 
+                        defectsdata.NumberTube <>  0 AND
+                        YEAR(defectsdata.DatePr) = @A)  / Count(defectsdata.IndexData) * 100 ),2),'%') 
                         FROM
                         defectsdata
                         WHERE
@@ -129,7 +118,6 @@ namespace t2_1stan_writer
                         YEAR(defectsdata.DatePr) = @A
                     ";
                     myCommand.Connection = connection.myConnection;
-                    connection.open();
                     MyDataReader = myCommand.ExecuteReader();
 
                     while (MyDataReader.Read())
@@ -137,10 +125,11 @@ namespace t2_1stan_writer
                         AW.listBox1.Items.Add("ПРОЦЕНТ БРАКА: " + MyDataReader.GetString(0));
                     }
                     MyDataReader.Close();
-                    connection.close();
+
+                    
+                    //=============================
 
 
-                    list.Clear();
                     myCommand.CommandText = @"
                         SELECT
                         DISTINCT
@@ -151,24 +140,18 @@ namespace t2_1stan_writer
                     ";
                     myCommand.Connection = connection.myConnection;
 
-                    connection.open();
                     MyDataReader = myCommand.ExecuteReader();
 
                     while (MyDataReader.Read())
                     {
-                        list.Add(MyDataReader.GetString(0));
-                    }
-                    MyDataReader.Close();
-                    connection.close();
-
-                    foreach (string month in list)
-                    {
                         TreeViewItem itemMonth = new TreeViewItem();
                         itemMonth.Tag = "month";
-                        itemMonth.Header = month.ToString();
+                        itemMonth.Header = MyDataReader.GetString(0);
                         itemMonth.Items.Add("*");
                         item.Items.Add(itemMonth);
                     }
+                    MyDataReader.Close();
+
                     current_year = item.Header.ToString();
                 }
 
@@ -190,7 +173,6 @@ namespace t2_1stan_writer
                     myCommand.Parameters.Clear();
                     myCommand.Parameters.AddWithValue("A", current_year);
                     myCommand.Parameters.AddWithValue("B", item.Header.ToString());
-                    connection.open();
                     MyDataReader = myCommand.ExecuteReader();
 
                     while (MyDataReader.Read())
@@ -198,7 +180,6 @@ namespace t2_1stan_writer
                         AW.listBox1.Items.Add("ТРУБ: " + MyDataReader.GetString(0));
                     }
                     MyDataReader.Close();
-                    connection.close();
 
                     myCommand.CommandText = @"
                         SELECT
@@ -212,7 +193,6 @@ namespace t2_1stan_writer
                         MONTHNAME(defectsdata.DatePr) = @B
                     ";
                     myCommand.Connection = connection.myConnection;
-                    connection.open();
                     MyDataReader = myCommand.ExecuteReader();
 
                     while (MyDataReader.Read())
@@ -220,7 +200,6 @@ namespace t2_1stan_writer
                         AW.listBox1.Items.Add("ДЕФЕКТНЫХ ТРУБ: " + MyDataReader.GetString(0));
                     }
                     MyDataReader.Close();
-                    connection.close();
 
 
                     myCommand.CommandText = @"
@@ -231,6 +210,7 @@ namespace t2_1stan_writer
                         defectsdata
                         WHERE
                         defectsdata.FlDefectTube =  1 AND
+                        defectsdata.NumberTube <>  0 AND
                         YEAR(defectsdata.DatePr) = @A AND
                         MONTHNAME(defectsdata.DatePr) = @B )  / Count(defectsdata.IndexData) * 100 ),2),'%') 
                         FROM
@@ -241,7 +221,6 @@ namespace t2_1stan_writer
                         MONTHNAME(defectsdata.DatePr) = @B
                     ";
                     myCommand.Connection = connection.myConnection;
-                    connection.open();
                     MyDataReader = myCommand.ExecuteReader();
 
                     while (MyDataReader.Read())
@@ -249,42 +228,36 @@ namespace t2_1stan_writer
                         AW.listBox1.Items.Add("ПРОЦЕНТ БРАКА: " + MyDataReader.GetString(0));
                     }
                     MyDataReader.Close();
-                    connection.close();
 
 
                     //=============================
 
-                    list.Clear();
                     myCommand.CommandText = @"
                         SELECT
                         DISTINCT
                         DAY(defectsdata.DatePr)
                         FROM
                         defectsdata
-                        WHERE MONTHNAME(defectsdata.DatePr) = @A
+                        WHERE   MONTHNAME(defectsdata.DatePr) = @A AND
+                                YEAR (defectsdata.DatePr) = @B
                     ";
                     myCommand.Connection = connection.myConnection;
                     myCommand.Parameters.Clear();
                     myCommand.Parameters.AddWithValue("A", item.Header.ToString());
+                    myCommand.Parameters.AddWithValue("B", current_year);
 
-                    connection.open();
                     MyDataReader = myCommand.ExecuteReader();
 
                     while (MyDataReader.Read())
                     {
-                        list.Add(MyDataReader.GetString(0));
-                    }
-                    MyDataReader.Close();
-                    connection.close();
-
-                    foreach (string day in list)
-                    {
                         TreeViewItem itemDays = new TreeViewItem();
                         itemDays.Tag = "day";
-                        itemDays.Header = day.ToString();
+                        itemDays.Header = MyDataReader.GetString(0);
                         itemDays.Items.Add("*");
                         item.Items.Add(itemDays);
                     }
+                    MyDataReader.Close();
+
                     current_month = item.Header.ToString();
                 }
 
@@ -308,7 +281,6 @@ namespace t2_1stan_writer
                     myCommand.Parameters.AddWithValue("A", current_year);
                     myCommand.Parameters.AddWithValue("B", current_month);
                     myCommand.Parameters.AddWithValue("C", string.Format("{0:00}", Convert.ToInt32(item.Header.ToString())));
-                    connection.open();
                     MyDataReader = myCommand.ExecuteReader();
 
                     while (MyDataReader.Read())
@@ -316,7 +288,6 @@ namespace t2_1stan_writer
                         AW.listBox1.Items.Add("ТРУБ: " + MyDataReader.GetString(0));
                     }
                     MyDataReader.Close();
-                    connection.close();
 
                     myCommand.CommandText = @"
                         SELECT
@@ -331,7 +302,6 @@ namespace t2_1stan_writer
                         DAY(defectsdata.DatePr) = @C
                     ";
                     myCommand.Connection = connection.myConnection;
-                    connection.open();
                     MyDataReader = myCommand.ExecuteReader();
 
                     while (MyDataReader.Read())
@@ -339,7 +309,6 @@ namespace t2_1stan_writer
                         AW.listBox1.Items.Add("ДЕФЕКТНЫХ ТРУБ: " + MyDataReader.GetString(0));
                     }
                     MyDataReader.Close();
-                    connection.close();
 
 
                     myCommand.CommandText = @"
@@ -349,6 +318,7 @@ namespace t2_1stan_writer
                         FROM
                         defectsdata
                         WHERE
+                        defectsdata.NumberTube <>  0 AND
                         defectsdata.FlDefectTube =  1 AND
                         YEAR(defectsdata.DatePr) = @A AND
                         MONTHNAME(defectsdata.DatePr) = @B AND
@@ -362,7 +332,6 @@ namespace t2_1stan_writer
                         DAY(defectsdata.DatePr) = @C
                     ";
                     myCommand.Connection = connection.myConnection;
-                    connection.open();
                     MyDataReader = myCommand.ExecuteReader();
 
                     while (MyDataReader.Read())
@@ -370,11 +339,9 @@ namespace t2_1stan_writer
                         AW.listBox1.Items.Add("ПРОЦЕНТ БРАКА: " + MyDataReader.GetString(0));
                     }
                     MyDataReader.Close();
-                    connection.close();
 
 
                     //=============================
-                    list.Clear();
                     myCommand.CommandText = @"
                         SELECT DISTINCT
                         worksmens.NameSmen
@@ -387,30 +354,23 @@ namespace t2_1stan_writer
                     myCommand.Connection = connection.myConnection;
                     myCommand.Parameters.Clear();
                     myCommand.Parameters.AddWithValue("A", current_year + "-" + current_month + "-" + string.Format("{0:00}", Convert.ToInt32(item.Header.ToString())));
-                    connection.open();
                     MyDataReader = myCommand.ExecuteReader();
 
                     while (MyDataReader.Read())
                     {
-                        list.Add(MyDataReader.GetString(0));
-                    }
-                    MyDataReader.Close();
-                    connection.close();
-
-                    foreach (string smena in list)
-                    {
                         TreeViewItem itemSmens = new TreeViewItem();
                         itemSmens.Tag = "smena";
-                        itemSmens.Header = smena.ToString();
+                        itemSmens.Header = MyDataReader.GetString(0);
                         itemSmens.Items.Add("*");
                         item.Items.Add(itemSmens);
                     }
+                    MyDataReader.Close();
+
                     current_day = item.Header.ToString();
                 }
 
                 if (item.Tag.ToString() == "smena")
                 {
-                    list.Clear();
                     myCommand.CommandText = @"
                         SELECT DISTINCT
                         defectsdata.NumberPart
@@ -425,31 +385,23 @@ namespace t2_1stan_writer
                     myCommand.Parameters.Clear();
                     myCommand.Parameters.AddWithValue("A", current_year + "-" + current_month + "-" + string.Format("{0:00}", Convert.ToInt32(current_day)));
                     myCommand.Parameters.AddWithValue("B", item.Header.ToString());
-                    connection.open();
                     MyDataReader = myCommand.ExecuteReader();
 
                     while (MyDataReader.Read())
                     {
-                        list.Add(MyDataReader.GetString(0));
-                    }
-                    MyDataReader.Close();
-                    connection.close();
-
-                    foreach (string part in list)
-                    {
                         TreeViewItem itemPart = new TreeViewItem();
                         itemPart.Tag = "part";
-                        itemPart.Header = part.ToString();
+                        itemPart.Header = MyDataReader.GetString(0);
                         itemPart.Items.Add("*");
                         item.Items.Add(itemPart);
                     }
+                    MyDataReader.Close();
 
                     current_smena = item.Header.ToString();
                 }
 
                 if (item.Tag.ToString() == "part")
                 {
-                    list.Clear();
                     myCommand.CommandText = @"
                         SELECT
                         defectsdata.NumberTube
@@ -466,24 +418,26 @@ namespace t2_1stan_writer
                     myCommand.Parameters.AddWithValue("A", current_year + "-" + current_month + "-" + string.Format("{0:00}", Convert.ToInt32(current_day)));
                     myCommand.Parameters.AddWithValue("B", current_smena);
                     myCommand.Parameters.AddWithValue("C", Convert.ToInt32(item.Header.ToString()));
-                    connection.open();
                     MyDataReader = myCommand.ExecuteReader();
 
+          
                     while (MyDataReader.Read())
-                    {
-                        list.Add("Труба № " + MyDataReader.GetString(0));
-                    }
-                    MyDataReader.Close();
-                    connection.close();
-
-                    foreach (string tube in list)
                     {
                         TreeViewItem itemTube = new TreeViewItem();
                         itemTube.Tag = "tube";
-                        itemTube.Header = tube.ToString();
+                        itemTube.Header = "Труба № " + MyDataReader.GetString(0);
                         item.Items.Add(itemTube);
                     }
+                    MyDataReader.Close();
                 }
+
+                if (item.Tag.ToString() == "tube")
+                {
+                    myCommand.CommandText = @"
+
+";
+                }
+                connection.close();
             }
             catch (Exception ex)
             {
