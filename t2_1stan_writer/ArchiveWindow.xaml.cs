@@ -25,5 +25,10 @@ namespace t2_1stan_writer
         {
             AC.Expander(e);
         }
+
+        private void treeView1_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
+        {
+            AC.Tube_Control((TreeViewItem)treeView1.SelectedItem);
+        }
     }
 }
