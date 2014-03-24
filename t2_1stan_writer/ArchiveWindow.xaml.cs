@@ -1,6 +1,4 @@
 ﻿using System.Windows;
-using System.Windows.Media;
-using System.Windows.Shapes;
 using System.Windows.Controls;
 
 namespace t2_1stan_writer

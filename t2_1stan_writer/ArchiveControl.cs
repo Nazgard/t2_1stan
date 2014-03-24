@@ -3,8 +3,6 @@ using MySql.Data.MySqlClient;
 using System.Windows.Controls;
 using System.Windows;
 using System.Windows.Input;
-using System.Windows.Documents;
-using System.Collections.Generic;
 using System.Windows.Media;
 using System.Windows.Shapes;
 
