@@ -381,7 +381,6 @@ namespace t2_1stan_writer
             catch (Exception ex)
             {
                 MessageBox.Show(ex.ToString());
-                AW.Close();
             }
             Mouse.OverrideCursor = System.Windows.Input.Cursors.Arrow;
         }
