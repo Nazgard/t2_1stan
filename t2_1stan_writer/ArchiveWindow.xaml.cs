@@ -15,7 +15,7 @@ namespace t2_1stan_writer
         {
             InitializeComponent();
 
-            AC.AW = this;
+            AC.ArchiveWindow = this;
             AC.First_TreeData();
         }
 
