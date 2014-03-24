@@ -24,6 +24,9 @@
             <Label Content="" Height="28" Name="label3" Canvas.Left="146" Canvas.Top="6" />
             <Label x:Name="label2" Content="" Height="24" Canvas.Left="6" Canvas.Top="39" />
             <Label Canvas.Left="352" Canvas.Top="39" Content="" Height="28" Name="label6" />
+            <Label Canvas.Left="6" Canvas.Top="263" Content="" Height="28" Name="label7" />
+            <Label Canvas.Left="146" Canvas.Top="263" Content="" Height="28" Name="label8" />
+            <Label Canvas.Left="146" Canvas.Top="297" Content="" Height="28" Name="label9" />
         </Canvas>
         <TreeView Margin="6,89,12,12" Name="treeView1" Background="#FFE0E0E0" TreeViewItem.Expanded="trw_Expanded" Grid.Column="1" VirtualizingStackPanel.IsVirtualizing="True" VirtualizingStackPanel.VirtualizationMode="Recycling" SelectedItemChanged="treeView1_SelectedItemChanged" />
     </Grid>

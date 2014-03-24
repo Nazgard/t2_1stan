@@ -512,6 +512,7 @@ namespace t2_1stan_writer
                         AW.label3.Content = "Дата проведения Н.К.\t" + MyDataReader.GetString(5);
                         AW.label4.Content = "Время проведения Н.К.\t" + MyDataReader.GetString(6);
                         AW.label5.Content = "Длина трубы (метры)\t\t " + Math.Round((MyDataReader.GetDouble(3) / 6), 2).ToString();
+                        AW.label7.Content = "Время проведения Н.К.\t" + MyDataReader.GetString(6);
                         AW.rectangle1.Width = MyDataReader.GetDouble(3) * 4;
 
                         for (int i = 0; i < count_deffects_line; i++)
