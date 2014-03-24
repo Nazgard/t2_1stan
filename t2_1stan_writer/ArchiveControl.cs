@@ -3,6 +3,10 @@ using MySql.Data.MySqlClient;
 using System.Windows.Controls;
 using System.Windows;
 using System.Windows.Input;
+using System.Windows.Documents;
+using System.Collections.Generic;
+using System.Windows.Media;
+using System.Windows.Shapes;
 
 namespace t2_1stan_writer
 {
@@ -15,6 +19,7 @@ namespace t2_1stan_writer
         private string current_day;
         private string current_smena;
         private string current_part;
+        private int count_deffects_line = 0;
         MySqlCommand myCommand = new MySqlCommand();
         MySqlDataReader MyDataReader;
 
@@ -26,7 +31,6 @@ namespace t2_1stan_writer
             
             try
             {
-
                 connection.open();
                 MyDataReader = myCommand.ExecuteReader();
 
@@ -282,6 +286,7 @@ namespace t2_1stan_writer
                         INNER JOIN defectsdata ON defectsdata.IndexData = indexes.IndexData
                         INNER JOIN worksmens ON worksmens.Id_WorkSmen = indexes.Id_WorkSmen
                         WHERE DATE_FORMAT(defectsdata.DatePr, '%Y-%M-%d') = @A
+                        ORDER BY worksmens.NameSmen
                     ";
                     myCommand.Connection = connection.myConnection;
                     myCommand.Parameters.Clear();
@@ -463,11 +468,24 @@ namespace t2_1stan_writer
                     Mouse.OverrideCursor = System.Windows.Input.Cursors.Wait;
                     myCommand.CommandText = @"
                         SELECT
-                        *
+                        defectsdata.IndexData,
+                        defectsdata.NumberPart,
+                        defectsdata.NumberTube,
+                        defectsdata.NumberSegments,
+                        defectsdata.DataSensors,
+                        DATE_FORMAT(defectsdata.DatePr, '%Y-%m-%d'),
+                        defectsdata.TimePr,
+                        defectsdata.Porog,
+                        defectsdata.Current,
+                        defectsdata.FlDefectTube,
+                        worksmens.NameSmen,
+                        operators.Surname
                         FROM
                         defectsdata
                         INNER JOIN indexes ON indexes.IndexData = defectsdata.IndexData
                         INNER JOIN worksmens ON worksmens.Id_WorkSmen = indexes.Id_WorkSmen
+                        INNER JOIN operators ON indexes.Id_Operator1 = operators.Id_Operator AND
+                                                indexes.Id_Operator2 = operators.Id_Operator
                         WHERE 
                         YEAR(defectsdata.DatePr) = @A AND
                         MONTHNAME(defectsdata.DatePr) = @B AND
@@ -486,12 +504,50 @@ namespace t2_1stan_writer
 
                     connection.open();
                     MyDataReader = myCommand.ExecuteReader();
-
+                    
                     while (MyDataReader.Read())
                     {
-                        AW.Label1.Content = MyDataReader.GetString(0);
-                        AW.Label2.Content = MyDataReader.GetString(3);
+                        AW.label1.Content = "Номер плавки\t" + MyDataReader.GetString(1);
+                        AW.label2.Content = "Номер трубы\t" + MyDataReader.GetString(2);
+                        AW.label3.Content = "Дата проведения Н.К.\t" + MyDataReader.GetString(5);
+                        AW.label4.Content = "Время проведения Н.К.\t" + MyDataReader.GetString(6);
+                        AW.label5.Content = "Длина трубы (метры)\t\t " + Math.Round((MyDataReader.GetDouble(3) / 6), 2).ToString();
                         AW.rectangle1.Width = MyDataReader.GetDouble(3) * 4;
+
+                        for (int i = 0; i < count_deffects_line; i++)
+                        {
+                            AW.canvas1.Children.Remove((UIElement)AW.canvas1.FindName("errorLine" + i.ToString()));
+                            try { AW.canvas1.UnregisterName("errorLine" + i.ToString()); }
+                            catch { }
+                        }
+                        count_deffects_line = 0;
+
+                        int j = 0;
+
+                        foreach (byte deffect in (byte[])MyDataReader.GetValue(4))
+                        {
+                            if (deffect != 0)
+                            {
+                                SolidColorBrush redBrush = new SolidColorBrush();
+                                redBrush.Color = Colors.Red;
+
+                                Line errorLine = new Line();
+
+                                Canvas.SetLeft(errorLine, 40 + (j * 4));
+                                errorLine.X1 = 0;
+                                errorLine.X2 = 0;
+                                errorLine.Y1 = 151;
+                                errorLine.Y2 = 151 + 70;
+                                errorLine.StrokeThickness = 4;
+                                errorLine.Stroke = redBrush;
+                                errorLine.Fill = redBrush;
+                                AW.canvas1.RegisterName("errorLine" + count_deffects_line.ToString(), errorLine);
+                                AW.canvas1.Children.Add(errorLine);
+                                count_deffects_line++;
+                            }
+                            j++;
+                        }
+                        AW.label6.Content = "Кол-во дефектных сегментов\t " + count_deffects_line;
                     }
                     connection.close();
                     MyDataReader.Close();
