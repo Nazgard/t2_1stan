@@ -706,6 +706,7 @@ namespace t2_1stan_writer
                     _mySqlCommand.Parameters.AddWithValue("F", Convert.ToInt32(item.Header.ToString().Substring(8)));
 
                     _connection.open();
+                    _mySqlCommand.Connection = _connection.myConnection;
                     _mySqlDataReader = _mySqlCommand.ExecuteReader();
 
                     while (_mySqlDataReader.Read())
