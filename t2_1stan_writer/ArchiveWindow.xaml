@@ -7,7 +7,7 @@
             <ColumnDefinition Width="562*" />
             <ColumnDefinition Width="282*" />
         </Grid.ColumnDefinitions>
-        <ListBox Height="71" Margin="12,12,12,0" Name="listBox1" VerticalAlignment="Top" Background="{x:Null}" Grid.ColumnSpan="2" />
+        <ListBox Height="71" Margin="12,12,0,0" Name="listBox1" VerticalAlignment="Top" Background="{x:Null}" />
         <Canvas Margin="12,89,0,12" Name="canvas1" Background="{x:Null}" HorizontalAlignment="Left" Width="589">
             <Line X1="40" X2="40" Y1="120" Y2="250" Stroke="Black" Height="350" Width="454" StrokeThickness="1" />
             <Line X1="88" X2="88" Y1="120" Y2="250" Stroke="Black" Height="350" Width="454" StrokeThickness="1" />
@@ -28,6 +28,6 @@
             <Label Canvas.Left="183" Canvas.Top="263" Content="" Height="28" Name="label8" />
             <Label Canvas.Left="183" Canvas.Top="297" Content="" Height="28" Name="label9" />
         </Canvas>
-        <TreeView Margin="6,89,12,12" Name="treeView1" Background="#FFE0E0E0" TreeViewItem.Expanded="trw_Expanded" Grid.Column="1" VirtualizingStackPanel.IsVirtualizing="True" VirtualizingStackPanel.VirtualizationMode="Recycling" SelectedItemChanged="treeView1_SelectedItemChanged" />
+        <TreeView Margin="6,12,12,12" Name="treeView1" Background="#FFE0E0E0" TreeViewItem.Expanded="trw_Expanded" Grid.Column="1" VirtualizingStackPanel.IsVirtualizing="True" VirtualizingStackPanel.VirtualizationMode="Recycling" SelectedItemChanged="treeView1_SelectedItemChanged" />
     </Grid>
 </Window>

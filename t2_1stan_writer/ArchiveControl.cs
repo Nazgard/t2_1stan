@@ -64,6 +64,76 @@ namespace t2_1stan_writer
 
                 if (item.Tag.ToString() == "year")
                 {
+                    ArchiveWindow.listBox1.Items.Clear();
+                    ArchiveWindow.listBox1.Items.Add("ВРЕМЯ: \t\t\t" + item.Header.ToString());
+                    _mySqlCommand.CommandText = @"
+                        SELECT
+                        Count(defectsdata.IndexData)
+                        FROM
+                        defectsdata
+                        WHERE
+                        defectsdata.NumberTube <>  0 AND
+                        YEAR(defectsdata.DatePr) = @A
+                    ";
+                    _mySqlCommand.Connection = _connection.myConnection;
+                    _mySqlCommand.Parameters.Clear();
+                    _mySqlCommand.Parameters.AddWithValue("A", item.Header.ToString());
+                    _mySqlDataReader = _mySqlCommand.ExecuteReader();
+
+                    while (_mySqlDataReader.Read())
+                    {
+                        ArchiveWindow.listBox1.Items.Add("ТРУБ: \t\t\t" + _mySqlDataReader.GetString(0));
+                    }
+                    _mySqlDataReader.Close();
+
+                    _mySqlCommand.CommandText = @"
+                        SELECT
+                        Count(defectsdata.IndexData)
+                        FROM
+                        defectsdata
+                        WHERE
+                        defectsdata.FlDefectTube =  1 AND
+                        defectsdata.NumberTube <>  0 AND
+                        YEAR(defectsdata.DatePr) = @A
+                    ";
+                    _mySqlCommand.Connection = _connection.myConnection;
+                    _mySqlDataReader = _mySqlCommand.ExecuteReader();
+
+                    while (_mySqlDataReader.Read())
+                    {
+                        ArchiveWindow.listBox1.Items.Add("ДЕФЕКТНЫХ ТРУБ: \t" + _mySqlDataReader.GetString(0));
+                    }
+                    _mySqlDataReader.Close();
+
+
+                    _mySqlCommand.CommandText = @"
+                        SELECT 
+                        concat(round(( (SELECT
+                        Count(defectsdata.IndexData)
+                        FROM
+                        defectsdata
+                        WHERE
+                        defectsdata.FlDefectTube =  1 AND 
+                        defectsdata.NumberTube <>  0 AND
+                        YEAR(defectsdata.DatePr) = @A)  / Count(defectsdata.IndexData) * 100 ),2),'%') 
+                        FROM
+                        defectsdata
+                        WHERE
+                        defectsdata.NumberTube <>  0 AND
+                        YEAR(defectsdata.DatePr) = @A
+                    ";
+                    _mySqlCommand.Connection = _connection.myConnection;
+                    _mySqlDataReader = _mySqlCommand.ExecuteReader();
+
+                    while (_mySqlDataReader.Read())
+                    {
+                        ArchiveWindow.listBox1.Items.Add("ПРОЦЕНТ БРАКА: \t" + _mySqlDataReader.GetString(0));
+                    }
+                    _mySqlDataReader.Close();
+
+
+                    //=============================
+
                     _mySqlCommand.CommandText = @"
                         SELECT
                         DISTINCT
@@ -96,7 +166,7 @@ namespace t2_1stan_writer
                 if (item.Tag.ToString() == "month")
                 {
                     ArchiveWindow.listBox1.Items.Clear();
-                    ArchiveWindow.listBox1.Items.Add("ВРЕМЯ: " + _currentYear + "-" + item.Header);
+                    ArchiveWindow.listBox1.Items.Add("ВРЕМЯ: \t\t\t" + _currentYear + "-" + item.Header);
                     _mySqlCommand.CommandText = @"
                         SELECT
                         Count(defectsdata.IndexData)
@@ -115,7 +185,7 @@ namespace t2_1stan_writer
 
                     while (_mySqlDataReader.Read())
                     {
-                        ArchiveWindow.listBox1.Items.Add("ТРУБ: " + _mySqlDataReader.GetString(0));
+                        ArchiveWindow.listBox1.Items.Add("ТРУБ: \t\t\t" + _mySqlDataReader.GetString(0));
                     }
                     _mySqlDataReader.Close();
 
@@ -135,7 +205,7 @@ namespace t2_1stan_writer
 
                     while (_mySqlDataReader.Read())
                     {
-                        ArchiveWindow.listBox1.Items.Add("ДЕФЕКТНЫХ ТРУБ: " + _mySqlDataReader.GetString(0));
+                        ArchiveWindow.listBox1.Items.Add("ДЕФЕКТНЫХ ТРУБ: \t" + _mySqlDataReader.GetString(0));
                     }
                     _mySqlDataReader.Close();
 
@@ -163,7 +233,7 @@ namespace t2_1stan_writer
 
                     while (_mySqlDataReader.Read())
                     {
-                        ArchiveWindow.listBox1.Items.Add("ПРОЦЕНТ БРАКА: " + _mySqlDataReader.GetString(0));
+                        ArchiveWindow.listBox1.Items.Add("ПРОЦЕНТ БРАКА: \t" + _mySqlDataReader.GetString(0));
                     }
                     _mySqlDataReader.Close();
 
@@ -204,7 +274,7 @@ namespace t2_1stan_writer
                 if (item.Tag.ToString() == "day")
                 {
                     ArchiveWindow.listBox1.Items.Clear();
-                    ArchiveWindow.listBox1.Items.Add("ВРЕМЯ: " + _currentYear + "-" + _currentMonth + "-" + item.Header);
+                    ArchiveWindow.listBox1.Items.Add("ВРЕМЯ: \t\t\t" + _currentYear + "-" + _currentMonth + "-" + item.Header);
                     _mySqlCommand.CommandText = @"
                         SELECT
                         Count(defectsdata.IndexData)
@@ -226,7 +296,7 @@ namespace t2_1stan_writer
 
                     while (_mySqlDataReader.Read())
                     {
-                        ArchiveWindow.listBox1.Items.Add("ТРУБ: " + _mySqlDataReader.GetString(0));
+                        ArchiveWindow.listBox1.Items.Add("ТРУБ: \t\t\t" + _mySqlDataReader.GetString(0));
                     }
                     _mySqlDataReader.Close();
 
@@ -247,7 +317,7 @@ namespace t2_1stan_writer
 
                     while (_mySqlDataReader.Read())
                     {
-                        ArchiveWindow.listBox1.Items.Add("ДЕФЕКТНЫХ ТРУБ: " + _mySqlDataReader.GetString(0));
+                        ArchiveWindow.listBox1.Items.Add("ДЕФЕКТНЫХ ТРУБ: \t" + _mySqlDataReader.GetString(0));
                     }
                     _mySqlDataReader.Close();
 
@@ -277,7 +347,7 @@ namespace t2_1stan_writer
 
                     while (_mySqlDataReader.Read())
                     {
-                        ArchiveWindow.listBox1.Items.Add("ПРОЦЕНТ БРАКА: " + _mySqlDataReader.GetString(0));
+                        ArchiveWindow.listBox1.Items.Add("ПРОЦЕНТ БРАКА: \t" + _mySqlDataReader.GetString(0));
                     }
                     _mySqlDataReader.Close();
 
@@ -317,6 +387,99 @@ namespace t2_1stan_writer
 
                 if (item.Tag.ToString() == "smena")
                 {
+                    ArchiveWindow.listBox1.Items.Clear();
+                    ArchiveWindow.listBox1.Items.Add("ВРЕМЯ: \t\t\t" + _currentYear + "-" + _currentMonth + "-" + _currentDay + " / " + item.Header);
+                    _mySqlCommand.CommandText = @"
+                        SELECT
+                        Count(defectsdata.IndexData)
+                        FROM
+                        defectsdata
+                        Inner Join indexes ON defectsdata.IndexData = indexes.IndexData
+                        Inner Join worksmens ON worksmens.Id_WorkSmen = indexes.Id_WorkSmen
+                        WHERE
+                        defectsdata.NumberTube <>  0 AND
+                        YEAR(defectsdata.DatePr) = @A AND
+                        MONTHNAME(defectsdata.DatePr) = @B AND
+                        DAY(defectsdata.DatePr) = @C AND
+                        worksmens.NameSmen = @D
+                    ";
+                    _mySqlCommand.Connection = _connection.myConnection;
+                    _mySqlCommand.Parameters.Clear();
+                    _mySqlCommand.Parameters.AddWithValue("A", _currentYear);
+                    _mySqlCommand.Parameters.AddWithValue("B", _currentMonth);
+                    _mySqlCommand.Parameters.AddWithValue("C",
+                        string.Format("{0:00}", Convert.ToInt32(_currentDay)));
+                    _mySqlCommand.Parameters.AddWithValue("D", item.Header.ToString());
+                    _mySqlDataReader = _mySqlCommand.ExecuteReader();
+
+                    while (_mySqlDataReader.Read())
+                    {
+                        ArchiveWindow.listBox1.Items.Add("ТРУБ: \t\t\t" + _mySqlDataReader.GetString(0));
+                    }
+                    _mySqlDataReader.Close();
+
+                    _mySqlCommand.CommandText = @"
+                        SELECT
+                        Count(defectsdata.IndexData)
+                        FROM
+                        defectsdata
+                        Inner Join indexes ON defectsdata.IndexData = indexes.IndexData
+                        Inner Join worksmens ON worksmens.Id_WorkSmen = indexes.Id_WorkSmen
+                        WHERE
+                        defectsdata.FlDefectTube =  1 AND
+                        defectsdata.NumberTube <>  0 AND
+                        YEAR(defectsdata.DatePr) = @A AND
+                        MONTHNAME(defectsdata.DatePr) = @B AND
+                        DAY(defectsdata.DatePr) = @C AND
+                        worksmens.NameSmen = @D
+                    ";
+                    _mySqlCommand.Connection = _connection.myConnection;
+                    _mySqlDataReader = _mySqlCommand.ExecuteReader();
+
+                    while (_mySqlDataReader.Read())
+                    {
+                        ArchiveWindow.listBox1.Items.Add("ДЕФЕКТНЫХ ТРУБ: \t" + _mySqlDataReader.GetString(0));
+                    }
+                    _mySqlDataReader.Close();
+
+
+                    _mySqlCommand.CommandText = @"
+                        SELECT 
+                        concat(round(( (SELECT
+                        Count(defectsdata.IndexData)
+                        FROM
+                        defectsdata
+                        Inner Join indexes ON defectsdata.IndexData = indexes.IndexData
+                        Inner Join worksmens ON worksmens.Id_WorkSmen = indexes.Id_WorkSmen
+                        WHERE
+                        defectsdata.NumberTube <>  0 AND
+                        defectsdata.FlDefectTube =  1 AND
+                        YEAR(defectsdata.DatePr) = @A AND
+                        MONTHNAME(defectsdata.DatePr) = @B AND
+                        DAY(defectsdata.DatePr) = @C AND
+                        worksmens.NameSmen = @D)  / Count(defectsdata.IndexData) * 100 ),2),'%') 
+                        FROM
+                        defectsdata
+                        Inner Join indexes ON defectsdata.IndexData = indexes.IndexData
+                        Inner Join worksmens ON worksmens.Id_WorkSmen = indexes.Id_WorkSmen
+                        WHERE
+                        defectsdata.NumberTube <>  0 AND
+                        YEAR(defectsdata.DatePr) = @A AND
+                        MONTHNAME(defectsdata.DatePr) = @B AND
+                        DAY(defectsdata.DatePr) = @C AND
+                        worksmens.NameSmen = @D
+                    ";
+                    _mySqlCommand.Connection = _connection.myConnection;
+                    _mySqlDataReader = _mySqlCommand.ExecuteReader();
+
+                    while (_mySqlDataReader.Read())
+                    {
+                        ArchiveWindow.listBox1.Items.Add("ПРОЦЕНТ БРАКА: \t" + _mySqlDataReader.GetString(0));
+                    }
+                    _mySqlDataReader.Close();
+
+
+                    //=============================
                     _mySqlCommand.CommandText = @"
                         SELECT DISTINCT
                         defectsdata.NumberPart
@@ -351,10 +514,109 @@ namespace t2_1stan_writer
 
                 if (item.Tag.ToString() == "part")
                 {
+                    ArchiveWindow.listBox1.Items.Clear();
+                    ArchiveWindow.listBox1.Items.Add("ВРЕМЯ: \t\t\t" + _currentYear + "-" + _currentMonth + "-" + _currentDay + " / " + _currentSmena + " / Плавка № " + item.Header.ToString());
+                    _mySqlCommand.CommandText = @"
+                        SELECT
+                        Count(defectsdata.IndexData)
+                        FROM
+                        defectsdata
+                        Inner Join indexes ON defectsdata.IndexData = indexes.IndexData
+                        Inner Join worksmens ON worksmens.Id_WorkSmen = indexes.Id_WorkSmen
+                        WHERE
+                        defectsdata.NumberTube <>  0 AND
+                        YEAR(defectsdata.DatePr) = @A AND
+                        MONTHNAME(defectsdata.DatePr) = @B AND
+                        DAY(defectsdata.DatePr) = @C AND
+                        worksmens.NameSmen = @D AND
+                        defectsdata.NumberPart = @E
+                    ";
+                    _mySqlCommand.Connection = _connection.myConnection;
+                    _mySqlCommand.Parameters.Clear();
+                    _mySqlCommand.Parameters.AddWithValue("A", _currentYear);
+                    _mySqlCommand.Parameters.AddWithValue("B", _currentMonth);
+                    _mySqlCommand.Parameters.AddWithValue("C",
+                        string.Format("{0:00}", Convert.ToInt32(_currentDay)));
+                    _mySqlCommand.Parameters.AddWithValue("D", _currentSmena);
+                    _mySqlCommand.Parameters.AddWithValue("E", item.Header.ToString());
+                    _mySqlDataReader = _mySqlCommand.ExecuteReader();
+
+                    while (_mySqlDataReader.Read())
+                    {
+                        ArchiveWindow.listBox1.Items.Add("ТРУБ: \t\t\t" + _mySqlDataReader.GetString(0));
+                    }
+                    _mySqlDataReader.Close();
+
+                    _mySqlCommand.CommandText = @"
+                        SELECT
+                        Count(defectsdata.IndexData)
+                        FROM
+                        defectsdata
+                        Inner Join indexes ON defectsdata.IndexData = indexes.IndexData
+                        Inner Join worksmens ON worksmens.Id_WorkSmen = indexes.Id_WorkSmen
+                        WHERE
+                        defectsdata.FlDefectTube =  1 AND
+                        defectsdata.NumberTube <>  0 AND
+                        YEAR(defectsdata.DatePr) = @A AND
+                        MONTHNAME(defectsdata.DatePr) = @B AND
+                        DAY(defectsdata.DatePr) = @C AND
+                        worksmens.NameSmen = @D AND
+                        defectsdata.NumberPart = @E
+                    ";
+                    _mySqlCommand.Connection = _connection.myConnection;
+                    _mySqlDataReader = _mySqlCommand.ExecuteReader();
+
+                    while (_mySqlDataReader.Read())
+                    {
+                        ArchiveWindow.listBox1.Items.Add("ДЕФЕКТНЫХ ТРУБ: \t" + _mySqlDataReader.GetString(0));
+                    }
+                    _mySqlDataReader.Close();
+
+
+                    _mySqlCommand.CommandText = @"
+                        SELECT 
+                        concat(round(( (SELECT
+                        Count(defectsdata.IndexData)
+                        FROM
+                        defectsdata
+                        Inner Join indexes ON defectsdata.IndexData = indexes.IndexData
+                        Inner Join worksmens ON worksmens.Id_WorkSmen = indexes.Id_WorkSmen
+                        WHERE
+                        defectsdata.NumberTube <>  0 AND
+                        defectsdata.FlDefectTube =  1 AND
+                        YEAR(defectsdata.DatePr) = @A AND
+                        MONTHNAME(defectsdata.DatePr) = @B AND
+                        DAY(defectsdata.DatePr) = @C AND
+                        worksmens.NameSmen = @D AND
+                        defectsdata.NumberPart = @E)  / Count(defectsdata.IndexData) * 100 ),2),'%') 
+                        FROM
+                        defectsdata
+                        Inner Join indexes ON defectsdata.IndexData = indexes.IndexData
+                        Inner Join worksmens ON worksmens.Id_WorkSmen = indexes.Id_WorkSmen
+                        WHERE
+                        defectsdata.NumberTube <>  0 AND
+                        YEAR(defectsdata.DatePr) = @A AND
+                        MONTHNAME(defectsdata.DatePr) = @B AND
+                        DAY(defectsdata.DatePr) = @C AND
+                        worksmens.NameSmen = @D AND
+                        defectsdata.NumberPart = @E
+                    ";
+                    _mySqlCommand.Connection = _connection.myConnection;
+                    _mySqlDataReader = _mySqlCommand.ExecuteReader();
+
+                    while (_mySqlDataReader.Read())
+                    {
+                        ArchiveWindow.listBox1.Items.Add("ПРОЦЕНТ БРАКА: \t" + _mySqlDataReader.GetString(0));
+                    }
+                    _mySqlDataReader.Close();
+
+
+                    //=============================
                     _mySqlCommand.CommandText = @"
                         SELECT
                         defectsdata.NumberTube,
-                        defectsdata.FlDefectTube
+                        defectsdata.FlDefectTube,
+                        defectsdata.TimePr
                         FROM
                         indexes
                         INNER JOIN defectsdata ON defectsdata.IndexData = indexes.IndexData
@@ -377,7 +639,7 @@ namespace t2_1stan_writer
                         var itemTube = new TreeViewItem
                         {
                             Tag = "tube",
-                            Header = "Труба № " + _mySqlDataReader.GetString(0)
+                            Header = "Труба № " + _mySqlDataReader.GetString(0) + "  " + _mySqlDataReader.GetString(2)
                         };
                         if (_mySqlDataReader.GetInt32(1) == 1)
                         {
@@ -393,13 +655,6 @@ namespace t2_1stan_writer
 
                     _currentPart = item.Header.ToString();
                 }
-
-                if (item.Tag.ToString() == "tube")
-                {
-                    _mySqlCommand.CommandText = @"
-                        
-                    ";
-                }
                 _connection.close();
             }
             catch (Exception ex)
@@ -407,79 +662,6 @@ namespace t2_1stan_writer
                 MessageBox.Show(ex.ToString());
             }
             Mouse.OverrideCursor = Cursors.Arrow;
-        }
-
-
-        public void info_for_year(string time)
-        {
-            _connection.open();
-            ArchiveWindow.listBox1.Items.Clear();
-            ArchiveWindow.listBox1.Items.Add("ВРЕМЯ: " + time);
-            _mySqlCommand.CommandText = @"
-                        SELECT
-                        Count(defectsdata.IndexData)
-                        FROM
-                        defectsdata
-                        WHERE
-                        defectsdata.NumberTube <>  0 AND
-                        YEAR(defectsdata.DatePr) = @A
-                    ";
-            _mySqlCommand.Connection = _connection.myConnection;
-            _mySqlCommand.Parameters.Clear();
-            _mySqlCommand.Parameters.AddWithValue("A", time);
-            _mySqlDataReader = _mySqlCommand.ExecuteReader();
-
-            while (_mySqlDataReader.Read())
-            {
-                ArchiveWindow.listBox1.Items.Add("ТРУБ: " + _mySqlDataReader.GetString(0));
-            }
-            _mySqlDataReader.Close();
-
-            _mySqlCommand.CommandText = @"
-                        SELECT
-                        Count(defectsdata.IndexData)
-                        FROM
-                        defectsdata
-                        WHERE
-                        defectsdata.FlDefectTube =  1 AND
-                        defectsdata.NumberTube <>  0 AND
-                        YEAR(defectsdata.DatePr) = @A
-                    ";
-            _mySqlCommand.Connection = _connection.myConnection;
-            _mySqlDataReader = _mySqlCommand.ExecuteReader();
-
-            while (_mySqlDataReader.Read())
-            {
-                ArchiveWindow.listBox1.Items.Add("ДЕФЕКТНЫХ ТРУБ: " + _mySqlDataReader.GetString(0));
-            }
-            _mySqlDataReader.Close();
-
-
-            _mySqlCommand.CommandText = @"
-                        SELECT 
-                        concat(round(( (SELECT
-                        Count(defectsdata.IndexData)
-                        FROM
-                        defectsdata
-                        WHERE
-                        defectsdata.FlDefectTube =  1 AND 
-                        defectsdata.NumberTube <>  0 AND
-                        YEAR(defectsdata.DatePr) = @A)  / Count(defectsdata.IndexData) * 100 ),2),'%') 
-                        FROM
-                        defectsdata
-                        WHERE
-                        defectsdata.NumberTube <>  0 AND
-                        YEAR(defectsdata.DatePr) = @A
-                    ";
-            _mySqlCommand.Connection = _connection.myConnection;
-            _mySqlDataReader = _mySqlCommand.ExecuteReader();
-
-            while (_mySqlDataReader.Read())
-            {
-                ArchiveWindow.listBox1.Items.Add("ПРОЦЕНТ БРАКА: " + _mySqlDataReader.GetString(0));
-            }
-            _mySqlDataReader.Close();
-            _connection.close();
         }
 
         public void Tube_Control(TreeViewItem item)
