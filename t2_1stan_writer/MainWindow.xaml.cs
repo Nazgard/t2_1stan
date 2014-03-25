@@ -35,7 +35,6 @@ namespace t2_1stan_writer
         {
             TabItem2.IsEnabled = false;
             TabItem3.IsEnabled = false;
-            TabItem1.Visibility = Visibility.Visible;
             TabControl1.SelectedIndex = 0;
             try
             {
@@ -54,7 +53,6 @@ namespace t2_1stan_writer
         {
             TabItem1.IsEnabled = false;
             TabItem3.IsEnabled = false;
-            TabItem2.Visibility = Visibility.Visible;
             TabControl1.SelectedIndex = 1;
             try
             {
@@ -88,7 +86,6 @@ namespace t2_1stan_writer
                 _writer.port_Open();
                 TabItem1.IsEnabled = false;
                 TabItem2.IsEnabled = false;
-                TabItem3.Visibility = Visibility.Visible;
                 TabControl1.SelectedIndex = 2;
             }
             else
