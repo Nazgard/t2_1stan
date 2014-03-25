@@ -1,0 +1,18 @@
+﻿<Window x:Class="t2_1stan_writer.BDSettingsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Настройка соединения" Height="259" Width="300">
+    <Grid>
+        <Label Content="" Height="28" Margin="12,12,12,0" Name="label1" VerticalAlignment="Top" />
+        <Label Content="Database" Height="28" HorizontalAlignment="Left" Margin="12,51,0,0" Name="label2" VerticalAlignment="Top" />
+        <TextBox Height="23" Margin="94,51,12,0" Name="textBox1" VerticalAlignment="Top" />
+        <Label Content="Data Source" Height="28" HorizontalAlignment="Left" Margin="12,85,0,0" Name="label3" VerticalAlignment="Top" />
+        <TextBox Height="23" Margin="94,85,12,0" Name="textBox2" VerticalAlignment="Top" />
+        <Label Content="User Id" Height="28" HorizontalAlignment="Left" Margin="12,119,0,0" Name="label4" VerticalAlignment="Top" />
+        <TextBox Height="23" Margin="94,119,12,0" Name="textBox3" VerticalAlignment="Top" />
+        <Label Content="Password" Height="28" HorizontalAlignment="Left" Margin="12,153,0,0" Name="label5" VerticalAlignment="Top" />
+        <PasswordBox Height="23" Margin="94,153,12,0" Name="passwordBox1" VerticalAlignment="Top" />
+        <Button Content="Сохранить" Height="23" HorizontalAlignment="Right" Margin="0,182,12,0" Name="button1" VerticalAlignment="Top" Width="75" Click="button1_Click" />
+        <Button Content="Отмена" Height="23" Margin="110,182,93,0" Name="button2" VerticalAlignment="Top" Click="button2_Click" />
+    </Grid>
+</Window>

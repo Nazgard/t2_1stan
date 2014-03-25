@@ -24,12 +24,12 @@ namespace t2_1stan_writer
         public void First_TreeData()
         {
             Mouse.OverrideCursor = Cursors.Wait;
-            _mySqlCommand.CommandText = "SELECT DISTINCT YEAR(defectsdata.DatePr) FROM defectsdata";
-            _mySqlCommand.Connection = _connection.myConnection;
 
             try
             {
                 _connection.open();
+                _mySqlCommand.CommandText = "SELECT DISTINCT YEAR(defectsdata.DatePr) FROM defectsdata";
+                _mySqlCommand.Connection = _connection.myConnection;
                 _mySqlDataReader = _mySqlCommand.ExecuteReader();
 
                 while (_mySqlDataReader.Read())
@@ -45,9 +45,9 @@ namespace t2_1stan_writer
                 _mySqlDataReader.Close();
                 _connection.close();
             }
-            catch (Exception ex)
+            catch
             {
-                MessageBox.Show(ex.ToString());
+                Mouse.OverrideCursor = Cursors.Arrow;
                 ArchiveWindow.Close();
             }
             Mouse.OverrideCursor = Cursors.Arrow;
@@ -657,9 +657,9 @@ namespace t2_1stan_writer
                 }
                 _connection.close();
             }
-            catch (Exception ex)
+            catch
             {
-                MessageBox.Show(ex.ToString());
+
             }
             Mouse.OverrideCursor = Cursors.Arrow;
         }
@@ -769,9 +769,9 @@ namespace t2_1stan_writer
                     Mouse.OverrideCursor = Cursors.Arrow;
                 }
             }
-            catch (Exception e)
+            catch
             {
-                MessageBox.Show(e.ToString());
+
             }
         }
     }

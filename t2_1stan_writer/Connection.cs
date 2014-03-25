@@ -6,18 +6,23 @@ namespace t2_1stan_writer
 {
     class Connection
     {
-        public static string Connect = "Database=def;Data Source=127.0.0.1;User Id=root;Password=root";
-        public MySqlConnection myConnection = new MySqlConnection(Connect);
+        private static Properties.Settings ps = Properties.Settings.Default;
+        public static string Connect;
+        public MySqlConnection myConnection;
 
         public void open()
         {
             try
             {
+                Connect = "Database=" + ps.Database + ";Data Source=" + ps.DataSource + ";User Id=" + ps.UserId + ";Password=" + ps.Password;
+                myConnection = new MySqlConnection(Connect);
                 myConnection.Open();
             }
-            catch(Exception e)
+            catch
             {
-                MessageBox.Show(e.ToString());
+                BDSettingsWindow BDSettingsWindow = new BDSettingsWindow();
+                BDSettingsWindow.label1.Content = "Ошибка подключения к БД";
+                BDSettingsWindow.ShowDialog();
             }
         }
 
