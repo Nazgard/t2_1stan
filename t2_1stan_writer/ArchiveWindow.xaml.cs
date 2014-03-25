@@ -17,6 +17,15 @@ namespace t2_1stan_writer
 
             _ac.ArchiveWindow = this;
             _ac.First_TreeData();
+            label1.Content = "";
+            label2.Content = "";
+            label3.Content = "";
+            label4.Content = "";
+            label5.Content = "";
+            label6.Content = "";
+            label7.Content = "";
+            label8.Content = "";
+            label9.Content = "";
         }
 
         private void trw_Expanded(object sender, RoutedEventArgs e)

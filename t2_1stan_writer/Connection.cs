@@ -20,13 +20,26 @@ namespace t2_1stan_writer
                 MySqlConnection = new MySqlConnection(Connect);
                 MySqlConnection.Open();
             }
-            catch
+            catch (Exception e)
             {
-                var bdSettingsWindow = new BdSettingsWindow();
-                bdSettingsWindow.label1.Content = "Ошибка подключения к БД";
-                bdSettingsWindow.ShowDialog();
+                try
+                {
+                    Ps.Reset();
+                    Connect = "Database=" + Ps.Database + ";Data Source=" + Ps.DataSource + ";User Id=" + Ps.UserId +
+                          ";Password=" + Ps.Password;
+                    MySqlConnection = new MySqlConnection(Connect);
+                    MySqlConnection.Open();
+                }
+                catch (Exception)
+                {
+                    BdSettingsWindow = new BdSettingsWindow();
+                    BdSettingsWindow.label1.Content = "Ошибка подключения к БД";
+                    BdSettingsWindow.ShowDialog();
+                }
             }
         }
+
+        public BdSettingsWindow BdSettingsWindow { get; set; }
 
         public void Close()
         {

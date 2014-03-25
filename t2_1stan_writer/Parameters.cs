@@ -56,7 +56,7 @@ namespace t2_1stan_writer
             _connection.Open();
             var surnames = new Dictionary<int, string>();
 
-            var myCommand = new MySqlCommand("SELECT Id_Operator, Surname FROM Operators", _connection.MySqlConnection);
+            var myCommand = new MySqlCommand("SELECT Id_Operator, Surname FROM operators", _connection.MySqlConnection);
 
             _mySqlDataReader = myCommand.ExecuteReader();
 

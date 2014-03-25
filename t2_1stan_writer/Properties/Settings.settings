@@ -1,7 +1,5 @@
 ﻿<?xml version='1.0' encoding='utf-8'?>
-
-<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)"
-              GeneratedClassNamespace="t2_1stan_writer.Properties" GeneratedClassName="Settings">
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="t2_1stan_writer.Properties" GeneratedClassName="Settings">
   <Profiles />
   <Settings>
     <Setting Name="Top" Type="System.Double" Scope="User">
@@ -11,16 +9,16 @@
       <Value Profile="(Default)">0</Value>
     </Setting>
     <Setting Name="Database" Type="System.String" Scope="User">
-      <Value Profile="(Default)">def</Value>
+      <Value Profile="(Default)">dc32_t2_stan1</Value>
     </Setting>
     <Setting Name="DataSource" Type="System.String" Scope="User">
-      <Value Profile="(Default)">127.0.0.1</Value>
+      <Value Profile="(Default)">sirius.beget.ru</Value>
     </Setting>
     <Setting Name="UserId" Type="System.String" Scope="User">
-      <Value Profile="(Default)">root</Value>
+      <Value Profile="(Default)">dc32_t2_stan1</Value>
     </Setting>
     <Setting Name="Password" Type="System.String" Scope="User">
-      <Value Profile="(Default)">root</Value>
+      <Value Profile="(Default)">1475896</Value>
     </Setting>
   </Settings>
 </SettingsFile>

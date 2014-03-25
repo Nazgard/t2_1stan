@@ -10,25 +10,45 @@
         </Grid.ColumnDefinitions>
         <ListBox Height="88" Margin="12,12,0,0" Name="listBox1" VerticalAlignment="Top" Background="{x:Null}" />
         <Canvas Margin="10,105,0,10" Name="canvas1" Background="{x:Null}" HorizontalAlignment="Left" Width="627">
-            <Line X1="40" X2="40" Y1="120" Y2="250" Stroke="Black" Height="350" Width="454" StrokeThickness="1" />
-            <Line X1="88" X2="88" Y1="120" Y2="250" Stroke="Black" Height="350" Width="454" StrokeThickness="1" />
-            <Line X1="136" X2="136" Y1="120" Y2="250" Stroke="Black" Height="350" Width="454" StrokeThickness="1" />
-            <Line X1="184" X2="184" Y1="120" Y2="250" Stroke="Black" Height="350" Width="454" StrokeThickness="1" />
-            <Line X1="232" X2="232" Y1="120" Y2="250" Stroke="Black" Height="350" Width="454" StrokeThickness="1" />
-            <Line X1="280" X2="280" Y1="120" Y2="250" Stroke="Black" Height="350" Width="454" StrokeThickness="1" />
-            <Line X1="328" X2="328" Y1="120" Y2="250" Stroke="Black" Height="350" Width="454" StrokeThickness="1" />
-            <Line X1="376" X2="376" Y1="120" Y2="250" Stroke="Black" Height="350" Width="454" StrokeThickness="1" />
+            <Polyline Stroke="LightSalmon" StrokeThickness="1" StrokeEndLineCap="Flat" SnapsToDevicePixels="True"
+      Points="0,10 530,10 530,0 540 10 530, 20 530,10" Canvas.Left="37" Canvas.Top="84" Height="24" Width="550" Fill="LightSalmon" >
+            </Polyline>
+            <Line X1="40" X2="40" Y1="120" Y2="250" Stroke="Black" Height="350" Width="628" StrokeThickness="1" />
+            <Line X1="88" X2="88" Y1="120" Y2="250" Stroke="Black" Height="350" Width="628" StrokeThickness="1" />
+            <Line X1="136" X2="136" Y1="120" Y2="250" Stroke="Black" Height="350" Width="628" StrokeThickness="1" />
+            <Line X1="184" X2="184" Y1="120" Y2="250" Stroke="Black" Height="350" Width="628" StrokeThickness="1" />
+            <Line X1="232" X2="232" Y1="120" Y2="250" Stroke="Black" Height="350" Width="628" StrokeThickness="1" />
+            <Line X1="280" X2="280" Y1="120" Y2="250" Stroke="Black" Height="350" Width="628" StrokeThickness="1" />
+            <Line X1="328" X2="328" Y1="120" Y2="250" Stroke="Black" Height="350" Width="628" StrokeThickness="1" />
+            <Line X1="376" X2="376" Y1="120" Y2="250" Stroke="Black" Height="350" Width="628" StrokeThickness="1" />
+            <Line X1="424" X2="424" Y1="120" Y2="250" Stroke="Black" Height="350" Width="628" StrokeThickness="1" />
+            <Line X1="472" X2="472" Y1="120" Y2="250" Stroke="Black" Height="350" Width="628" StrokeThickness="1" />
+            <Line X1="520" X2="520" Y1="120" Y2="250" Stroke="Black" Height="350" Width="628" StrokeThickness="1" />
+            <Line X1="568" X2="568" Y1="120" Y2="250" Stroke="Black" Height="350" Width="628" StrokeThickness="1" />
             <Rectangle Canvas.Left="40" Canvas.Top="151" Height="70" Name="rectangle1" Stroke="#FFFFF7BE" Width="0"
                        Fill="#FFFFF7BE" />
-            <Label x:Name="label1" Content="" Canvas.Left="6" Canvas.Top="6" />
-            <Label Canvas.Left="146" Canvas.Top="39" Content="" Height="28" Name="label4" />
-            <Label Canvas.Left="374" Canvas.Top="6" Content="" Height="28" Name="label5" />
-            <Label Content="" Height="28" Name="label3" Canvas.Left="146" Canvas.Top="6" />
-            <Label x:Name="label2" Content="" Height="24" Canvas.Left="6" Canvas.Top="39" />
-            <Label Canvas.Left="374" Canvas.Top="39" Content="" Height="28" Name="label6" />
-            <Label Canvas.Left="6" Canvas.Top="263" Content="" Height="28" Name="label7" />
-            <Label Canvas.Left="183" Canvas.Top="263" Content="" Height="28" Name="label8" />
-            <Label Canvas.Left="183" Canvas.Top="297" Content="" Height="28" Name="label9" />
+            <Label x:Name="label1" Content="LABEL" Canvas.Left="6" Canvas.Top="6" />
+            <Label Canvas.Left="146" Canvas.Top="39" Content="LABEL" Height="28" Name="label4" />
+            <Label Canvas.Left="374" Canvas.Top="6" Content="LABEL" Height="28" Name="label5" />
+            <Label Content="LABEL" Height="28" Name="label3" Canvas.Left="146" Canvas.Top="6" />
+            <Label x:Name="label2" Content="LABEL" Height="24" Canvas.Left="6" Canvas.Top="39" />
+            <Label Canvas.Left="374" Canvas.Top="39" Content="LABEL" Height="28" Name="label6" />
+            <Label Canvas.Left="6" Canvas.Top="263" Content="LABEL" Height="28" Name="label7" />
+            <Label Canvas.Left="183" Canvas.Top="263" Content="LABEL" Height="28" Name="label8" />
+            <Label Canvas.Left="183" Canvas.Top="297" Content="LABEL" Height="28" Name="label9" />
+            <Label Content="0" Canvas.Left="32" Canvas.Top="97"/>
+            <Label Content="2" Canvas.Left="79" Canvas.Top="97"/>
+            <Label Content="4" Height="26" Canvas.Left="128" Canvas.Top="97" Width="16"/>
+            <Label Content="6" Canvas.Left="176" Canvas.Top="97"/>
+            <Label Content="8" Canvas.Left="224" Canvas.Top="97"/>
+            <Label Content="10" Canvas.Left="269" Canvas.Top="97"/>
+            <Label Content="12" Canvas.Left="317" Canvas.Top="97"/>
+            <Label Content="14" Canvas.Left="365" Canvas.Top="97"/>
+            <Label Content="Метры" Canvas.Left="37" Canvas.Top="69" Height="28"/>
+            <Label Content="16" Canvas.Left="412" Canvas.Top="97"/>
+            <Label Content="18" Canvas.Left="460" Canvas.Top="97"/>
+            <Label Content="20" Canvas.Left="508" Canvas.Top="97"/>
+            <Label Content="22" Canvas.Left="557" Canvas.Top="97"/>
         </Canvas>
         <TreeView Margin="6,12,12,12" Name="treeView1" Background="#FFE0E0E0" TreeViewItem.Expanded="trw_Expanded"
                   Grid.Column="1" VirtualizingStackPanel.IsVirtualizing="True"

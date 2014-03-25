@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Threading;
 using System.Windows;
@@ -23,7 +24,11 @@ namespace t2_1stan_writer
         public MainWindow()
         {
             InitializeComponent();
-            _writer.MainWindow = this;
+            _writer.MainWindow  = this;
+            button1_Click(null, null);
+            TabItem1.Visibility = Visibility.Hidden;
+            TabItem2.Visibility = Visibility.Hidden;
+            TabItem3.Visibility = Visibility.Hidden;
         }
 
         private void button1_Click(object sender, RoutedEventArgs e)
@@ -39,10 +44,9 @@ namespace t2_1stan_writer
                 ComboBox3.ItemsSource = _parameters.get_db_surnames();
                 ComboBox4.ItemsSource = _parameters.get_db_surnames();
             }
-// ReSharper disable EmptyGeneralCatchClause
-            catch
-// ReSharper restore EmptyGeneralCatchClause
+            catch (Exception ex)
             {
+                MessageBox.Show(ex.ToString());
             }
         }
 
@@ -60,10 +64,9 @@ namespace t2_1stan_writer
                 ComboBox9.ItemsSource = _parameters.get_db_listdefects();
                 ComboBox11.ItemsSource = _parameters.get_db_device();
             }
-// ReSharper disable EmptyGeneralCatchClause
-            catch
-// ReSharper restore EmptyGeneralCatchClause
+            catch (Exception ex)
             {
+                MessageBox.Show(ex.ToString());
             }
         }
 
@@ -87,35 +90,6 @@ namespace t2_1stan_writer
                 TabItem2.IsEnabled = false;
                 TabItem3.Visibility = Visibility.Visible;
                 TabControl1.SelectedIndex = 2;
-
-                var greenBrush = new SolidColorBrush
-                {
-                    Color = Colors.Green
-                };
-
-                for (int i = 0; i < 14; i++)
-                {
-                    var myLine = new Line();
-                    Canvas.SetLeft(myLine, 50);
-
-                    if (i == 0)
-                    {
-                        myLine.X1 = 0;
-                    }
-                    else
-                    {
-                        myLine.X1 = i*48;
-                    }
-                    myLine.X2 = myLine.X1;
-
-                    myLine.Y1 = 120;
-                    myLine.Y2 = 370;
-
-                    myLine.StrokeThickness = 2;
-                    myLine.Stroke = greenBrush;
-
-                    Canvas.Children.Add(myLine);
-                }
             }
             else
             {
@@ -135,10 +109,9 @@ namespace t2_1stan_writer
                     {
                         Canvas.UnregisterName("errorLine" + i);
                     }
-// ReSharper disable EmptyGeneralCatchClause
-                    catch
-// ReSharper restore EmptyGeneralCatchClause
+                    catch (Exception ex)
                     {
+                        MessageBox.Show(ex.ToString());
                     }
                 }
                 _count = 0;
@@ -147,7 +120,7 @@ namespace t2_1stan_writer
 
         public void move_tube()
         {
-            Dispatcher.BeginInvoke(new ThreadStart(delegate { Tube.Width += 8; }));
+            Dispatcher.BeginInvoke(new ThreadStart(delegate { Tube.Width += 4; }));
         }
 
         public void error_segment()
@@ -163,9 +136,9 @@ namespace t2_1stan_writer
                 Canvas.SetLeft(errorLine, Tube.Width + Canvas.GetLeft(Tube) - 4);
                 errorLine.X1 = 0;
                 errorLine.X2 = 0;
-                errorLine.Y1 = 220 - 8;
-                errorLine.Y2 = 320 + 8;
-                errorLine.StrokeThickness = 8;
+                errorLine.Y1 = 151;
+                errorLine.Y2 = 151 + 70;
+                errorLine.StrokeThickness = 4;
                 errorLine.Stroke = redBrush;
                 errorLine.Fill = redBrush;
                 Canvas.RegisterName("errorLine" + _count, errorLine);
@@ -228,9 +201,10 @@ namespace t2_1stan_writer
                     _parameters.get_db_sizetubes_current(((KeyValuePair<int, string>) ComboBox7.SelectedItem).Key);
             }
 // ReSharper disable EmptyGeneralCatchClause
-            catch
+            catch (Exception ex)
 // ReSharper restore EmptyGeneralCatchClause
             {
+
             }
         }
 
@@ -242,9 +216,10 @@ namespace t2_1stan_writer
                     _parameters.get_db_controlsamples_current(((KeyValuePair<int, string>) ComboBox5.SelectedItem).Key);
             }
 // ReSharper disable EmptyGeneralCatchClause
-            catch
+            catch (Exception ex)
 // ReSharper restore EmptyGeneralCatchClause
             {
+
             }
         }
 
@@ -259,9 +234,10 @@ namespace t2_1stan_writer
                 aw.Show();
             }
 // ReSharper disable EmptyGeneralCatchClause
-            catch
+            catch (Exception)
 // ReSharper restore EmptyGeneralCatchClause
             {
+
             }
         }
     }

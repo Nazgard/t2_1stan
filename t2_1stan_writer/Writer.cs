@@ -13,7 +13,7 @@ namespace t2_1stan_writer
         private readonly byte[] _buffferRecive = new byte[90];
         private readonly Connection _connection = new Connection();
         private readonly Crc8 _crc8 = new Crc8();
-        private readonly SerialPort _serialPort = new SerialPort("COM2");
+        private readonly SerialPort _serialPort = new SerialPort("COM3");
         public MainWindow MainWindow;
 
         public Writer()
@@ -65,6 +65,7 @@ namespace t2_1stan_writer
 
                     int hasDeffect = 0;
 
+                    _connection.Open();
                     var myCommand =
                         new MySqlCommand(
                             "INSERT INTO defectsdata(NumberPart,NumberTube,NumberSegments,DataSensors,DatePr,TimePr,Porog,Current, FlDefectTube) values(@A,@B,@C,@D,@E,@F,@G,@H,@I)",
@@ -99,7 +100,6 @@ namespace t2_1stan_writer
                         //НАЛИЧИЕ ДЕФФЕКТОВ
                         myCommand.Parameters.AddWithValue("I", hasDeffect);
 
-                        _connection.Open();
                         myCommand.ExecuteNonQuery();
 
 
@@ -158,13 +158,13 @@ namespace t2_1stan_writer
         {
             int last = 0;
 
+            _connection.Open();
             var myCommand =
                 new MySqlCommand(
                     "SELECT NumberTube, defectsdata.NumberPart FROM DefectsData WHERE IndexData = (SELECT IndexData FROM defectsdata WHERE NumberTube <> 0 ORDER BY IndexData DESC LIMIT 1)",
                     _connection.MySqlConnection);
 
             MySqlDataReader mySqlDataReader = myCommand.ExecuteReader();
-            _connection.Open();
 
             while (mySqlDataReader.Read())
             {
@@ -174,7 +174,6 @@ namespace t2_1stan_writer
                     last = mySqlDataReader.GetInt32(0);
             }
             mySqlDataReader.Close();
-            _connection.Close();
 
             return last;
         }

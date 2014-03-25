@@ -5,6 +5,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shapes;
 using MySql.Data.MySqlClient;
+using System.Windows.Media.Animation;
 
 namespace t2_1stan_writer
 {
@@ -20,6 +21,9 @@ namespace t2_1stan_writer
         private string _currentSmena;
         private string _currentYear;
         private MySqlDataReader _mySqlDataReader;
+        readonly DoubleAnimation _da = new DoubleAnimation();
+        readonly DoubleAnimation _da1 = new DoubleAnimation();
+        private object test;
 
         public void First_TreeData()
         {
@@ -305,51 +309,31 @@ namespace t2_1stan_writer
                         ArchiveWindow.label7.Content = "Рабочая смена\t" + _mySqlDataReader.GetString(7);
                         ArchiveWindow.label8.Content = "Специалист ОКПП\t" + _mySqlDataReader.GetString(9);
                         ArchiveWindow.label9.Content = "Специалист АСК ТЭСЦ-2\t" + _mySqlDataReader.GetString(8);
-                        ArchiveWindow.rectangle1.Width = _mySqlDataReader.GetDouble(3)*4;
+
 
                         for (int i = 0; i < _countDeffectsLine; i++)
                         {
                             ArchiveWindow.canvas1.Children.Remove(
-                                (UIElement) ArchiveWindow.canvas1.FindName("errorLine" + i));
+                                (UIElement)ArchiveWindow.canvas1.FindName("errorLine" + i));
                             try
                             {
                                 ArchiveWindow.canvas1.UnregisterName("errorLine" + i);
                             }
-// ReSharper disable EmptyGeneralCatchClause
+                            // ReSharper disable EmptyGeneralCatchClause
                             catch
-// ReSharper restore EmptyGeneralCatchClause
+                            // ReSharper restore EmptyGeneralCatchClause
                             {
                             }
                         }
                         _countDeffectsLine = 0;
 
-                        int j = 0;
+                        test = _mySqlDataReader.GetValue(4);
+                        _da.Completed += _da_Completed;
+                        _da.From = ArchiveWindow.rectangle1.Width;
+                        _da.To = _mySqlDataReader.GetDouble(3) * 4;
+                        _da.Duration = TimeSpan.FromMilliseconds(500);
+                        ArchiveWindow.rectangle1.BeginAnimation(FrameworkElement.WidthProperty, _da);
 
-                        foreach (byte deffect in (byte[]) _mySqlDataReader.GetValue(4))
-                        {
-                            if (deffect != 0)
-                            {
-                                var redBrush = new SolidColorBrush
-                                {
-                                    Color = Colors.Red
-                                };
-
-                                var errorLine = new Line();
-
-                                Canvas.SetLeft(errorLine, 40 + (j*4));
-                                errorLine.X1 = 0;
-                                errorLine.X2 = 0;
-                                errorLine.Y1 = 151;
-                                errorLine.Y2 = 151 + 70;
-                                errorLine.StrokeThickness = 4;
-                                errorLine.Stroke = redBrush;
-                                errorLine.Fill = redBrush;
-                                ArchiveWindow.canvas1.RegisterName("errorLine" + _countDeffectsLine, errorLine);
-                                ArchiveWindow.canvas1.Children.Add(errorLine);
-                                _countDeffectsLine++;
-                            }
-                            j++;
-                        }
                         ArchiveWindow.label6.Content = "Кол-во дефектных сегментов\t " + _countDeffectsLine;
                     }
                     _connection.Close();
@@ -361,6 +345,47 @@ namespace t2_1stan_writer
             catch
 // ReSharper restore EmptyGeneralCatchClause
             {
+            }
+        }
+
+        void _da_Completed(object sender, EventArgs e)
+        {
+            DaOnCompleted(test);
+        }
+
+        private void DaOnCompleted(object mySqlDataReader)
+        {
+            int j = 0;
+
+            foreach (byte deffect in (byte[]) mySqlDataReader)
+            {
+                if (deffect != 0)
+                {
+                    var redBrush = new SolidColorBrush
+                    {
+                        Color = Colors.Red
+                    };
+
+                    var errorLine = new Line();
+
+                    Canvas.SetLeft(errorLine, 40 + (j*4));
+                    errorLine.Opacity = 0;
+                    errorLine.X1 = 0;
+                    errorLine.X2 = 0;
+                    errorLine.Y1 = 151;
+                    errorLine.Y2 = 151 + 70;
+                    errorLine.StrokeThickness = 4;
+                    errorLine.Stroke = redBrush;
+                    errorLine.Fill = redBrush;
+                    ArchiveWindow.canvas1.RegisterName("errorLine" + _countDeffectsLine, errorLine);
+                    ArchiveWindow.canvas1.Children.Add(errorLine);
+                    _da1.From = 0;
+                    _da1.To = 1;
+                    _da1.Duration = TimeSpan.FromMilliseconds(2000);
+                    errorLine.BeginAnimation(UIElement.OpacityProperty, _da1);
+                    _countDeffectsLine++;
+                }
+                j++;
             }
         }
 

@@ -108,8 +108,16 @@
             <TabItem Header="Контроль" Name="TabItem3" IsEnabled="False">
                 <Grid>
                     <Canvas x:Name="Canvas" Background="{x:Null}" IsEnabled="False">
-                        <Rectangle Canvas.Left="50" Canvas.Top="192" Height="100" Name="Tube" Stroke="Green" Width="0"
-                                   Fill="Green" />
+                        <Line X1="40" X2="40" Y1="120" Y2="250" Stroke="Black" Height="350" Width="454" StrokeThickness="1" />
+                        <Line X1="88" X2="88" Y1="120" Y2="250" Stroke="Black" Height="350" Width="454" StrokeThickness="1" />
+                        <Line X1="136" X2="136" Y1="120" Y2="250" Stroke="Black" Height="350" Width="454" StrokeThickness="1" />
+                        <Line X1="184" X2="184" Y1="120" Y2="250" Stroke="Black" Height="350" Width="454" StrokeThickness="1" />
+                        <Line X1="232" X2="232" Y1="120" Y2="250" Stroke="Black" Height="350" Width="454" StrokeThickness="1" />
+                        <Line X1="280" X2="280" Y1="120" Y2="250" Stroke="Black" Height="350" Width="454" StrokeThickness="1" />
+                        <Line X1="328" X2="328" Y1="120" Y2="250" Stroke="Black" Height="350" Width="454" StrokeThickness="1" />
+                        <Line X1="376" X2="376" Y1="120" Y2="250" Stroke="Black" Height="350" Width="454" StrokeThickness="1" />
+                        <Rectangle Canvas.Left="40" Canvas.Top="151" Height="70" Name="Tube" Stroke="#FFFFF7BE" Width="0"
+                            Fill="#FFFFF7BE" />
                     </Canvas>
                 </Grid>
             </TabItem>
