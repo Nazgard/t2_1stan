@@ -17,7 +17,7 @@ namespace t2_1stan_writer
 
         private void button1_Click(object sender, RoutedEventArgs e)
         {
-            var ps = Settings.Default;
+            Settings ps = Settings.Default;
             ps.Database = textBox1.Text;
             ps.DataSource = textBox2.Text;
             ps.UserId = textBox3.Text;

@@ -307,7 +307,7 @@ namespace t2_1stan_writer
                         ArchiveWindow.label9.Content = "Специалист АСК ТЭСЦ-2\t" + _mySqlDataReader.GetString(8);
                         ArchiveWindow.rectangle1.Width = _mySqlDataReader.GetDouble(3)*4;
 
-                        for (var i = 0; i < _countDeffectsLine; i++)
+                        for (int i = 0; i < _countDeffectsLine; i++)
                         {
                             ArchiveWindow.canvas1.Children.Remove(
                                 (UIElement) ArchiveWindow.canvas1.FindName("errorLine" + i));
@@ -323,9 +323,9 @@ namespace t2_1stan_writer
                         }
                         _countDeffectsLine = 0;
 
-                        var j = 0;
+                        int j = 0;
 
-                        foreach (var deffect in (byte[]) _mySqlDataReader.GetValue(4))
+                        foreach (byte deffect in (byte[]) _mySqlDataReader.GetValue(4))
                         {
                             if (deffect != 0)
                             {

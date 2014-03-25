@@ -63,7 +63,7 @@ namespace t2_1stan_writer
                 {
                     MainWindow.new_tube();
 
-                    var hasDeffect = 0;
+                    int hasDeffect = 0;
 
                     var myCommand =
                         new MySqlCommand(
@@ -79,12 +79,13 @@ namespace t2_1stan_writer
                         myCommand.Parameters.AddWithValue("H", Convert.ToInt32(MainWindow.textBox3.Text));
 
                         //НОМЕР ТРУБЫ
-                        myCommand.Parameters.AddWithValue("B", LastNumberTube(Convert.ToInt32(MainWindow.textBox4.Text)) + 1);
+                        myCommand.Parameters.AddWithValue("B",
+                            LastNumberTube(Convert.ToInt32(MainWindow.textBox4.Text)) + 1);
                         //РАЗМЕР ТРУБЫ
                         myCommand.Parameters.AddWithValue("C", _buffForRead[5]);
                         //ДЕФЕКТЫ
                         var deffectsArray = new byte[_buffForRead[5]];
-                        for (var k = 0; k < (int) _buffForRead[5]; k++)
+                        for (int k = 0; k < (int) _buffForRead[5]; k++)
                         {
                             if (_buffferRecive[k] != 0) hasDeffect = 1;
                             deffectsArray[k] = _buffferRecive[k];
@@ -162,7 +163,7 @@ namespace t2_1stan_writer
                     "SELECT NumberTube, defectsdata.NumberPart FROM DefectsData WHERE IndexData = (SELECT IndexData FROM defectsdata WHERE NumberTube <> 0 ORDER BY IndexData DESC LIMIT 1)",
                     _connection.MySqlConnection);
 
-            var mySqlDataReader = myCommand.ExecuteReader();
+            MySqlDataReader mySqlDataReader = myCommand.ExecuteReader();
             _connection.Open();
 
             while (mySqlDataReader.Read())
