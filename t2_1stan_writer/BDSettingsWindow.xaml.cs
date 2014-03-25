@@ -1,45 +1,35 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
+﻿using System.Windows;
+using t2_1stan_writer.Properties;
 
 namespace t2_1stan_writer
 {
     /// <summary>
-    /// Логика взаимодействия для BDSettingsWindow.xaml
+    ///     Логика взаимодействия для BDSettingsWindow.xaml
     /// </summary>
-    public partial class BDSettingsWindow : Window
+    public partial class BdSettingsWindow
     {
-        Connection Connection = new Connection();
+        private readonly Connection _connection = new Connection();
 
-        public BDSettingsWindow()
+        public BdSettingsWindow()
         {
             InitializeComponent();
         }
 
         private void button1_Click(object sender, RoutedEventArgs e)
         {
-            Properties.Settings ps = Properties.Settings.Default;
+            var ps = Settings.Default;
             ps.Database = textBox1.Text;
             ps.DataSource = textBox2.Text;
             ps.UserId = textBox3.Text;
             ps.Password = passwordBox1.Password;
             ps.Save();
-            this.Close();
-            Connection.open();
+            Close();
+            _connection.Open();
         }
 
         private void button2_Click(object sender, RoutedEventArgs e)
         {
-            this.Close();
+            Close();
         }
     }
 }

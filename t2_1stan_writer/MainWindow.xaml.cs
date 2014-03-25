@@ -1,27 +1,29 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel;
+using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shapes;
-using System.Threading;
+using t2_1stan_writer.Properties;
 
 namespace t2_1stan_writer
 {
     /// <summary>
-    /// Логика взаимодействия для MainWindow.xaml
+    ///     Логика взаимодействия для MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow
     {
-        private Parameters parameters = new Parameters();
-        private Writer writer = new Writer();
-        private int count = 0;
+        private readonly Parameters _parameters = new Parameters();
+        private readonly Writer _writer = new Writer();
+        private int _count;
 
 
         public MainWindow()
         {
             InitializeComponent();
-            writer.mw = this;
+            _writer.MainWindow = this;
         }
 
         private void button1_Click(object sender, RoutedEventArgs e)
@@ -32,14 +34,15 @@ namespace t2_1stan_writer
             tabControl1.SelectedIndex = 0;
             try
             {
-                comboBox1.ItemsSource = parameters.get_db_worksmens();
-                comboBox2.ItemsSource = parameters.get_db_timeintervalsmens();
-                comboBox3.ItemsSource = parameters.get_db_surnames();
-                comboBox4.ItemsSource = parameters.get_db_surnames();
+                comboBox1.ItemsSource = _parameters.get_db_worksmens();
+                comboBox2.ItemsSource = _parameters.get_db_timeintervalsmens();
+                comboBox3.ItemsSource = _parameters.get_db_surnames();
+                comboBox4.ItemsSource = _parameters.get_db_surnames();
             }
+// ReSharper disable EmptyGeneralCatchClause
             catch
-            { 
-            
+// ReSharper restore EmptyGeneralCatchClause
+            {
             }
         }
 
@@ -51,15 +54,16 @@ namespace t2_1stan_writer
             tabControl1.SelectedIndex = 1;
             try
             {
-                comboBox7.ItemsSource = parameters.get_db_gosts();
-                comboBox5.ItemsSource  = parameters.get_db_sizetubes();
-                comboBox8.ItemsSource  = parameters.get_db_controlsamples();
-                comboBox9.ItemsSource  = parameters.get_db_listdefects();
-                comboBox11.ItemsSource = parameters.get_db_device();            
+                comboBox7.ItemsSource = _parameters.get_db_gosts();
+                comboBox5.ItemsSource = _parameters.get_db_sizetubes();
+                comboBox8.ItemsSource = _parameters.get_db_controlsamples();
+                comboBox9.ItemsSource = _parameters.get_db_listdefects();
+                comboBox11.ItemsSource = _parameters.get_db_device();
             }
+// ReSharper disable EmptyGeneralCatchClause
             catch
-            { 
-            
+// ReSharper restore EmptyGeneralCatchClause
+            {
             }
         }
 
@@ -69,27 +73,29 @@ namespace t2_1stan_writer
                 comboBox2.SelectedIndex != -1 &&
                 comboBox3.SelectedIndex != -1 &&
                 comboBox4.SelectedIndex != -1 &&
-                textBox4.Text != "" &&                
+                textBox4.Text != "" &&
                 comboBox8.SelectedIndex != -1 &&
                 comboBox5.SelectedIndex != -1 &&
-                textBox4.Text != "" &&   
-                comboBox9.SelectedIndex != -1 &&  
-                comboBox11.SelectedIndex != -1 && 
-                textBox2.Text != "" &&   
+                textBox4.Text != "" &&
+                comboBox9.SelectedIndex != -1 &&
+                comboBox11.SelectedIndex != -1 &&
+                textBox2.Text != "" &&
                 textBox3.Text != "")
             {
-                writer.port_Open();
+                _writer.port_Open();
                 tabItem1.IsEnabled = false;
                 tabItem2.IsEnabled = false;
                 tabItem3.Visibility = Visibility.Visible;
                 tabControl1.SelectedIndex = 2;
 
-                SolidColorBrush greenBrush = new SolidColorBrush();
-                greenBrush.Color = Colors.Green;
+                var greenBrush = new SolidColorBrush
+                {
+                    Color = Colors.Green
+                };
 
                 for (int i = 0; i < 14; i++)
                 {
-                    Line myLine = new Line();
+                    var myLine = new Line();
                     Canvas.SetLeft(myLine, 50);
 
                     if (i == 0)
@@ -98,7 +104,7 @@ namespace t2_1stan_writer
                     }
                     else
                     {
-                        myLine.X1 = i * 48;
+                        myLine.X1 = i*48;
                     }
                     myLine.X2 = myLine.X1;
 
@@ -115,22 +121,28 @@ namespace t2_1stan_writer
             {
                 MessageBox.Show("Заполните все поля");
             }
-            
         }
 
         public void new_tube()
         {
             Dispatcher.BeginInvoke(new ThreadStart(delegate
+            {
+                tube.Width = 0;
+                for (int i = 0; i <= _count; i++)
                 {
-                    tube.Width = 0;
-                    for (int i = 0; i <= count; i++)
+                    Canvas.Children.Remove((UIElement) Canvas.FindName("errorLine" + i));
+                    try
                     {
-                        Canvas.Children.Remove((UIElement)Canvas.FindName("errorLine" + i.ToString()));
-                        try { Canvas.UnregisterName("errorLine" + i.ToString()); }
-                        catch { }
+                        Canvas.UnregisterName("errorLine" + i);
                     }
-                    count = 0;
-                }));
+// ReSharper disable EmptyGeneralCatchClause
+                    catch
+// ReSharper restore EmptyGeneralCatchClause
+                    {
+                    }
+                }
+                _count = 0;
+            }));
         }
 
         public void move_tube()
@@ -141,24 +153,25 @@ namespace t2_1stan_writer
         public void error_segment()
         {
             Dispatcher.BeginInvoke(new ThreadStart(delegate
+            {
+                var redBrush = new SolidColorBrush
                 {
-                    SolidColorBrush redBrush = new SolidColorBrush();
-                    redBrush.Color = Colors.Red;
+                    Color = Colors.Red
+                };
+                var errorLine = new Line();
 
-                    Line errorLine = new Line();
-
-                    Canvas.SetLeft(errorLine, tube.Width + Canvas.GetLeft(tube) - 4);
-                    errorLine.X1 = 0;
-                    errorLine.X2 = 0;
-                    errorLine.Y1 = 220 - 8;
-                    errorLine.Y2 = 320 + 8;
-                    errorLine.StrokeThickness = 8;
-                    errorLine.Stroke = redBrush;
-                    errorLine.Fill = redBrush;
-                    Canvas.RegisterName("errorLine" + count.ToString(), errorLine);
-                    count++;
-                    Canvas.Children.Add(errorLine);
-                }));
+                Canvas.SetLeft(errorLine, tube.Width + Canvas.GetLeft(tube) - 4);
+                errorLine.X1 = 0;
+                errorLine.X2 = 0;
+                errorLine.Y1 = 220 - 8;
+                errorLine.Y2 = 320 + 8;
+                errorLine.StrokeThickness = 8;
+                errorLine.Stroke = redBrush;
+                errorLine.Fill = redBrush;
+                Canvas.RegisterName("errorLine" + _count, errorLine);
+                _count++;
+                Canvas.Children.Add(errorLine);
+            }));
         }
 
         private void textBox4_PreviewTextInput(object sender, TextCompositionEventArgs e)
@@ -192,30 +205,32 @@ namespace t2_1stan_writer
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            Properties.Settings ps = Properties.Settings.Default;
-            this.Top = ps.Top;
-            this.Left = ps.Left;
+            Settings ps = Settings.Default;
+            Top = ps.Top;
+            Left = ps.Left;
         }
 
-        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        private void Window_Closing(object sender, CancelEventArgs e)
         {
-            Properties.Settings ps = Properties.Settings.Default;
-            ps.Top = this.Top;
-            ps.Left = this.Left;
+            Settings ps = Settings.Default;
+            ps.Top = Top;
+            ps.Left = Left;
             ps.Save();
 
-            writer.port_Close();
+            _writer.port_Close();
         }
 
         private void comboBox7_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             try
             {
-                comboBox5.ItemsSource = parameters.get_db_sizetubes_current(((KeyValuePair<int, string>)comboBox7.SelectedItem).Key);            
+                comboBox5.ItemsSource =
+                    _parameters.get_db_sizetubes_current(((KeyValuePair<int, string>) comboBox7.SelectedItem).Key);
             }
+// ReSharper disable EmptyGeneralCatchClause
             catch
-            { 
-            
+// ReSharper restore EmptyGeneralCatchClause
+            {
             }
         }
 
@@ -223,26 +238,31 @@ namespace t2_1stan_writer
         {
             try
             {
-                comboBox8.ItemsSource = parameters.get_db_controlsamples_current(((KeyValuePair<int, string>)comboBox5.SelectedItem).Key);
+                comboBox8.ItemsSource =
+                    _parameters.get_db_controlsamples_current(((KeyValuePair<int, string>) comboBox5.SelectedItem).Key);
             }
+// ReSharper disable EmptyGeneralCatchClause
             catch
-            { 
-            
+// ReSharper restore EmptyGeneralCatchClause
+            {
             }
         }
 
         private void button4_Click(object sender, RoutedEventArgs e)
         {
-            ArchiveWindow AW = new ArchiveWindow();
-            AW.Owner = this;
+            var aw = new ArchiveWindow
+            {
+                Owner = this
+            };
             try
             {
-                AW.Show();
+                aw.Show();
             }
+// ReSharper disable EmptyGeneralCatchClause
             catch
-            { 
-            
-            }            
+// ReSharper restore EmptyGeneralCatchClause
+            {
+            }
         }
     }
 }

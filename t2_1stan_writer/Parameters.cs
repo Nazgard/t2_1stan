@@ -3,9 +3,10 @@ using MySql.Data.MySqlClient;
 
 namespace t2_1stan_writer
 {
-    class Parameters
+    internal class Parameters
     {
-        private Connection connection = new Connection();
+        private readonly Connection _connection = new Connection();
+        private MySqlDataReader _mySqlDataReader;
 
         //===========================================================================
         //===========================================================================
@@ -14,59 +15,57 @@ namespace t2_1stan_writer
         //===========================================================================
         public Dictionary<int, string> get_db_worksmens()
         {
-            connection.open();
-            Dictionary<int, string> worksmens = new Dictionary<int, string>();
+            _connection.Open();
+            var worksmens = new Dictionary<int, string>();
 
-            MySqlCommand myCommand = new MySqlCommand("SELECT Id_WorkSmen, NameSmen FROM worksmens", connection.myConnection);
+            var myCommand = new MySqlCommand("SELECT Id_WorkSmen, NameSmen FROM worksmens", _connection.MySqlConnection);
 
-            MySqlDataReader MyDataReader;
-            MyDataReader = myCommand.ExecuteReader();
+            _mySqlDataReader = myCommand.ExecuteReader();
 
-            while (MyDataReader.Read())
+            while (_mySqlDataReader.Read())
             {
-                worksmens.Add(MyDataReader.GetInt32(0), MyDataReader.GetString(1));
+                worksmens.Add(_mySqlDataReader.GetInt32(0), _mySqlDataReader.GetString(1));
             }
-            MyDataReader.Close();
-            connection.close();
+            _mySqlDataReader.Close();
+            _connection.Close();
             return worksmens;
         }
 
         public Dictionary<int, string> get_db_timeintervalsmens()
         {
-            connection.open();
-            Dictionary<int, string> timeintervalsmens = new Dictionary<int, string>();
+            _connection.Open();
+            var timeintervalsmens = new Dictionary<int, string>();
 
-            MySqlCommand myCommand = new MySqlCommand("SELECT Id_TimeIntervalSmen, TimeIntervalSmen FROM timeintervalsmens", connection.myConnection);
+            var myCommand = new MySqlCommand("SELECT Id_TimeIntervalSmen, TimeIntervalSmen FROM timeintervalsmens",
+                _connection.MySqlConnection);
 
-            MySqlDataReader MyDataReader;
-            MyDataReader = myCommand.ExecuteReader();
+            _mySqlDataReader = myCommand.ExecuteReader();
 
-            while (MyDataReader.Read())
+            while (_mySqlDataReader.Read())
             {
-                timeintervalsmens.Add(MyDataReader.GetInt32(0), MyDataReader.GetString(1));
+                timeintervalsmens.Add(_mySqlDataReader.GetInt32(0), _mySqlDataReader.GetString(1));
             }
-            MyDataReader.Close();
-            connection.close();
+            _mySqlDataReader.Close();
+            _connection.Close();
             return timeintervalsmens;
         }
 
 
         public Dictionary<int, string> get_db_surnames()
         {
-            connection.open();
-            Dictionary<int, string> surnames = new Dictionary<int, string>();
+            _connection.Open();
+            var surnames = new Dictionary<int, string>();
 
-            MySqlCommand myCommand = new MySqlCommand("SELECT Id_Operator, Surname FROM Operators", connection.myConnection);
+            var myCommand = new MySqlCommand("SELECT Id_Operator, Surname FROM Operators", _connection.MySqlConnection);
 
-            MySqlDataReader MyDataReader;
-            MyDataReader = myCommand.ExecuteReader();
+            _mySqlDataReader = myCommand.ExecuteReader();
 
-            while (MyDataReader.Read())
+            while (_mySqlDataReader.Read())
             {
-                surnames.Add(MyDataReader.GetInt32(0), MyDataReader.GetString(1));
+                surnames.Add(_mySqlDataReader.GetInt32(0), _mySqlDataReader.GetString(1));
             }
-            MyDataReader.Close();
-            connection.close();
+            _mySqlDataReader.Close();
+            _connection.Close();
             return surnames;
         }
 
@@ -76,108 +75,105 @@ namespace t2_1stan_writer
         //ПЛАВКА
         //===========================================================================
         //===========================================================================
-        
+
         public Dictionary<int, string> get_db_gosts()
         {
-            connection.open();
-            Dictionary<int, string> gosts = new Dictionary<int, string>();
+            _connection.Open();
+            var gosts = new Dictionary<int, string>();
 
-            MySqlCommand myCommand = new MySqlCommand("SELECT Id_Gost, NameGost FROM gosts", connection.myConnection);
+            var myCommand = new MySqlCommand("SELECT Id_Gost, NameGost FROM gosts", _connection.MySqlConnection);
 
-            MySqlDataReader MyDataReader;
-            MyDataReader = myCommand.ExecuteReader();
+            _mySqlDataReader = myCommand.ExecuteReader();
 
-            while (MyDataReader.Read())
+            while (_mySqlDataReader.Read())
             {
-                gosts.Add(MyDataReader.GetInt32(0), MyDataReader.GetString(1));
+                gosts.Add(_mySqlDataReader.GetInt32(0), _mySqlDataReader.GetString(1));
             }
-            MyDataReader.Close();
-            connection.close();
+            _mySqlDataReader.Close();
+            _connection.Close();
             return gosts;
         }
 
         public Dictionary<int, string> get_db_sizetubes()
         {
-            connection.open();
-            Dictionary<int, string> sizetubes = new Dictionary<int, string>();
+            _connection.Open();
+            var sizetubes = new Dictionary<int, string>();
 
-            MySqlCommand myCommand = new MySqlCommand("SELECT Id_SizeTube, SizeTube FROM sizetubes", connection.myConnection);
+            var myCommand = new MySqlCommand("SELECT Id_SizeTube, SizeTube FROM sizetubes", _connection.MySqlConnection);
 
-            MySqlDataReader MyDataReader;
-            MyDataReader = myCommand.ExecuteReader();
+            _mySqlDataReader = myCommand.ExecuteReader();
 
-            while (MyDataReader.Read())
+            while (_mySqlDataReader.Read())
             {
-                sizetubes.Add(MyDataReader.GetInt32(0), MyDataReader.GetString(1));
+                sizetubes.Add(_mySqlDataReader.GetInt32(0), _mySqlDataReader.GetString(1));
             }
-            MyDataReader.Close();
-            connection.close();
+            _mySqlDataReader.Close();
+            _connection.Close();
             return sizetubes;
         }
 
         public Dictionary<int, string> get_db_controlsamples()
         {
-            connection.open();
-            Dictionary<int, string> controlsamples = new Dictionary<int, string>();
+            _connection.Open();
+            var controlsamples = new Dictionary<int, string>();
 
-            MySqlCommand myCommand = new MySqlCommand("SELECT Id_ControlSample, NameControlSample FROM controlsamples", connection.myConnection);
+            var myCommand = new MySqlCommand("SELECT Id_ControlSample, NameControlSample FROM controlsamples",
+                _connection.MySqlConnection);
 
-            MySqlDataReader MyDataReader;
-            MyDataReader = myCommand.ExecuteReader();
+            _mySqlDataReader = myCommand.ExecuteReader();
 
-            while (MyDataReader.Read())
+            while (_mySqlDataReader.Read())
             {
-                controlsamples.Add(MyDataReader.GetInt32(0), MyDataReader.GetString(1));
+                controlsamples.Add(_mySqlDataReader.GetInt32(0), _mySqlDataReader.GetString(1));
             }
-            MyDataReader.Close();
-            connection.close();
+            _mySqlDataReader.Close();
+            _connection.Close();
             return controlsamples;
         }
 
         public Dictionary<int, string> get_db_listdefects()
         {
-            connection.open();
-            Dictionary<int, string> listdefects = new Dictionary<int, string>();
+            _connection.Open();
+            var listdefects = new Dictionary<int, string>();
 
-            MySqlCommand myCommand = new MySqlCommand("SELECT Id_NameDefect, NameDefect FROM listdefects", connection.myConnection);
+            var myCommand = new MySqlCommand("SELECT Id_NameDefect, NameDefect FROM listdefects",
+                _connection.MySqlConnection);
 
-            MySqlDataReader MyDataReader;
-            MyDataReader = myCommand.ExecuteReader();
+            _mySqlDataReader = myCommand.ExecuteReader();
 
-            while (MyDataReader.Read())
+            while (_mySqlDataReader.Read())
             {
-                listdefects.Add(MyDataReader.GetInt32(0), MyDataReader.GetString(1));
+                listdefects.Add(_mySqlDataReader.GetInt32(0), _mySqlDataReader.GetString(1));
             }
-            MyDataReader.Close();
-            connection.close();
+            _mySqlDataReader.Close();
+            _connection.Close();
             return listdefects;
         }
 
         public Dictionary<int, string> get_db_device()
         {
-            connection.open();
-            Dictionary<int, string> device = new Dictionary<int, string>();
+            _connection.Open();
+            var device = new Dictionary<int, string>();
 
-            MySqlCommand myCommand = new MySqlCommand("SELECT Id_Device, NameDevice FROM device", connection.myConnection);
+            var myCommand = new MySqlCommand("SELECT Id_Device, NameDevice FROM device", _connection.MySqlConnection);
 
-            MySqlDataReader MyDataReader;
-            MyDataReader = myCommand.ExecuteReader();
+            _mySqlDataReader = myCommand.ExecuteReader();
 
-            while (MyDataReader.Read())
+            while (_mySqlDataReader.Read())
             {
-                device.Add(MyDataReader.GetInt32(0), MyDataReader.GetString(1));
+                device.Add(_mySqlDataReader.GetInt32(0), _mySqlDataReader.GetString(1));
             }
-            MyDataReader.Close();
-            connection.close();
+            _mySqlDataReader.Close();
+            _connection.Close();
             return device;
         }
 
         public Dictionary<int, string> get_db_sizetubes_current(int id)
         {
-            connection.open();
-            Dictionary<int, string> sizetubes = new Dictionary<int, string>();
+            _connection.Open();
+            var sizetubes = new Dictionary<int, string>();
 
-            MySqlCommand myCommand = new MySqlCommand(@"
+            var myCommand = new MySqlCommand(@"
                 SELECT
                 sizetubes.Id_SizeTube,
                 sizetubes.SizeTube
@@ -185,45 +181,43 @@ namespace t2_1stan_writer
                 bufferdata
                 Inner Join sizetubes ON sizetubes.Id_SizeTube = bufferdata.Id_SizeTube
                 WHERE bufferdata.Id_Gost =  @A
-            ", connection.myConnection);
+            ", _connection.MySqlConnection);
             myCommand.Parameters.AddWithValue("A", id);
 
-            MySqlDataReader MyDataReader;
-            MyDataReader = myCommand.ExecuteReader();
+            _mySqlDataReader = myCommand.ExecuteReader();
 
-            while (MyDataReader.Read())
+            while (_mySqlDataReader.Read())
             {
-                sizetubes.Add(MyDataReader.GetInt32(0), MyDataReader.GetString(1));
+                sizetubes.Add(_mySqlDataReader.GetInt32(0), _mySqlDataReader.GetString(1));
             }
-            MyDataReader.Close();
-            connection.close();
+            _mySqlDataReader.Close();
+            _connection.Close();
             return sizetubes;
         }
 
         public Dictionary<int, string> get_db_controlsamples_current(int id)
         {
-            connection.open();
-            Dictionary<int, string> controlsamples = new Dictionary<int, string>();
+            _connection.Open();
+            var controlsamples = new Dictionary<int, string>();
 
-            MySqlCommand myCommand = new MySqlCommand(@"
+            var myCommand = new MySqlCommand(@"
                 SELECT
                 controlsamples.Id_ControlSample,
                 controlsamples.NameControlSample
                 FROM
                 controlsamples
                 WHERE controlsamples.Id_SizeTube = @A
-            ", connection.myConnection);
+            ", _connection.MySqlConnection);
             myCommand.Parameters.AddWithValue("A", id);
 
-            MySqlDataReader MyDataReader;
-            MyDataReader = myCommand.ExecuteReader();
+            _mySqlDataReader = myCommand.ExecuteReader();
 
-            while (MyDataReader.Read())
+            while (_mySqlDataReader.Read())
             {
-                controlsamples.Add(MyDataReader.GetInt32(0), MyDataReader.GetString(1));
+                controlsamples.Add(_mySqlDataReader.GetInt32(0), _mySqlDataReader.GetString(1));
             }
-            MyDataReader.Close();
-            connection.close();
+            _mySqlDataReader.Close();
+            _connection.Close();
             return controlsamples;
         }
     }

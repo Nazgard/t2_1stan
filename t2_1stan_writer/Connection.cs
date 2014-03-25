@@ -1,38 +1,40 @@
 ﻿using System;
-using MySql.Data.MySqlClient;
 using System.Windows;
+using MySql.Data.MySqlClient;
+using t2_1stan_writer.Properties;
 
 namespace t2_1stan_writer
 {
-    class Connection
+    internal class Connection
     {
-        private static Properties.Settings ps = Properties.Settings.Default;
+        private static readonly Settings Ps = Settings.Default;
         public static string Connect;
-        public MySqlConnection myConnection;
+        public MySqlConnection MySqlConnection;
 
-        public void open()
+        public void Open()
         {
             try
             {
-                Connect = "Database=" + ps.Database + ";Data Source=" + ps.DataSource + ";User Id=" + ps.UserId + ";Password=" + ps.Password;
-                myConnection = new MySqlConnection(Connect);
-                myConnection.Open();
+                Connect = "Database=" + Ps.Database + ";Data Source=" + Ps.DataSource + ";User Id=" + Ps.UserId +
+                          ";Password=" + Ps.Password;
+                MySqlConnection = new MySqlConnection(Connect);
+                MySqlConnection.Open();
             }
             catch
             {
-                BDSettingsWindow BDSettingsWindow = new BDSettingsWindow();
-                BDSettingsWindow.label1.Content = "Ошибка подключения к БД";
-                BDSettingsWindow.ShowDialog();
+                var bdSettingsWindow = new BdSettingsWindow();
+                bdSettingsWindow.label1.Content = "Ошибка подключения к БД";
+                bdSettingsWindow.ShowDialog();
             }
         }
 
-        public void close()
+        public void Close()
         {
             try
             {
-                myConnection.Close();
+                MySqlConnection.Close();
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 MessageBox.Show(e.ToString());
             }

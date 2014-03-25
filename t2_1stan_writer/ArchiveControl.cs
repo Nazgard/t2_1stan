@@ -27,9 +27,9 @@ namespace t2_1stan_writer
 
             try
             {
-                _connection.open();
+                _connection.Open();
                 _mySqlCommand.CommandText = "SELECT DISTINCT YEAR(defectsdata.DatePr) FROM defectsdata";
-                _mySqlCommand.Connection = _connection.myConnection;
+                _mySqlCommand.Connection = _connection.MySqlConnection;
                 _mySqlDataReader = _mySqlCommand.ExecuteReader();
 
                 while (_mySqlDataReader.Read())
@@ -43,7 +43,7 @@ namespace t2_1stan_writer
                     ArchiveWindow.treeView1.Items.Add(item);
                 }
                 _mySqlDataReader.Close();
-                _connection.close();
+                _connection.Close();
             }
             catch
             {
@@ -58,7 +58,7 @@ namespace t2_1stan_writer
             Mouse.OverrideCursor = Cursors.Wait;
             try
             {
-                _connection.open();
+                _connection.Open();
                 var item = (TreeViewItem) e.OriginalSource;
                 item.Items.Clear();
 
@@ -74,7 +74,7 @@ namespace t2_1stan_writer
                     ";
                     _mySqlCommand.Parameters.Clear();
                     _mySqlCommand.Parameters.AddWithValue("A", item.Header.ToString());
-                    _mySqlCommand.Connection = _connection.myConnection;
+                    _mySqlCommand.Connection = _connection.MySqlConnection;
 
                     _mySqlDataReader = _mySqlCommand.ExecuteReader();
 
@@ -104,7 +104,7 @@ namespace t2_1stan_writer
                         WHERE   MONTHNAME(defectsdata.DatePr) = @A AND
                                 YEAR (defectsdata.DatePr) = @B
                     ";
-                    _mySqlCommand.Connection = _connection.myConnection;
+                    _mySqlCommand.Connection = _connection.MySqlConnection;
                     _mySqlCommand.Parameters.Clear();
                     _mySqlCommand.Parameters.AddWithValue("A", item.Header.ToString());
                     _mySqlCommand.Parameters.AddWithValue("B", _currentYear);
@@ -138,7 +138,7 @@ namespace t2_1stan_writer
                         WHERE DATE_FORMAT(defectsdata.DatePr, '%Y-%M-%d') = @A
                         ORDER BY worksmens.NameSmen
                     ";
-                    _mySqlCommand.Connection = _connection.myConnection;
+                    _mySqlCommand.Connection = _connection.MySqlConnection;
                     _mySqlCommand.Parameters.Clear();
                     _mySqlCommand.Parameters.AddWithValue("A",
                         _currentYear + "-" + _currentMonth + "-" +
@@ -172,7 +172,7 @@ namespace t2_1stan_writer
                         WHERE DATE_FORMAT(defectsdata.DatePr, '%Y-%M-%d') = @A AND
                               worksmens.NameSmen = @B  
                     ";
-                    _mySqlCommand.Connection = _connection.myConnection;
+                    _mySqlCommand.Connection = _connection.MySqlConnection;
                     _mySqlCommand.Parameters.Clear();
                     _mySqlCommand.Parameters.AddWithValue("A",
                         _currentYear + "-" + _currentMonth + "-" + string.Format("{0:00}", Convert.ToInt32(_currentDay)));
@@ -209,7 +209,7 @@ namespace t2_1stan_writer
                               worksmens.NameSmen = @B AND
                               defectsdata.NumberPart = @C
                     ";
-                    _mySqlCommand.Connection = _connection.myConnection;
+                    _mySqlCommand.Connection = _connection.MySqlConnection;
                     _mySqlCommand.Parameters.Clear();
                     _mySqlCommand.Parameters.AddWithValue("A",
                         _currentYear + "-" + _currentMonth + "-" + string.Format("{0:00}", Convert.ToInt32(_currentDay)));
@@ -239,11 +239,12 @@ namespace t2_1stan_writer
 
                     _currentPart = item.Header.ToString();
                 }
-                _connection.close();
+                _connection.Close();
             }
+// ReSharper disable EmptyGeneralCatchClause
             catch
+// ReSharper restore EmptyGeneralCatchClause
             {
-
             }
             Mouse.OverrideCursor = Cursors.Arrow;
         }
@@ -289,8 +290,8 @@ namespace t2_1stan_writer
                     _mySqlCommand.Parameters.AddWithValue("E", Convert.ToInt32(_currentPart));
                     _mySqlCommand.Parameters.AddWithValue("F", Convert.ToInt32(item.Header.ToString().Substring(8)));
 
-                    _connection.open();
-                    _mySqlCommand.Connection = _connection.myConnection;
+                    _connection.Open();
+                    _mySqlCommand.Connection = _connection.MySqlConnection;
                     _mySqlDataReader = _mySqlCommand.ExecuteReader();
 
                     while (_mySqlDataReader.Read())
@@ -306,7 +307,7 @@ namespace t2_1stan_writer
                         ArchiveWindow.label9.Content = "Специалист АСК ТЭСЦ-2\t" + _mySqlDataReader.GetString(8);
                         ArchiveWindow.rectangle1.Width = _mySqlDataReader.GetDouble(3)*4;
 
-                        for (int i = 0; i < _countDeffectsLine; i++)
+                        for (var i = 0; i < _countDeffectsLine; i++)
                         {
                             ArchiveWindow.canvas1.Children.Remove(
                                 (UIElement) ArchiveWindow.canvas1.FindName("errorLine" + i));
@@ -314,15 +315,17 @@ namespace t2_1stan_writer
                             {
                                 ArchiveWindow.canvas1.UnregisterName("errorLine" + i);
                             }
+// ReSharper disable EmptyGeneralCatchClause
                             catch
+// ReSharper restore EmptyGeneralCatchClause
                             {
                             }
                         }
                         _countDeffectsLine = 0;
 
-                        int j = 0;
+                        var j = 0;
 
-                        foreach (byte deffect in (byte[]) _mySqlDataReader.GetValue(4))
+                        foreach (var deffect in (byte[]) _mySqlDataReader.GetValue(4))
                         {
                             if (deffect != 0)
                             {
@@ -349,25 +352,26 @@ namespace t2_1stan_writer
                         }
                         ArchiveWindow.label6.Content = "Кол-во дефектных сегментов\t " + _countDeffectsLine;
                     }
-                    _connection.close();
+                    _connection.Close();
                     _mySqlDataReader.Close();
                     Mouse.OverrideCursor = Cursors.Arrow;
                 }
             }
+// ReSharper disable EmptyGeneralCatchClause
             catch
+// ReSharper restore EmptyGeneralCatchClause
             {
-
             }
         }
 
-        public void info(TreeViewItem item)
+        public void Info(TreeViewItem item)
         {
             Mouse.OverrideCursor = Cursors.Wait;
             if (item.Tag.ToString() == "year")
             {
-                _connection.open();
+                _connection.Open();
                 ArchiveWindow.listBox1.Items.Clear();
-                ArchiveWindow.listBox1.Items.Add("ВРЕМЯ: \t\t\t" + item.Header.ToString());
+                ArchiveWindow.listBox1.Items.Add("ВРЕМЯ: \t\t\t" + item.Header);
                 _mySqlCommand.CommandText = @"
                         SELECT
                         Count(defectsdata.IndexData)
@@ -377,7 +381,7 @@ namespace t2_1stan_writer
                         defectsdata.NumberTube <>  0 AND
                         YEAR(defectsdata.DatePr) = @A
                     ";
-                _mySqlCommand.Connection = _connection.myConnection;
+                _mySqlCommand.Connection = _connection.MySqlConnection;
                 _mySqlCommand.Parameters.Clear();
                 _mySqlCommand.Parameters.AddWithValue("A", item.Header.ToString());
                 _mySqlDataReader = _mySqlCommand.ExecuteReader();
@@ -398,7 +402,7 @@ namespace t2_1stan_writer
                         defectsdata.NumberTube <>  0 AND
                         YEAR(defectsdata.DatePr) = @A
                     ";
-                _mySqlCommand.Connection = _connection.myConnection;
+                _mySqlCommand.Connection = _connection.MySqlConnection;
                 _mySqlDataReader = _mySqlCommand.ExecuteReader();
 
                 while (_mySqlDataReader.Read())
@@ -424,7 +428,7 @@ namespace t2_1stan_writer
                         defectsdata.NumberTube <>  0 AND
                         YEAR(defectsdata.DatePr) = @A
                     ";
-                _mySqlCommand.Connection = _connection.myConnection;
+                _mySqlCommand.Connection = _connection.MySqlConnection;
                 _mySqlDataReader = _mySqlCommand.ExecuteReader();
 
                 while (_mySqlDataReader.Read())
@@ -432,12 +436,12 @@ namespace t2_1stan_writer
                     ArchiveWindow.listBox1.Items.Add("ПРОЦЕНТ БРАКА: \t" + _mySqlDataReader.GetString(0));
                 }
                 _mySqlDataReader.Close();
-                _connection.close();
+                _connection.Close();
             }
 
             if (item.Tag.ToString() == "month")
             {
-                _connection.open();
+                _connection.Open();
                 ArchiveWindow.listBox1.Items.Clear();
                 ArchiveWindow.listBox1.Items.Add("ВРЕМЯ: \t\t\t" + _currentYear + "-" + item.Header);
                 _mySqlCommand.CommandText = @"
@@ -450,7 +454,7 @@ namespace t2_1stan_writer
                         YEAR(defectsdata.DatePr) = @A AND
                         MONTHNAME(defectsdata.DatePr) = @B
                     ";
-                _mySqlCommand.Connection = _connection.myConnection;
+                _mySqlCommand.Connection = _connection.MySqlConnection;
                 _mySqlCommand.Parameters.Clear();
                 _mySqlCommand.Parameters.AddWithValue("A", _currentYear);
                 _mySqlCommand.Parameters.AddWithValue("B", item.Header.ToString());
@@ -473,7 +477,7 @@ namespace t2_1stan_writer
                         YEAR(defectsdata.DatePr) = @A AND
                         MONTHNAME(defectsdata.DatePr) = @B
                     ";
-                _mySqlCommand.Connection = _connection.myConnection;
+                _mySqlCommand.Connection = _connection.MySqlConnection;
                 _mySqlDataReader = _mySqlCommand.ExecuteReader();
 
                 while (_mySqlDataReader.Read())
@@ -501,7 +505,7 @@ namespace t2_1stan_writer
                         YEAR(defectsdata.DatePr) = @A AND
                         MONTHNAME(defectsdata.DatePr) = @B
                     ";
-                _mySqlCommand.Connection = _connection.myConnection;
+                _mySqlCommand.Connection = _connection.MySqlConnection;
                 _mySqlDataReader = _mySqlCommand.ExecuteReader();
 
                 while (_mySqlDataReader.Read())
@@ -509,14 +513,15 @@ namespace t2_1stan_writer
                     ArchiveWindow.listBox1.Items.Add("ПРОЦЕНТ БРАКА: \t" + _mySqlDataReader.GetString(0));
                 }
                 _mySqlDataReader.Close();
-                _connection.close();   
+                _connection.Close();
             }
 
             if (item.Tag.ToString() == "day")
             {
-                _connection.open();
+                _connection.Open();
                 ArchiveWindow.listBox1.Items.Clear();
-                ArchiveWindow.listBox1.Items.Add("ВРЕМЯ: \t\t\t" + _currentYear + "-" + _currentMonth + "-" + item.Header);
+                ArchiveWindow.listBox1.Items.Add("ВРЕМЯ: \t\t\t" + _currentYear + "-" + _currentMonth + "-" +
+                                                 item.Header);
                 _mySqlCommand.CommandText = @"
                     SELECT
                     Count(defectsdata.IndexData)
@@ -528,7 +533,7 @@ namespace t2_1stan_writer
                     MONTHNAME(defectsdata.DatePr) = @B AND
                     DAY(defectsdata.DatePr) = @C
                 ";
-                _mySqlCommand.Connection = _connection.myConnection;
+                _mySqlCommand.Connection = _connection.MySqlConnection;
                 _mySqlCommand.Parameters.Clear();
                 _mySqlCommand.Parameters.AddWithValue("A", _currentYear);
                 _mySqlCommand.Parameters.AddWithValue("B", _currentMonth);
@@ -554,7 +559,7 @@ namespace t2_1stan_writer
                     MONTHNAME(defectsdata.DatePr) = @B AND
                     DAY(defectsdata.DatePr) = @C
                 ";
-                _mySqlCommand.Connection = _connection.myConnection;
+                _mySqlCommand.Connection = _connection.MySqlConnection;
                 _mySqlDataReader = _mySqlCommand.ExecuteReader();
 
                 while (_mySqlDataReader.Read())
@@ -584,7 +589,7 @@ namespace t2_1stan_writer
                     MONTHNAME(defectsdata.DatePr) = @B AND
                     DAY(defectsdata.DatePr) = @C
                 ";
-                _mySqlCommand.Connection = _connection.myConnection;
+                _mySqlCommand.Connection = _connection.MySqlConnection;
                 _mySqlDataReader = _mySqlCommand.ExecuteReader();
 
                 while (_mySqlDataReader.Read())
@@ -592,14 +597,15 @@ namespace t2_1stan_writer
                     ArchiveWindow.listBox1.Items.Add("ПРОЦЕНТ БРАКА: \t" + _mySqlDataReader.GetString(0));
                 }
                 _mySqlDataReader.Close();
-                _connection.close();
+                _connection.Close();
             }
 
             if (item.Tag.ToString() == "smena")
             {
-                _connection.open();
+                _connection.Open();
                 ArchiveWindow.listBox1.Items.Clear();
-                ArchiveWindow.listBox1.Items.Add("ВРЕМЯ: \t\t\t" + _currentYear + "-" + _currentMonth + "-" + _currentDay + " / " + item.Header);
+                ArchiveWindow.listBox1.Items.Add("ВРЕМЯ: \t\t\t" + _currentYear + "-" + _currentMonth + "-" +
+                                                 _currentDay + " / " + item.Header);
                 _mySqlCommand.CommandText = @"
                         SELECT
                         Count(defectsdata.IndexData)
@@ -614,7 +620,7 @@ namespace t2_1stan_writer
                         DAY(defectsdata.DatePr) = @C AND
                         worksmens.NameSmen = @D
                     ";
-                _mySqlCommand.Connection = _connection.myConnection;
+                _mySqlCommand.Connection = _connection.MySqlConnection;
                 _mySqlCommand.Parameters.Clear();
                 _mySqlCommand.Parameters.AddWithValue("A", _currentYear);
                 _mySqlCommand.Parameters.AddWithValue("B", _currentMonth);
@@ -644,7 +650,7 @@ namespace t2_1stan_writer
                         DAY(defectsdata.DatePr) = @C AND
                         worksmens.NameSmen = @D
                     ";
-                _mySqlCommand.Connection = _connection.myConnection;
+                _mySqlCommand.Connection = _connection.MySqlConnection;
                 _mySqlDataReader = _mySqlCommand.ExecuteReader();
 
                 while (_mySqlDataReader.Read())
@@ -680,7 +686,7 @@ namespace t2_1stan_writer
                         DAY(defectsdata.DatePr) = @C AND
                         worksmens.NameSmen = @D
                     ";
-                _mySqlCommand.Connection = _connection.myConnection;
+                _mySqlCommand.Connection = _connection.MySqlConnection;
                 _mySqlDataReader = _mySqlCommand.ExecuteReader();
 
                 while (_mySqlDataReader.Read())
@@ -688,14 +694,15 @@ namespace t2_1stan_writer
                     ArchiveWindow.listBox1.Items.Add("ПРОЦЕНТ БРАКА: \t" + _mySqlDataReader.GetString(0));
                 }
                 _mySqlDataReader.Close();
-                _connection.close();
+                _connection.Close();
             }
 
             if (item.Tag.ToString() == "part")
             {
-                _connection.open();
+                _connection.Open();
                 ArchiveWindow.listBox1.Items.Clear();
-                ArchiveWindow.listBox1.Items.Add("ВРЕМЯ: \t\t\t" + _currentYear + "-" + _currentMonth + "-" + _currentDay + " / " + _currentSmena + " / Плавка № " + item.Header.ToString());
+                ArchiveWindow.listBox1.Items.Add("ВРЕМЯ: \t\t\t" + _currentYear + "-" + _currentMonth + "-" +
+                                                 _currentDay + " / " + _currentSmena + " / Плавка № " + item.Header);
                 _mySqlCommand.CommandText = @"
                         SELECT
                         Count(defectsdata.IndexData)
@@ -711,7 +718,7 @@ namespace t2_1stan_writer
                         worksmens.NameSmen = @D AND
                         defectsdata.NumberPart = @E
                     ";
-                _mySqlCommand.Connection = _connection.myConnection;
+                _mySqlCommand.Connection = _connection.MySqlConnection;
                 _mySqlCommand.Parameters.Clear();
                 _mySqlCommand.Parameters.AddWithValue("A", _currentYear);
                 _mySqlCommand.Parameters.AddWithValue("B", _currentMonth);
@@ -743,7 +750,7 @@ namespace t2_1stan_writer
                         worksmens.NameSmen = @D AND
                         defectsdata.NumberPart = @E
                     ";
-                _mySqlCommand.Connection = _connection.myConnection;
+                _mySqlCommand.Connection = _connection.MySqlConnection;
                 _mySqlDataReader = _mySqlCommand.ExecuteReader();
 
                 while (_mySqlDataReader.Read())
@@ -781,15 +788,22 @@ namespace t2_1stan_writer
                         worksmens.NameSmen = @D AND
                         defectsdata.NumberPart = @E
                     ";
-                _mySqlCommand.Connection = _connection.myConnection;
+                _mySqlCommand.Connection = _connection.MySqlConnection;
                 _mySqlDataReader = _mySqlCommand.ExecuteReader();
 
                 while (_mySqlDataReader.Read())
                 {
-                    ArchiveWindow.listBox1.Items.Add("ПРОЦЕНТ БРАКА: \t" + _mySqlDataReader.GetString(0));
+                    try
+                    {
+                        ArchiveWindow.listBox1.Items.Add("ПРОЦЕНТ БРАКА: \t" + _mySqlDataReader.GetString(0));
+                    }
+                    catch (Exception)
+                    {
+                        ArchiveWindow.listBox1.Items.Add("ПРОЦЕНТ БРАКА: \t");
+                    }
                 }
                 _mySqlDataReader.Close();
-                _connection.close();
+                _connection.Close();
             }
             Mouse.OverrideCursor = Cursors.Arrow;
         }
