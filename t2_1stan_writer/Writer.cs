@@ -72,15 +72,15 @@ namespace t2_1stan_writer
                     MainWindow.Dispatcher.BeginInvoke(new ThreadStart(delegate
                     {
                         //НОМЕР ПАРТИИ
-                        myCommand.Parameters.AddWithValue("A", Convert.ToInt32(MainWindow.textBox4.Text));
+                        myCommand.Parameters.AddWithValue("A", Convert.ToInt32(MainWindow.TextBox4.Text));
                         //ПОРОГ
-                        myCommand.Parameters.AddWithValue("G", Convert.ToInt32(MainWindow.textBox2.Text));
+                        myCommand.Parameters.AddWithValue("G", Convert.ToInt32(MainWindow.TextBox2.Text));
                         //ТОК
-                        myCommand.Parameters.AddWithValue("H", Convert.ToInt32(MainWindow.textBox3.Text));
+                        myCommand.Parameters.AddWithValue("H", Convert.ToInt32(MainWindow.TextBox3.Text));
 
                         //НОМЕР ТРУБЫ
                         myCommand.Parameters.AddWithValue("B",
-                            LastNumberTube(Convert.ToInt32(MainWindow.textBox4.Text)) + 1);
+                            LastNumberTube(Convert.ToInt32(MainWindow.TextBox4.Text)) + 1);
                         //РАЗМЕР ТРУБЫ
                         myCommand.Parameters.AddWithValue("C", _buffForRead[5]);
                         //ДЕФЕКТЫ
@@ -114,24 +114,24 @@ namespace t2_1stan_writer
                                 @Id_Operator1, @Id_Operator2, @Id_Device, @Id_Sensor, @Id_NameDefect)
                             ", _connection.MySqlConnection);
                         myCommand.Parameters.AddWithValue("Id_SizeTube",
-                            ((KeyValuePair<int, string>) MainWindow.comboBox5.SelectedItem).Key);
+                            ((KeyValuePair<int, string>) MainWindow.ComboBox5.SelectedItem).Key);
                         myCommand.Parameters.AddWithValue("Id_Gost",
-                            ((KeyValuePair<int, string>) MainWindow.comboBox7.SelectedItem).Key);
+                            ((KeyValuePair<int, string>) MainWindow.ComboBox7.SelectedItem).Key);
                         myCommand.Parameters.AddWithValue("Id_ControlSample",
-                            ((KeyValuePair<int, string>) MainWindow.comboBox8.SelectedItem).Key);
+                            ((KeyValuePair<int, string>) MainWindow.ComboBox8.SelectedItem).Key);
                         myCommand.Parameters.AddWithValue("Id_WorkSmen",
-                            ((KeyValuePair<int, string>) MainWindow.comboBox1.SelectedItem).Key);
+                            ((KeyValuePair<int, string>) MainWindow.ComboBox1.SelectedItem).Key);
                         myCommand.Parameters.AddWithValue("Id_TimeIntervalSmen",
-                            ((KeyValuePair<int, string>) MainWindow.comboBox2.SelectedItem).Key);
+                            ((KeyValuePair<int, string>) MainWindow.ComboBox2.SelectedItem).Key);
                         myCommand.Parameters.AddWithValue("Id_Operator1",
-                            ((KeyValuePair<int, string>) MainWindow.comboBox3.SelectedItem).Key);
+                            ((KeyValuePair<int, string>) MainWindow.ComboBox3.SelectedItem).Key);
                         myCommand.Parameters.AddWithValue("Id_Operator2",
-                            ((KeyValuePair<int, string>) MainWindow.comboBox4.SelectedItem).Key);
+                            ((KeyValuePair<int, string>) MainWindow.ComboBox4.SelectedItem).Key);
                         myCommand.Parameters.AddWithValue("Id_Device",
-                            ((KeyValuePair<int, string>) MainWindow.comboBox11.SelectedItem).Key);
-                        myCommand.Parameters.AddWithValue("Id_Sensor", Convert.ToInt32(MainWindow.textBox1.Text));
+                            ((KeyValuePair<int, string>) MainWindow.ComboBox11.SelectedItem).Key);
+                        myCommand.Parameters.AddWithValue("Id_Sensor", Convert.ToInt32(MainWindow.TextBox1.Text));
                         myCommand.Parameters.AddWithValue("Id_NameDefect",
-                            ((KeyValuePair<int, string>) MainWindow.comboBox9.SelectedItem).Key);
+                            ((KeyValuePair<int, string>) MainWindow.ComboBox9.SelectedItem).Key);
 
                         myCommand.ExecuteNonQuery();
                         _connection.Close();

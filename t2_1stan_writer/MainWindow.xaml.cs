@@ -28,16 +28,16 @@ namespace t2_1stan_writer
 
         private void button1_Click(object sender, RoutedEventArgs e)
         {
-            tabItem2.IsEnabled = false;
-            tabItem3.IsEnabled = false;
-            tabItem1.Visibility = Visibility.Visible;
-            tabControl1.SelectedIndex = 0;
+            TabItem2.IsEnabled = false;
+            TabItem3.IsEnabled = false;
+            TabItem1.Visibility = Visibility.Visible;
+            TabControl1.SelectedIndex = 0;
             try
             {
-                comboBox1.ItemsSource = _parameters.get_db_worksmens();
-                comboBox2.ItemsSource = _parameters.get_db_timeintervalsmens();
-                comboBox3.ItemsSource = _parameters.get_db_surnames();
-                comboBox4.ItemsSource = _parameters.get_db_surnames();
+                ComboBox1.ItemsSource = _parameters.get_db_worksmens();
+                ComboBox2.ItemsSource = _parameters.get_db_timeintervalsmens();
+                ComboBox3.ItemsSource = _parameters.get_db_surnames();
+                ComboBox4.ItemsSource = _parameters.get_db_surnames();
             }
 // ReSharper disable EmptyGeneralCatchClause
             catch
@@ -48,17 +48,17 @@ namespace t2_1stan_writer
 
         private void button2_Click(object sender, RoutedEventArgs e)
         {
-            tabItem1.IsEnabled = false;
-            tabItem3.IsEnabled = false;
-            tabItem2.Visibility = Visibility.Visible;
-            tabControl1.SelectedIndex = 1;
+            TabItem1.IsEnabled = false;
+            TabItem3.IsEnabled = false;
+            TabItem2.Visibility = Visibility.Visible;
+            TabControl1.SelectedIndex = 1;
             try
             {
-                comboBox7.ItemsSource = _parameters.get_db_gosts();
-                comboBox5.ItemsSource = _parameters.get_db_sizetubes();
-                comboBox8.ItemsSource = _parameters.get_db_controlsamples();
-                comboBox9.ItemsSource = _parameters.get_db_listdefects();
-                comboBox11.ItemsSource = _parameters.get_db_device();
+                ComboBox7.ItemsSource = _parameters.get_db_gosts();
+                ComboBox5.ItemsSource = _parameters.get_db_sizetubes();
+                ComboBox8.ItemsSource = _parameters.get_db_controlsamples();
+                ComboBox9.ItemsSource = _parameters.get_db_listdefects();
+                ComboBox11.ItemsSource = _parameters.get_db_device();
             }
 // ReSharper disable EmptyGeneralCatchClause
             catch
@@ -69,24 +69,24 @@ namespace t2_1stan_writer
 
         private void button3_Click(object sender, RoutedEventArgs e)
         {
-            if (comboBox1.SelectedIndex != -1 &&
-                comboBox2.SelectedIndex != -1 &&
-                comboBox3.SelectedIndex != -1 &&
-                comboBox4.SelectedIndex != -1 &&
-                textBox4.Text != "" &&
-                comboBox8.SelectedIndex != -1 &&
-                comboBox5.SelectedIndex != -1 &&
-                textBox4.Text != "" &&
-                comboBox9.SelectedIndex != -1 &&
-                comboBox11.SelectedIndex != -1 &&
-                textBox2.Text != "" &&
-                textBox3.Text != "")
+            if (ComboBox1.SelectedIndex != -1 &&
+                ComboBox2.SelectedIndex != -1 &&
+                ComboBox3.SelectedIndex != -1 &&
+                ComboBox4.SelectedIndex != -1 &&
+                TextBox4.Text != "" &&
+                ComboBox8.SelectedIndex != -1 &&
+                ComboBox5.SelectedIndex != -1 &&
+                TextBox4.Text != "" &&
+                ComboBox9.SelectedIndex != -1 &&
+                ComboBox11.SelectedIndex != -1 &&
+                TextBox2.Text != "" &&
+                TextBox3.Text != "")
             {
                 _writer.port_Open();
-                tabItem1.IsEnabled = false;
-                tabItem2.IsEnabled = false;
-                tabItem3.Visibility = Visibility.Visible;
-                tabControl1.SelectedIndex = 2;
+                TabItem1.IsEnabled = false;
+                TabItem2.IsEnabled = false;
+                TabItem3.Visibility = Visibility.Visible;
+                TabControl1.SelectedIndex = 2;
 
                 var greenBrush = new SolidColorBrush
                 {
@@ -127,7 +127,7 @@ namespace t2_1stan_writer
         {
             Dispatcher.BeginInvoke(new ThreadStart(delegate
             {
-                tube.Width = 0;
+                Tube.Width = 0;
                 for (int i = 0; i <= _count; i++)
                 {
                     Canvas.Children.Remove((UIElement) Canvas.FindName("errorLine" + i));
@@ -147,7 +147,7 @@ namespace t2_1stan_writer
 
         public void move_tube()
         {
-            Dispatcher.BeginInvoke(new ThreadStart(delegate { tube.Width += 8; }));
+            Dispatcher.BeginInvoke(new ThreadStart(delegate { Tube.Width += 8; }));
         }
 
         public void error_segment()
@@ -160,7 +160,7 @@ namespace t2_1stan_writer
                 };
                 var errorLine = new Line();
 
-                Canvas.SetLeft(errorLine, tube.Width + Canvas.GetLeft(tube) - 4);
+                Canvas.SetLeft(errorLine, Tube.Width + Canvas.GetLeft(Tube) - 4);
                 errorLine.X1 = 0;
                 errorLine.X2 = 0;
                 errorLine.Y1 = 220 - 8;
@@ -224,8 +224,8 @@ namespace t2_1stan_writer
         {
             try
             {
-                comboBox5.ItemsSource =
-                    _parameters.get_db_sizetubes_current(((KeyValuePair<int, string>) comboBox7.SelectedItem).Key);
+                ComboBox5.ItemsSource =
+                    _parameters.get_db_sizetubes_current(((KeyValuePair<int, string>) ComboBox7.SelectedItem).Key);
             }
 // ReSharper disable EmptyGeneralCatchClause
             catch
@@ -238,8 +238,8 @@ namespace t2_1stan_writer
         {
             try
             {
-                comboBox8.ItemsSource =
-                    _parameters.get_db_controlsamples_current(((KeyValuePair<int, string>) comboBox5.SelectedItem).Key);
+                ComboBox8.ItemsSource =
+                    _parameters.get_db_controlsamples_current(((KeyValuePair<int, string>) ComboBox5.SelectedItem).Key);
             }
 // ReSharper disable EmptyGeneralCatchClause
             catch

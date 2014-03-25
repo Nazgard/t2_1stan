@@ -8,18 +8,16 @@
             <RowDefinition Height="106*" />
             <RowDefinition Height="19*" />
         </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition />
-        </Grid.ColumnDefinitions>
-        <Button Content="Новая смена" HorizontalAlignment="Left" Name="button1" Width="115" Margin="10,10,0,0"
+        <Button Content="Новая смена" HorizontalAlignment="Left" Name="Button1" Width="115" Margin="10,10,0,0"
                 Click="button1_Click" Height="35" VerticalAlignment="Top" />
-        <Button Content="Новая плавка" HorizontalAlignment="Left" Margin="130,10,0,0" Name="button2" Width="115"
+        <Button Grid.Row="0" Content="Новая плавка" HorizontalAlignment="Left" Margin="130,10,0,0" Name="Button2" Width="115"
                 Click="button2_Click" Height="35" VerticalAlignment="Top" />
-        <Button Content="Контроль" HorizontalAlignment="Left" Margin="250,10,0,0" Name="button3" Width="115"
+        <Button Grid.Row="0" Content="Контроль" HorizontalAlignment="Left" Margin="250,10,0,0" Name="Button3" Width="115"
                 Click="button3_Click" Height="35" VerticalAlignment="Top" />
-        <TabControl Name="tabControl1" Margin="10,57,10,10" TabStripPlacement="Top" SelectedIndex="6" Grid.RowSpan="2"
+        <TabControl Name="TabControl1" Margin="10,57,10,10" TabStripPlacement="Top" SelectedIndex="6" Grid.Row="0"
+                    Grid.RowSpan="2"
                     Background="{x:Null}">
-            <TabItem Header="Параметры смены" Name="tabItem1" IsEnabled="False" Background="{x:Null}">
+            <TabItem Header="Параметры смены" Name="TabItem1" IsEnabled="False" Background="{x:Null}">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="38*" />
@@ -29,27 +27,28 @@
                         <ColumnDefinition Width="263*" />
                         <ColumnDefinition Width="228*" />
                     </Grid.ColumnDefinitions>
-                    <Button Content="Далее" Margin="0,13,10,10" Name="button7" Grid.Column="1" Click="button2_Click"
+                    <Button Content="Далее" Margin="0,13,10,10" Name="Button7" Grid.Column="1" Click="button2_Click"
                             HorizontalAlignment="Right" Width="100" Grid.Row="1" />
-                    <ComboBox Height="23" Margin="6,43,0,0" Name="comboBox1" VerticalAlignment="Top"
-                              HorizontalAlignment="Left" Width="284" DisplayMemberPath="Value" Grid.Column="1" />
-                    <ComboBox Height="23" HorizontalAlignment="Left" Margin="6,91,0,0" Name="comboBox2"
-                              VerticalAlignment="Top" Width="284" DisplayMemberPath="Value" Grid.Column="1" />
-                    <ComboBox Height="23" HorizontalAlignment="Left" Margin="6,214,0,0" Name="comboBox3"
-                              VerticalAlignment="Top" Width="284" DisplayMemberPath="Value" Grid.Column="1" />
-                    <ComboBox Height="23" HorizontalAlignment="Left" Margin="6,262,0,0" Name="comboBox4"
-                              VerticalAlignment="Top" Width="284" DisplayMemberPath="Value" Grid.Column="1" />
-                    <Label Content="Смена" Height="28" Margin="40,43,0,0" x:Name="label1" VerticalAlignment="Top"
+                    <ComboBox Height="23" Margin="6,43,0,0" Name="ComboBox1" VerticalAlignment="Top"
+                              HorizontalAlignment="Left" Width="284" DisplayMemberPath="Value" Grid.Row="0"
+                              Grid.Column="1" />
+                    <ComboBox Height="23" HorizontalAlignment="Left" Margin="6,91,0,0" Name="ComboBox2"
+                              VerticalAlignment="Top" Width="284" DisplayMemberPath="Value" Grid.Row="0" Grid.Column="1" />
+                    <ComboBox Height="23" HorizontalAlignment="Left" Margin="6,214,0,0" Name="ComboBox3"
+                              VerticalAlignment="Top" Width="284" DisplayMemberPath="Value" Grid.Row="0" Grid.Column="1" />
+                    <ComboBox Height="23" HorizontalAlignment="Left" Margin="6,262,0,0" Name="ComboBox4"
+                              VerticalAlignment="Top" Width="284" DisplayMemberPath="Value" Grid.Row="0" Grid.Column="1" />
+                    <Label Grid.Row="0" Grid.Column="0" Content="Смена" Height="28" Margin="40,43,0,0" x:Name="Label1" VerticalAlignment="Top"
                            HorizontalAlignment="Left" Width="45" />
-                    <Label Content="Время смены" Height="28" Margin="40,86,0,0" x:Name="label2" VerticalAlignment="Top"
+                    <Label Grid.Row="0" Grid.Column="0" Content="Время смены" Height="28" Margin="40,86,0,0" x:Name="Label2" VerticalAlignment="Top"
                            HorizontalAlignment="Left" Width="84" />
-                    <Label Content="Специалист АСК ТЭСЦ 2" Height="28" Margin="40,209,0,0" x:Name="label3"
+                    <Label Grid.Row="0" Grid.Column="0" Content="Специалист АСК ТЭСЦ 2" Height="28" Margin="40,209,0,0" x:Name="Label3"
                            VerticalAlignment="Top" HorizontalAlignment="Left" Width="143" />
-                    <Label Content="Специалист ОККП" Height="28" Margin="40,257,0,0" x:Name="label4"
+                    <Label Grid.Row="0" Grid.Column="0" Content="Специалист ОККП" Height="28" Margin="40,257,0,0" x:Name="Label4"
                            VerticalAlignment="Top" HorizontalAlignment="Left" Width="109" />
                 </Grid>
             </TabItem>
-            <TabItem Header="Параметры плавки" Name="tabItem2" IsEnabled="False">
+            <TabItem Header="Параметры плавки" Name="TabItem2" IsEnabled="False">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="23*" />
@@ -60,62 +59,62 @@
                         <ColumnDefinition Width="359*" />
                     </Grid.ColumnDefinitions>
                     <Button Content="Далее" Height="40" HorizontalAlignment="Left" Margin="253,110,0,-90"
-                            Name="button8" VerticalAlignment="Top" Width="100" Grid.Column="1" Grid.Row="1" />
-                    <ComboBox Height="23" HorizontalAlignment="Left" Margin="40,91,0,0" Name="comboBox7"
-                              VerticalAlignment="Top" Width="284" Grid.Column="1" DisplayMemberPath="Value"
+                            Name="Button8" VerticalAlignment="Top" Width="100" Grid.Column="1" Grid.Row="1" />
+                    <ComboBox Height="23" HorizontalAlignment="Left" Margin="40,91,0,0" Name="ComboBox7"
+                              VerticalAlignment="Top" Width="284" Grid.Row="0" Grid.Column="1" DisplayMemberPath="Value"
                               SelectionChanged="comboBox7_SelectionChanged" />
-                    <ComboBox Height="23" HorizontalAlignment="Left" Margin="40,167,0,0" Name="comboBox8"
-                              VerticalAlignment="Top" Width="284" Grid.Column="1" DisplayMemberPath="Value" />
-                    <ComboBox Height="23" HorizontalAlignment="Left" Margin="40,205,0,0" Name="comboBox9"
-                              VerticalAlignment="Top" Width="284" Grid.Column="1" DisplayMemberPath="Value" />
-                    <Label Content="Номер плавки" Height="28" HorizontalAlignment="Left" Margin="40,43,0,0"
-                           Name="label5" VerticalAlignment="Top" />
-                    <Label Content="Нормативные документы" Height="28" HorizontalAlignment="Left" Margin="40,86,0,0"
-                           Name="label6" VerticalAlignment="Top" />
-                    <Label Content="Контрольный образец" Height="28" HorizontalAlignment="Left" Margin="40,162,0,0"
-                           Name="label7" VerticalAlignment="Top" />
-                    <Label Content="Искуственный дефект" Height="28" HorizontalAlignment="Left" Margin="40,200,0,0"
-                           Name="label8" VerticalAlignment="Top" />
-                    <ComboBox Height="23" HorizontalAlignment="Left" Margin="40,129,0,0" Name="comboBox5"
-                              VerticalAlignment="Top" Width="176" Grid.Column="1" DisplayMemberPath="Value"
+                    <ComboBox Height="23" HorizontalAlignment="Left" Margin="40,167,0,0" Name="ComboBox8"
+                              VerticalAlignment="Top" Width="284" Grid.Row="0" Grid.Column="1" DisplayMemberPath="Value" />
+                    <ComboBox Height="23" HorizontalAlignment="Left" Margin="40,205,0,0" Name="ComboBox9"
+                              VerticalAlignment="Top" Width="284" Grid.Row="0" Grid.Column="1" DisplayMemberPath="Value" />
+                    <Label Grid.Row="0" Grid.Column="0" Content="Номер плавки" Height="28" HorizontalAlignment="Left" Margin="40,43,0,0"
+                           Name="Label5" VerticalAlignment="Top" />
+                    <Label Grid.Row="0" Grid.Column="0" Content="Нормативные документы" Height="28" HorizontalAlignment="Left" Margin="40,86,0,0"
+                           Name="Label6" VerticalAlignment="Top" />
+                    <Label Grid.Row="0" Grid.Column="0" Content="Контрольный образец" Height="28" HorizontalAlignment="Left" Margin="40,162,0,0"
+                           Name="Label7" VerticalAlignment="Top" />
+                    <Label Grid.Row="0" Grid.Column="0" Content="Искуственный дефект" Height="28" HorizontalAlignment="Left" Margin="40,200,0,0"
+                           Name="Label8" VerticalAlignment="Top" />
+                    <ComboBox Height="23" HorizontalAlignment="Left" Margin="40,129,0,0" Name="ComboBox5"
+                              VerticalAlignment="Top" Width="176" Grid.Row="0" Grid.Column="1" DisplayMemberPath="Value"
                               SelectionChanged="comboBox5_SelectionChanged" />
-                    <Label Content="Размер трубы (диаметр/толщина)" Height="28" HorizontalAlignment="Left"
-                           Margin="40,124,0,0" Name="label9" VerticalAlignment="Top" />
-                    <ComboBox Grid.Column="1" Height="23" HorizontalAlignment="Left" Margin="40,243,0,0"
-                              Name="comboBox11" VerticalAlignment="Top" Width="284" DisplayMemberPath="Value" />
-                    <Label Content="Установка" Height="28" HorizontalAlignment="Left" Margin="40,238,0,0"
-                           Name="label10" VerticalAlignment="Top" />
-                    <Label Content="Порог" Height="28" HorizontalAlignment="Left" Margin="40,276,0,0" Name="label11"
+                    <Label Grid.Row="0" Grid.Column="0" Content="Размер трубы (диаметр/толщина)" Height="28" HorizontalAlignment="Left"
+                           Margin="40,124,0,0" Name="Label9" VerticalAlignment="Top" />
+                    <ComboBox Grid.Row="0" Grid.Column="1" Height="23" HorizontalAlignment="Left" Margin="40,243,0,0"
+                              Name="ComboBox11" VerticalAlignment="Top" Width="284" DisplayMemberPath="Value" />
+                    <Label Grid.Row="0" Grid.Column="0" Content="Установка" Height="28" HorizontalAlignment="Left" Margin="40,238,0,0"
+                           Name="Label10" VerticalAlignment="Top" />
+                    <Label Grid.Row="0" Grid.Column="0" Content="Порог" Height="28" HorizontalAlignment="Left" Margin="40,276,0,0" Name="Label11"
                            VerticalAlignment="Top" />
-                    <Label Content="Ток" Height="28" HorizontalAlignment="Left" Margin="40,309,0,0" Name="label12"
+                    <Label Grid.Row="0" Grid.Column="0" Content="Ток" Height="28" HorizontalAlignment="Left" Margin="40,309,0,0" Name="Label12"
                            VerticalAlignment="Top" />
-                    <Label Content="d" Grid.Column="1" Height="28" HorizontalAlignment="Left" Margin="18,129,0,0"
-                           Name="label13" VerticalAlignment="Top" />
-                    <Label Content="Но" Grid.Column="1" Height="23" HorizontalAlignment="Left" Margin="221,129,0,0"
-                           Name="label14" VerticalAlignment="Top" />
-                    <TextBox Grid.Column="1" Height="23" HorizontalAlignment="Left" Margin="247,129,0,0"
-                             Name="textBox1" VerticalAlignment="Top" Width="77"
+                    <Label Content="d" Grid.Row="0" Grid.Column="1" Height="28" HorizontalAlignment="Left" Margin="18,129,0,0"
+                           Name="Label13" VerticalAlignment="Top" />
+                    <Label Content="Но" Grid.Row="0" Grid.Column="1" Height="23" HorizontalAlignment="Left" Margin="221,129,0,0"
+                           Name="Label14" VerticalAlignment="Top" />
+                    <TextBox Grid.Row="0" Grid.Column="1" Height="23" HorizontalAlignment="Left" Margin="247,129,0,0"
+                             Name="TextBox1" VerticalAlignment="Top" Width="77"
                              PreviewTextInput="textBox1_PreviewTextInput" />
-                    <TextBox Grid.Column="1" Height="23" HorizontalAlignment="Left" Margin="40,281,0,0" Name="textBox2"
+                    <TextBox Grid.Row="0" Grid.Column="1" Height="23" HorizontalAlignment="Left" Margin="40,281,0,0" Name="TextBox2"
                              VerticalAlignment="Top" Width="284" Text="50" PreviewTextInput="textBox2_PreviewTextInput" />
-                    <TextBox Grid.Column="1" Height="23" HorizontalAlignment="Left" Margin="40,314,0,0" Name="textBox3"
+                    <TextBox Grid.Row="0" Grid.Column="1" Height="23" HorizontalAlignment="Left" Margin="40,314,0,0" Name="TextBox3"
                              VerticalAlignment="Top" Width="284" Text="1" PreviewTextInput="textBox3_PreviewTextInput" />
-                    <TextBox Grid.Column="1" Height="23" HorizontalAlignment="Left" Margin="40,48,0,0" Name="textBox4"
+                    <TextBox Grid.Row="0" Grid.Column="1" Height="23" HorizontalAlignment="Left" Margin="40,48,0,0" Name="TextBox4"
                              VerticalAlignment="Top" Width="284" Text="1" PreviewTextInput="textBox4_PreviewTextInput" />
                     <Button Content="Далее" Grid.Column="1" Margin="0,10,10,10" Click="button3_Click"
                             HorizontalAlignment="Right" Width="100" Grid.Row="1" />
                 </Grid>
             </TabItem>
-            <TabItem Header="Контроль" Name="tabItem3" IsEnabled="False">
+            <TabItem Header="Контроль" Name="TabItem3" IsEnabled="False">
                 <Grid>
                     <Canvas x:Name="Canvas" Background="{x:Null}" IsEnabled="False">
-                        <Rectangle Canvas.Left="50" Canvas.Top="192" Height="100" Name="tube" Stroke="Green" Width="0"
+                        <Rectangle Canvas.Left="50" Canvas.Top="192" Height="100" Name="Tube" Stroke="Green" Width="0"
                                    Fill="Green" />
                     </Canvas>
                 </Grid>
             </TabItem>
         </TabControl>
-        <Button Content="Архив" Height="35" HorizontalAlignment="Right" Margin="0,10,12,0" Name="button4"
+        <Button Grid.Row="0" Content="Архив" Height="35" HorizontalAlignment="Right" Margin="0,10,12,0" Name="Button4"
                 VerticalAlignment="Top" Width="115" Click="button4_Click" />
     </Grid>
 </Window>
