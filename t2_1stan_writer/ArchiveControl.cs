@@ -639,7 +639,7 @@ namespace t2_1stan_writer
                         var itemTube = new TreeViewItem
                         {
                             Tag = "tube",
-                            Header = "Труба № " + _mySqlDataReader.GetString(0) + "  " + _mySqlDataReader.GetString(2)
+                            Header = "Труба № " + _mySqlDataReader.GetString(0)
                         };
                         if (_mySqlDataReader.GetInt32(1) == 1)
                         {
