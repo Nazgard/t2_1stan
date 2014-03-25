@@ -3,15 +3,17 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Animation;
 using System.Windows.Shapes;
 using MySql.Data.MySqlClient;
-using System.Windows.Media.Animation;
 
 namespace t2_1stan_writer
 {
     internal class ArchiveControl
     {
         private readonly Connection _connection = new Connection();
+        private readonly DoubleAnimation _da = new DoubleAnimation();
+        private readonly DoubleAnimation _da1 = new DoubleAnimation();
         private readonly MySqlCommand _mySqlCommand = new MySqlCommand();
         public ArchiveWindow ArchiveWindow;
         private int _countDeffectsLine;
@@ -21,9 +23,7 @@ namespace t2_1stan_writer
         private string _currentSmena;
         private string _currentYear;
         private MySqlDataReader _mySqlDataReader;
-        readonly DoubleAnimation _da = new DoubleAnimation();
-        readonly DoubleAnimation _da1 = new DoubleAnimation();
-        private object test;
+        private object _mySqlDataReaderValue4;
 
         public void First_TreeData()
         {
@@ -314,23 +314,23 @@ namespace t2_1stan_writer
                         for (int i = 0; i < _countDeffectsLine; i++)
                         {
                             ArchiveWindow.canvas1.Children.Remove(
-                                (UIElement)ArchiveWindow.canvas1.FindName("errorLine" + i));
+                                (UIElement) ArchiveWindow.canvas1.FindName("errorLine" + i));
                             try
                             {
                                 ArchiveWindow.canvas1.UnregisterName("errorLine" + i);
                             }
-                            // ReSharper disable EmptyGeneralCatchClause
+                                // ReSharper disable EmptyGeneralCatchClause
                             catch
-                            // ReSharper restore EmptyGeneralCatchClause
+                                // ReSharper restore EmptyGeneralCatchClause
                             {
                             }
                         }
                         _countDeffectsLine = 0;
 
-                        test = _mySqlDataReader.GetValue(4);
+                        _mySqlDataReaderValue4 = _mySqlDataReader.GetValue(4);
                         _da.Completed += _da_Completed;
                         _da.From = ArchiveWindow.rectangle1.Width;
-                        _da.To = _mySqlDataReader.GetDouble(3) * 4;
+                        _da.To = _mySqlDataReader.GetDouble(3)*4;
                         _da.Duration = TimeSpan.FromMilliseconds(500);
                         ArchiveWindow.rectangle1.BeginAnimation(FrameworkElement.WidthProperty, _da);
 
@@ -348,9 +348,9 @@ namespace t2_1stan_writer
             }
         }
 
-        void _da_Completed(object sender, EventArgs e)
+        private void _da_Completed(object sender, EventArgs e)
         {
-            DaOnCompleted(test);
+            DaOnCompleted(_mySqlDataReaderValue4);
         }
 
         private void DaOnCompleted(object mySqlDataReader)
