@@ -27,6 +27,7 @@ namespace t2_1stan_writer
         private void treeView1_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
         {
             AC.Tube_Control((TreeViewItem)treeView1.SelectedItem);
+            AC.info((TreeViewItem)treeView1.SelectedItem);
         }
     }
 }

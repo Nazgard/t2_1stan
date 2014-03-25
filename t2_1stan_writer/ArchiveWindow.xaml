@@ -8,7 +8,7 @@
             <ColumnDefinition Width="282*" />
         </Grid.ColumnDefinitions>
         <ListBox Height="71" Margin="12,12,0,0" Name="listBox1" VerticalAlignment="Top" Background="{x:Null}" />
-        <Canvas Margin="12,89,0,12" Name="canvas1" Background="{x:Null}" HorizontalAlignment="Left" Width="589">
+        <Canvas Margin="12,89,0,12" Name="canvas1" Background="{x:Null}" HorizontalAlignment="Left" Width="580">
             <Line X1="40" X2="40" Y1="120" Y2="250" Stroke="Black" Height="350" Width="454" StrokeThickness="1" />
             <Line X1="88" X2="88" Y1="120" Y2="250" Stroke="Black" Height="350" Width="454" StrokeThickness="1" />
             <Line X1="136" X2="136" Y1="120" Y2="250" Stroke="Black" Height="350" Width="454" StrokeThickness="1" />

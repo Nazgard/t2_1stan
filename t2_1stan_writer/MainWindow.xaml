@@ -70,7 +70,7 @@
             </TabItem>
             <TabItem Header="Контроль" Name="tabItem3" IsEnabled="False">
                 <Grid>
-                    <Canvas x:Name="Canvas" Background="Black" IsEnabled="False">
+                    <Canvas x:Name="Canvas" Background="{x:Null}" IsEnabled="False">
                         <Rectangle Canvas.Left="50" Canvas.Top="192" Height="100" Name="tube" Stroke="Green" Width="0" Fill="Green" />
                     </Canvas>
                 </Grid>
