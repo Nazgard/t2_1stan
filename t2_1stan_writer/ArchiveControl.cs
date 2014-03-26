@@ -846,11 +846,11 @@ namespace t2_1stan_writer
             Mouse.OverrideCursor = Cursors.Arrow;
 
             if (item.Tag.ToString() == "tube" &&
-                _currentPart != _currentPart1 &&
-                _currentSmena != _currentSmena1 &&
-                _currentYear != _currentYear1 &&
-                _currentMonth != _currentMonth1 &&
-                _currentDay != _currentDay1)
+                (_currentPart != _currentPart1 ||
+                _currentSmena != _currentSmena1 ||
+                _currentYear != _currentYear1 ||
+                _currentMonth != _currentMonth1 ||
+                _currentDay != _currentDay1))
             {
                 _currentPart1 = _currentPart;
                 _currentSmena1 = _currentSmena;
