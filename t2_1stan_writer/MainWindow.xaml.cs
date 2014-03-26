@@ -70,7 +70,7 @@ namespace t2_1stan_writer
 
         private void button3_Click(object sender, RoutedEventArgs e)
         {
-            if (ComboBox1.SelectedIndex != -1 &&
+            /*if (ComboBox1.SelectedIndex != -1 &&
                 ComboBox2.SelectedIndex != -1 &&
                 ComboBox3.SelectedIndex != -1 &&
                 ComboBox4.SelectedIndex != -1 &&
@@ -82,16 +82,14 @@ namespace t2_1stan_writer
                 ComboBox11.SelectedIndex != -1 &&
                 TextBox2.Text != "" &&
                 TextBox3.Text != "")
-            {
+            {*/
                 _writer.port_Open();
-                TabItem1.IsEnabled = false;
-                TabItem2.IsEnabled = false;
-                TabControl1.SelectedIndex = 2;
+                TabControl1.SelectedIndex = 2;/*
             }
             else
             {
                 MessageBox.Show("Заполните все поля");
-            }
+            }*/
         }
 
         public void new_tube()
@@ -106,9 +104,8 @@ namespace t2_1stan_writer
                     {
                         Canvas.UnregisterName("errorLine" + i);
                     }
-                    catch (Exception ex)
+                    catch
                     {
-                        MessageBox.Show(ex.ToString());
                     }
                 }
                 _count = 0;
