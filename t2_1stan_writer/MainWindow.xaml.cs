@@ -19,6 +19,7 @@ namespace t2_1stan_writer
         private readonly Parameters _parameters = new Parameters();
         private readonly Writer _writer = new Writer();
         private int _count;
+        public Dictionary<string, int> parameters = new Dictionary<string, int>();
 
 
         public MainWindow()
@@ -70,26 +71,42 @@ namespace t2_1stan_writer
 
         private void button3_Click(object sender, RoutedEventArgs e)
         {
-            /*if (ComboBox1.SelectedIndex != -1 &&
+            if (ComboBox1.SelectedIndex != -1 &&
                 ComboBox2.SelectedIndex != -1 &&
                 ComboBox3.SelectedIndex != -1 &&
                 ComboBox4.SelectedIndex != -1 &&
                 TextBox4.Text != "" &&
+                ComboBox7.SelectedIndex != -1 &&
                 ComboBox8.SelectedIndex != -1 &&
                 ComboBox5.SelectedIndex != -1 &&
-                TextBox4.Text != "" &&
+                TextBox1.Text != "" &&
                 ComboBox9.SelectedIndex != -1 &&
                 ComboBox11.SelectedIndex != -1 &&
                 TextBox2.Text != "" &&
                 TextBox3.Text != "")
-            {*/
+            {
+                parameters.Clear();
+                parameters.Add("smena", ((KeyValuePair<int, string>)ComboBox1.SelectedItem).Key);
+                parameters.Add("smena_time", ((KeyValuePair<int, string>)ComboBox2.SelectedItem).Key);
+                parameters.Add("operator1", ((KeyValuePair<int, string>)ComboBox3.SelectedItem).Key);
+                parameters.Add("operator2", ((KeyValuePair<int, string>)ComboBox4.SelectedItem).Key);
+                parameters.Add("part", Convert.ToInt32(TextBox4.Text));
+                parameters.Add("gost", ((KeyValuePair<int, string>)ComboBox7.SelectedItem).Key);
+                parameters.Add("diameter", ((KeyValuePair<int, string>)ComboBox5.SelectedItem).Key);
+                parameters.Add("ho", Convert.ToInt32(TextBox1.Text));
+                parameters.Add("control_sample", ((KeyValuePair<int, string>)ComboBox8.SelectedItem).Key);
+                parameters.Add("name_defect", ((KeyValuePair<int, string>)ComboBox9.SelectedItem).Key);
+                parameters.Add("device", ((KeyValuePair<int, string>)ComboBox11.SelectedItem).Key);
+                parameters.Add("porog", Convert.ToInt32(TextBox2.Text));
+                parameters.Add("current", Convert.ToInt32(TextBox3.Text));                
+
                 _writer.port_Open();
-                TabControl1.SelectedIndex = 2;/*
+                TabControl1.SelectedIndex = 2;
             }
             else
             {
                 MessageBox.Show("Заполните все поля");
-            }*/
+            }
         }
 
         public void new_tube()
