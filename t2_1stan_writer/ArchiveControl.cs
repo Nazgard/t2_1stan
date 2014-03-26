@@ -313,8 +313,9 @@ namespace t2_1stan_writer
 
                         for (int i = 0; i < _countDeffectsLine; i++)
                         {
-                            ArchiveWindow.canvas1.Children.Remove(
-                                (UIElement) ArchiveWindow.canvas1.FindName("errorLine" + i));
+                            var line = (Line)ArchiveWindow.canvas1.FindName("errorLine" + i);
+                            line.Opacity = 0;
+                            ArchiveWindow.canvas1.Children.Remove(line);
                             try
                             {
                                 ArchiveWindow.canvas1.UnregisterName("errorLine" + i);
@@ -334,7 +335,14 @@ namespace t2_1stan_writer
                         _da.Duration = TimeSpan.FromMilliseconds(500);
                         ArchiveWindow.rectangle1.BeginAnimation(FrameworkElement.WidthProperty, _da);
 
-                        ArchiveWindow.label6.Content = "Кол-во дефектных сегментов\t " + _countDeffectsLine;
+                        var _countDeffectsLine1 = 0;
+                        foreach (byte deffect in (byte[])_mySqlDataReaderValue4)
+                        {
+                            if (deffect != 0)
+                                _countDeffectsLine1++;
+                        }
+
+                        ArchiveWindow.label6.Content = "Кол-во дефектных сегментов\t " + _countDeffectsLine1;
                     }
                     _connection.Close();
                     _mySqlDataReader.Close();
