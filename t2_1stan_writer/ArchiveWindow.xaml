@@ -55,7 +55,7 @@
             <Label Content="20" Canvas.Left="508" Canvas.Top="100" />
             <Label Content="22" Canvas.Left="557" Canvas.Top="100" />
         </Canvas>
-        <TreeView Margin="6,12,12,29" Name="treeView1" Background="#FFE0E0E0" TreeViewItem.Expanded="trw_Expanded"
+        <TreeView Margin="6,12,12,29" Name="treeView1" Background="#EFEFF2" TreeViewItem.Expanded="trw_Expanded"
                   Grid.Row="0" Grid.Column="1" VirtualizingStackPanel.IsVirtualizing="True"
                   VirtualizingStackPanel.VirtualizationMode="Recycling"
                   SelectedItemChanged="treeView1_SelectedItemChanged" />
