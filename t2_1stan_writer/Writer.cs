@@ -25,9 +25,11 @@ namespace t2_1stan_writer
 
         public void port_Open()
         {
+            
             try
             {
-                _serialPort.Open();
+                if (!_serialPort.IsOpen)
+                    _serialPort.Open();
             }
             catch (Exception exception)
             {
