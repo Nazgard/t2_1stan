@@ -25,7 +25,7 @@ namespace t2_1stan_writer
         public MainWindow()
         {
             InitializeComponent();
-            _writer.MainWindow  = this;
+            _writer.MainWindow = this;
             button1_Click(null, null);
             TabItem1.Visibility = Visibility.Hidden;
             TabItem2.Visibility = Visibility.Hidden;
@@ -86,19 +86,19 @@ namespace t2_1stan_writer
                 TextBox3.Text != "")
             {
                 parameters.Clear();
-                parameters.Add("smena", ((KeyValuePair<int, string>)ComboBox1.SelectedItem).Key);
-                parameters.Add("smena_time", ((KeyValuePair<int, string>)ComboBox2.SelectedItem).Key);
-                parameters.Add("operator1", ((KeyValuePair<int, string>)ComboBox3.SelectedItem).Key);
-                parameters.Add("operator2", ((KeyValuePair<int, string>)ComboBox4.SelectedItem).Key);
+                parameters.Add("smena", ((KeyValuePair<int, string>) ComboBox1.SelectedItem).Key);
+                parameters.Add("smena_time", ((KeyValuePair<int, string>) ComboBox2.SelectedItem).Key);
+                parameters.Add("operator1", ((KeyValuePair<int, string>) ComboBox3.SelectedItem).Key);
+                parameters.Add("operator2", ((KeyValuePair<int, string>) ComboBox4.SelectedItem).Key);
                 parameters.Add("part", Convert.ToInt32(TextBox4.Text));
-                parameters.Add("gost", ((KeyValuePair<int, string>)ComboBox7.SelectedItem).Key);
-                parameters.Add("diameter", ((KeyValuePair<int, string>)ComboBox5.SelectedItem).Key);
+                parameters.Add("gost", ((KeyValuePair<int, string>) ComboBox7.SelectedItem).Key);
+                parameters.Add("diameter", ((KeyValuePair<int, string>) ComboBox5.SelectedItem).Key);
                 parameters.Add("ho", Convert.ToInt32(TextBox1.Text));
-                parameters.Add("control_sample", ((KeyValuePair<int, string>)ComboBox8.SelectedItem).Key);
-                parameters.Add("name_defect", ((KeyValuePair<int, string>)ComboBox9.SelectedItem).Key);
-                parameters.Add("device", ((KeyValuePair<int, string>)ComboBox11.SelectedItem).Key);
+                parameters.Add("control_sample", ((KeyValuePair<int, string>) ComboBox8.SelectedItem).Key);
+                parameters.Add("name_defect", ((KeyValuePair<int, string>) ComboBox9.SelectedItem).Key);
+                parameters.Add("device", ((KeyValuePair<int, string>) ComboBox11.SelectedItem).Key);
                 parameters.Add("porog", Convert.ToInt32(TextBox2.Text));
-                parameters.Add("current", Convert.ToInt32(TextBox3.Text));                
+                parameters.Add("current", Convert.ToInt32(TextBox3.Text));
 
                 _writer.port_Open();
                 TabControl1.SelectedIndex = 2;
@@ -160,11 +160,7 @@ namespace t2_1stan_writer
 
         public void control_tube()
         {
-
-            Dispatcher.BeginInvoke(new ThreadStart(delegate 
-                { 
-                    Tube.Width = 96; 
-                }));
+            Dispatcher.BeginInvoke(new ThreadStart(delegate { Tube.Width = 96; }));
         }
 
         private void textBox4_PreviewTextInput(object sender, TextCompositionEventArgs e)
@@ -224,7 +220,6 @@ namespace t2_1stan_writer
             catch (Exception ex)
 // ReSharper restore EmptyGeneralCatchClause
             {
-
             }
         }
 
@@ -239,7 +234,6 @@ namespace t2_1stan_writer
             catch (Exception ex)
 // ReSharper restore EmptyGeneralCatchClause
             {
-
             }
         }
 
@@ -257,7 +251,6 @@ namespace t2_1stan_writer
             catch (Exception)
 // ReSharper restore EmptyGeneralCatchClause
             {
-
             }
         }
     }

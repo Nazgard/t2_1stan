@@ -318,7 +318,7 @@ namespace t2_1stan_writer
 
                         for (int i = 0; i < _countDeffectsLine; i++)
                         {
-                            var line = (Line)ArchiveWindow.canvas1.FindName("errorLine" + i);
+                            var line = (Line) ArchiveWindow.canvas1.FindName("errorLine" + i);
                             line.Opacity = 0;
                             ArchiveWindow.canvas1.Children.Remove(line);
                             try
@@ -340,8 +340,8 @@ namespace t2_1stan_writer
                         _da.Duration = TimeSpan.FromMilliseconds(500);
                         ArchiveWindow.rectangle1.BeginAnimation(FrameworkElement.WidthProperty, _da);
 
-                        var _countDeffectsLine1 = 0;
-                        foreach (byte deffect in (byte[])_mySqlDataReaderValue4)
+                        int _countDeffectsLine1 = 0;
+                        foreach (byte deffect in (byte[]) _mySqlDataReaderValue4)
                         {
                             if (deffect != 0)
                                 _countDeffectsLine1++;
@@ -845,18 +845,18 @@ namespace t2_1stan_writer
             }
             Mouse.OverrideCursor = Cursors.Arrow;
 
-            if (item.Tag.ToString() == "tube" && 
-                _currentPart  != _currentPart1 &&
+            if (item.Tag.ToString() == "tube" &&
+                _currentPart != _currentPart1 &&
                 _currentSmena != _currentSmena1 &&
-                _currentYear  != _currentYear1 &&
+                _currentYear != _currentYear1 &&
                 _currentMonth != _currentMonth1 &&
-                _currentDay   != _currentDay1)
+                _currentDay != _currentDay1)
             {
-                _currentPart1  = _currentPart;
+                _currentPart1 = _currentPart;
                 _currentSmena1 = _currentSmena;
-                _currentYear1  = _currentYear;
+                _currentYear1 = _currentYear;
                 _currentMonth1 = _currentMonth;
-                _currentDay1   = _currentDay;
+                _currentDay1 = _currentDay;
 
                 _connection.Open();
                 ArchiveWindow.listBox1.Items.Clear();

@@ -10,9 +10,11 @@
         </Grid.RowDefinitions>
         <Button Content="Новая смена" HorizontalAlignment="Left" Name="Button1" Width="115" Margin="10,10,0,0"
                 Click="button1_Click" Height="35" VerticalAlignment="Top" />
-        <Button Grid.Row="0" Content="Новая плавка" HorizontalAlignment="Left" Margin="130,10,0,0" Name="Button2" Width="115"
+        <Button Grid.Row="0" Content="Новая плавка" HorizontalAlignment="Left" Margin="130,10,0,0" Name="Button2"
+                Width="115"
                 Click="button2_Click" Height="35" VerticalAlignment="Top" />
-        <Button Grid.Row="0" Content="Контроль" HorizontalAlignment="Left" Margin="250,10,0,0" Name="Button3" Width="115"
+        <Button Grid.Row="0" Content="Контроль" HorizontalAlignment="Left" Margin="250,10,0,0" Name="Button3"
+                Width="115"
                 Click="button3_Click" Height="35" VerticalAlignment="Top" />
         <TabControl Name="TabControl1" Margin="10,57,10,10" TabStripPlacement="Top" SelectedIndex="6" Grid.Row="0"
                     Grid.RowSpan="2"
@@ -33,18 +35,25 @@
                               HorizontalAlignment="Left" Width="284" DisplayMemberPath="Value" Grid.Row="0"
                               Grid.Column="1" />
                     <ComboBox Height="23" HorizontalAlignment="Left" Margin="6,91,0,0" Name="ComboBox2"
-                              VerticalAlignment="Top" Width="284" DisplayMemberPath="Value" Grid.Row="0" Grid.Column="1" />
+                              VerticalAlignment="Top" Width="284" DisplayMemberPath="Value" Grid.Row="0"
+                              Grid.Column="1" />
                     <ComboBox Height="23" HorizontalAlignment="Left" Margin="6,214,0,0" Name="ComboBox3"
-                              VerticalAlignment="Top" Width="284" DisplayMemberPath="Value" Grid.Row="0" Grid.Column="1" />
+                              VerticalAlignment="Top" Width="284" DisplayMemberPath="Value" Grid.Row="0"
+                              Grid.Column="1" />
                     <ComboBox Height="23" HorizontalAlignment="Left" Margin="6,262,0,0" Name="ComboBox4"
-                              VerticalAlignment="Top" Width="284" DisplayMemberPath="Value" Grid.Row="0" Grid.Column="1" />
-                    <Label Grid.Row="0" Grid.Column="0" Content="Смена" Height="28" Margin="40,43,0,0" x:Name="Label1" VerticalAlignment="Top"
+                              VerticalAlignment="Top" Width="284" DisplayMemberPath="Value" Grid.Row="0"
+                              Grid.Column="1" />
+                    <Label Grid.Row="0" Grid.Column="0" Content="Смена" Height="28" Margin="40,43,0,0" x:Name="Label1"
+                           VerticalAlignment="Top"
                            HorizontalAlignment="Left" Width="45" />
-                    <Label Grid.Row="0" Grid.Column="0" Content="Время смены" Height="28" Margin="40,86,0,0" x:Name="Label2" VerticalAlignment="Top"
+                    <Label Grid.Row="0" Grid.Column="0" Content="Время смены" Height="28" Margin="40,86,0,0"
+                           x:Name="Label2" VerticalAlignment="Top"
                            HorizontalAlignment="Left" Width="84" />
-                    <Label Grid.Row="0" Grid.Column="0" Content="Специалист АСК ТЭСЦ 2" Height="28" Margin="40,209,0,0" x:Name="Label3"
+                    <Label Grid.Row="0" Grid.Column="0" Content="Специалист АСК ТЭСЦ 2" Height="28" Margin="40,209,0,0"
+                           x:Name="Label3"
                            VerticalAlignment="Top" HorizontalAlignment="Left" Width="143" />
-                    <Label Grid.Row="0" Grid.Column="0" Content="Специалист ОККП" Height="28" Margin="40,257,0,0" x:Name="Label4"
+                    <Label Grid.Row="0" Grid.Column="0" Content="Специалист ОККП" Height="28" Margin="40,257,0,0"
+                           x:Name="Label4"
                            VerticalAlignment="Top" HorizontalAlignment="Left" Width="109" />
                 </Grid>
             </TabItem>
@@ -61,45 +70,62 @@
                     <Button Content="Далее" Height="40" HorizontalAlignment="Left" Margin="253,110,0,-90"
                             Name="Button8" VerticalAlignment="Top" Width="100" Grid.Column="1" Grid.Row="1" />
                     <ComboBox Height="23" HorizontalAlignment="Left" Margin="40,91,0,0" Name="ComboBox7"
-                              VerticalAlignment="Top" Width="284" Grid.Row="0" Grid.Column="1" DisplayMemberPath="Value"
+                              VerticalAlignment="Top" Width="284" Grid.Row="0" Grid.Column="1"
+                              DisplayMemberPath="Value"
                               SelectionChanged="comboBox7_SelectionChanged" />
                     <ComboBox Height="23" HorizontalAlignment="Left" Margin="40,167,0,0" Name="ComboBox8"
-                              VerticalAlignment="Top" Width="284" Grid.Row="0" Grid.Column="1" DisplayMemberPath="Value" />
+                              VerticalAlignment="Top" Width="284" Grid.Row="0" Grid.Column="1"
+                              DisplayMemberPath="Value" />
                     <ComboBox Height="23" HorizontalAlignment="Left" Margin="40,205,0,0" Name="ComboBox9"
-                              VerticalAlignment="Top" Width="284" Grid.Row="0" Grid.Column="1" DisplayMemberPath="Value" />
-                    <Label Grid.Row="0" Grid.Column="0" Content="Номер плавки" Height="28" HorizontalAlignment="Left" Margin="40,43,0,0"
+                              VerticalAlignment="Top" Width="284" Grid.Row="0" Grid.Column="1"
+                              DisplayMemberPath="Value" />
+                    <Label Grid.Row="0" Grid.Column="0" Content="Номер плавки" Height="28" HorizontalAlignment="Left"
+                           Margin="40,43,0,0"
                            Name="Label5" VerticalAlignment="Top" />
-                    <Label Grid.Row="0" Grid.Column="0" Content="Нормативные документы" Height="28" HorizontalAlignment="Left" Margin="40,86,0,0"
+                    <Label Grid.Row="0" Grid.Column="0" Content="Нормативные документы" Height="28"
+                           HorizontalAlignment="Left" Margin="40,86,0,0"
                            Name="Label6" VerticalAlignment="Top" />
-                    <Label Grid.Row="0" Grid.Column="0" Content="Контрольный образец" Height="28" HorizontalAlignment="Left" Margin="40,162,0,0"
+                    <Label Grid.Row="0" Grid.Column="0" Content="Контрольный образец" Height="28"
+                           HorizontalAlignment="Left" Margin="40,162,0,0"
                            Name="Label7" VerticalAlignment="Top" />
-                    <Label Grid.Row="0" Grid.Column="0" Content="Искуственный дефект" Height="28" HorizontalAlignment="Left" Margin="40,200,0,0"
+                    <Label Grid.Row="0" Grid.Column="0" Content="Искуственный дефект" Height="28"
+                           HorizontalAlignment="Left" Margin="40,200,0,0"
                            Name="Label8" VerticalAlignment="Top" />
                     <ComboBox Height="23" HorizontalAlignment="Left" Margin="40,129,0,0" Name="ComboBox5"
-                              VerticalAlignment="Top" Width="176" Grid.Row="0" Grid.Column="1" DisplayMemberPath="Value"
+                              VerticalAlignment="Top" Width="176" Grid.Row="0" Grid.Column="1"
+                              DisplayMemberPath="Value"
                               SelectionChanged="comboBox5_SelectionChanged" />
-                    <Label Grid.Row="0" Grid.Column="0" Content="Размер трубы (диаметр/толщина)" Height="28" HorizontalAlignment="Left"
+                    <Label Grid.Row="0" Grid.Column="0" Content="Размер трубы (диаметр/толщина)" Height="28"
+                           HorizontalAlignment="Left"
                            Margin="40,124,0,0" Name="Label9" VerticalAlignment="Top" />
                     <ComboBox Grid.Row="0" Grid.Column="1" Height="23" HorizontalAlignment="Left" Margin="40,243,0,0"
                               Name="ComboBox11" VerticalAlignment="Top" Width="284" DisplayMemberPath="Value" />
-                    <Label Grid.Row="0" Grid.Column="0" Content="Установка" Height="28" HorizontalAlignment="Left" Margin="40,238,0,0"
+                    <Label Grid.Row="0" Grid.Column="0" Content="Установка" Height="28" HorizontalAlignment="Left"
+                           Margin="40,238,0,0"
                            Name="Label10" VerticalAlignment="Top" />
-                    <Label Grid.Row="0" Grid.Column="0" Content="Порог" Height="28" HorizontalAlignment="Left" Margin="40,276,0,0" Name="Label11"
+                    <Label Grid.Row="0" Grid.Column="0" Content="Порог" Height="28" HorizontalAlignment="Left"
+                           Margin="40,276,0,0" Name="Label11"
                            VerticalAlignment="Top" />
-                    <Label Grid.Row="0" Grid.Column="0" Content="Ток" Height="28" HorizontalAlignment="Left" Margin="40,309,0,0" Name="Label12"
+                    <Label Grid.Row="0" Grid.Column="0" Content="Ток" Height="28" HorizontalAlignment="Left"
+                           Margin="40,309,0,0" Name="Label12"
                            VerticalAlignment="Top" />
-                    <Label Content="d" Grid.Row="0" Grid.Column="1" Height="28" HorizontalAlignment="Left" Margin="18,129,0,0"
+                    <Label Content="d" Grid.Row="0" Grid.Column="1" Height="28" HorizontalAlignment="Left"
+                           Margin="18,129,0,0"
                            Name="Label13" VerticalAlignment="Top" />
-                    <Label Content="Но" Grid.Row="0" Grid.Column="1" Height="23" HorizontalAlignment="Left" Margin="221,129,0,0"
+                    <Label Content="Но" Grid.Row="0" Grid.Column="1" Height="23" HorizontalAlignment="Left"
+                           Margin="221,129,0,0"
                            Name="Label14" VerticalAlignment="Top" />
                     <TextBox Grid.Row="0" Grid.Column="1" Height="23" HorizontalAlignment="Left" Margin="247,129,0,0"
                              Name="TextBox1" VerticalAlignment="Top" Width="77"
                              PreviewTextInput="textBox1_PreviewTextInput" />
-                    <TextBox Grid.Row="0" Grid.Column="1" Height="23" HorizontalAlignment="Left" Margin="40,281,0,0" Name="TextBox2"
+                    <TextBox Grid.Row="0" Grid.Column="1" Height="23" HorizontalAlignment="Left" Margin="40,281,0,0"
+                             Name="TextBox2"
                              VerticalAlignment="Top" Width="284" Text="50" PreviewTextInput="textBox2_PreviewTextInput" />
-                    <TextBox Grid.Row="0" Grid.Column="1" Height="23" HorizontalAlignment="Left" Margin="40,314,0,0" Name="TextBox3"
+                    <TextBox Grid.Row="0" Grid.Column="1" Height="23" HorizontalAlignment="Left" Margin="40,314,0,0"
+                             Name="TextBox3"
                              VerticalAlignment="Top" Width="284" Text="1" PreviewTextInput="textBox3_PreviewTextInput" />
-                    <TextBox Grid.Row="0" Grid.Column="1" Height="23" HorizontalAlignment="Left" Margin="40,48,0,0" Name="TextBox4"
+                    <TextBox Grid.Row="0" Grid.Column="1" Height="23" HorizontalAlignment="Left" Margin="40,48,0,0"
+                             Name="TextBox4"
                              VerticalAlignment="Top" Width="284" Text="1" PreviewTextInput="textBox4_PreviewTextInput" />
                     <Button Content="Далее" Grid.Column="1" Margin="0,10,10,10" Click="button3_Click"
                             HorizontalAlignment="Right" Width="100" Grid.Row="1" />
@@ -108,23 +134,37 @@
             <TabItem Header="Контроль" Name="TabItem3" IsEnabled="False">
                 <Grid>
                     <Canvas x:Name="Canvas" Background="{x:Null}" IsEnabled="False">
-                        <Polyline Stroke="LightSalmon" StrokeThickness="1" StrokeEndLineCap="Flat" SnapsToDevicePixels="True"
-      Points="0,10 530,10 530,0 540 10 530, 20 530,10" Canvas.Left="37" Canvas.Top="81" Height="24" Width="550" Fill="LightSalmon" >
-                        </Polyline>
-                        <Line X1="40" X2="40" Y1="120" Y2="250" Stroke="Black" Height="350" Width="628" StrokeThickness="1" />
-                        <Line X1="88" X2="88" Y1="120" Y2="250" Stroke="Black" Height="350" Width="628" StrokeThickness="1" />
-                        <Line X1="136" X2="136" Y1="120" Y2="250" Stroke="Black" Height="350" Width="628" StrokeThickness="1" />
-                        <Line X1="184" X2="184" Y1="120" Y2="250" Stroke="Black" Height="350" Width="628" StrokeThickness="1" />
-                        <Line X1="232" X2="232" Y1="120" Y2="250" Stroke="Black" Height="350" Width="628" StrokeThickness="1" />
-                        <Line X1="280" X2="280" Y1="120" Y2="250" Stroke="Black" Height="350" Width="628" StrokeThickness="1" />
-                        <Line X1="328" X2="328" Y1="120" Y2="250" Stroke="Black" Height="350" Width="628" StrokeThickness="1" />
-                        <Line X1="376" X2="376" Y1="120" Y2="250" Stroke="Black" Height="350" Width="628" StrokeThickness="1" />
-                        <Line X1="424" X2="424" Y1="120" Y2="250" Stroke="Black" Height="350" Width="628" StrokeThickness="1" />
-                        <Line X1="472" X2="472" Y1="120" Y2="250" Stroke="Black" Height="350" Width="628" StrokeThickness="1" />
-                        <Line X1="520" X2="520" Y1="120" Y2="250" Stroke="Black" Height="350" Width="628" StrokeThickness="1" />
-                        <Line X1="568" X2="568" Y1="120" Y2="250" Stroke="Black" Height="350" Width="628" StrokeThickness="1" />
-                        <Rectangle Canvas.Left="40" Canvas.Top="151" Height="70" Name="Tube" Stroke="#FFFFF7BE" Width="0"
-                            Fill="#FFFFF7BE" />
+                        <Polyline Stroke="LightSalmon" StrokeThickness="1" StrokeEndLineCap="Flat"
+                                  SnapsToDevicePixels="True"
+                                  Points="0,10 530,10 530,0 540 10 530, 20 530,10" Canvas.Left="37" Canvas.Top="81"
+                                  Height="24" Width="550" Fill="LightSalmon" />
+                        <Line X1="40" X2="40" Y1="120" Y2="250" Stroke="Black" Height="350" Width="628"
+                              StrokeThickness="1" />
+                        <Line X1="88" X2="88" Y1="120" Y2="250" Stroke="Black" Height="350" Width="628"
+                              StrokeThickness="1" />
+                        <Line X1="136" X2="136" Y1="120" Y2="250" Stroke="Black" Height="350" Width="628"
+                              StrokeThickness="1" />
+                        <Line X1="184" X2="184" Y1="120" Y2="250" Stroke="Black" Height="350" Width="628"
+                              StrokeThickness="1" />
+                        <Line X1="232" X2="232" Y1="120" Y2="250" Stroke="Black" Height="350" Width="628"
+                              StrokeThickness="1" />
+                        <Line X1="280" X2="280" Y1="120" Y2="250" Stroke="Black" Height="350" Width="628"
+                              StrokeThickness="1" />
+                        <Line X1="328" X2="328" Y1="120" Y2="250" Stroke="Black" Height="350" Width="628"
+                              StrokeThickness="1" />
+                        <Line X1="376" X2="376" Y1="120" Y2="250" Stroke="Black" Height="350" Width="628"
+                              StrokeThickness="1" />
+                        <Line X1="424" X2="424" Y1="120" Y2="250" Stroke="Black" Height="350" Width="628"
+                              StrokeThickness="1" />
+                        <Line X1="472" X2="472" Y1="120" Y2="250" Stroke="Black" Height="350" Width="628"
+                              StrokeThickness="1" />
+                        <Line X1="520" X2="520" Y1="120" Y2="250" Stroke="Black" Height="350" Width="628"
+                              StrokeThickness="1" />
+                        <Line X1="568" X2="568" Y1="120" Y2="250" Stroke="Black" Height="350" Width="628"
+                              StrokeThickness="1" />
+                        <Rectangle Canvas.Left="40" Canvas.Top="151" Height="70" Name="Tube" Stroke="#FFFFF7BE"
+                                   Width="0"
+                                   Fill="#FFFFF7BE" />
                         <Label Content="0" Canvas.Left="32" Canvas.Top="97" Foreground="Black" />
                         <Label Content="2" Canvas.Left="79" Canvas.Top="97" Foreground="Black" />
                         <Label Content="4" Height="26" Canvas.Left="128" Canvas.Top="97" Width="16" Foreground="Black" />

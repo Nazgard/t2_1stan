@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO.Ports;
 using System.Threading;
 using System.Windows;
@@ -25,7 +24,6 @@ namespace t2_1stan_writer
 
         public void port_Open()
         {
-            
             try
             {
                 if (!_serialPort.IsOpen)
@@ -90,7 +88,7 @@ namespace t2_1stan_writer
                             myCommand.Parameters.AddWithValue("C", _buffForRead[5]);
                             //ДЕФЕКТЫ
                             var deffectsArray = new byte[_buffForRead[5]];
-                            for (int k = 0; k < (int)_buffForRead[5]; k++)
+                            for (int k = 0; k < (int) _buffForRead[5]; k++)
                             {
                                 if (_buffferRecive[k] != 0) hasDeffect = 1;
                                 deffectsArray[k] = _buffferRecive[k];
@@ -119,7 +117,8 @@ namespace t2_1stan_writer
                             ", _connection.MySqlConnection);
                             myCommand.Parameters.AddWithValue("Id_SizeTube", MainWindow.parameters["diameter"]);
                             myCommand.Parameters.AddWithValue("Id_Gost", MainWindow.parameters["gost"]);
-                            myCommand.Parameters.AddWithValue("Id_ControlSample", MainWindow.parameters["control_sample"]);
+                            myCommand.Parameters.AddWithValue("Id_ControlSample",
+                                MainWindow.parameters["control_sample"]);
                             myCommand.Parameters.AddWithValue("Id_WorkSmen", MainWindow.parameters["smena"]);
                             myCommand.Parameters.AddWithValue("Id_TimeIntervalSmen", MainWindow.parameters["smena_time"]);
                             myCommand.Parameters.AddWithValue("Id_Operator1", MainWindow.parameters["operator1"]);
