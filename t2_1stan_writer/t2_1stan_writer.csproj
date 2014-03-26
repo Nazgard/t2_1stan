@@ -85,6 +85,7 @@
       <DependentUpon>BDSettingsWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="control_summ.cs" />
+    <Compile Include="Styles\CustomizedWindow\VS2012WindowStyle.cs" />
     <Compile Include="Writer.cs" />
     <Page Include="ArchiveWindow.xaml">
       <SubType>Designer</SubType>
@@ -107,6 +108,14 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Styles\CustomizedWindow\VS2012WindowStyle.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="themes\generic.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Parameters.cs" />
