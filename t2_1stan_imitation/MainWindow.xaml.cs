@@ -23,6 +23,7 @@ namespace t2_1stan_imitation
         private byte _currentSegmentTube;
         private bool _errorState;
         private bool _positionDefectoscope;
+        private bool _controlSample = false;
         private const double PxMeterFactor = 30;
         private byte _segmentsTube;
 
@@ -96,7 +97,7 @@ namespace t2_1stan_imitation
                 if (Canvas.GetLeft(Rectangle5) <= (Canvas.GetLeft(RectangleTube) + RectangleTube.Width) &&
                     _currentSegmentTube < _segmentsTube)
                 {
-                    if (_errorState && _positionDefectoscope)
+                    if (_errorState && _positionDefectoscope && !_controlSample)
                     {
                         PacOut2(_currentSegmentTube, 1);
                         _errorState = false;
@@ -104,7 +105,15 @@ namespace t2_1stan_imitation
                     else
                     {
                         _errorState = false;
-                        PacOut2(_currentSegmentTube, 0);
+                        if (!_controlSample && _errorState)
+                            PacOut2(_currentSegmentTube, 0);
+                        if (_controlSample)
+                        {
+                            if (_errorState)
+                                PacOut1(1);
+                            else
+                                PacOut1(0);
+                        }
                     }
 
                     _currentSegmentTube++;
@@ -305,6 +314,14 @@ namespace t2_1stan_imitation
         {
             _moveTubeTimer.Interval = TimeSpan.FromMilliseconds(Slider1.Value);
             _animation1.Duration = TimeSpan.FromMilliseconds(Slider1.Value);
+        }
+
+        private void button7_Click(object sender, RoutedEventArgs e)
+        {
+            if (_controlSample)
+                _controlSample = false;
+            else
+                _controlSample = true;
         }
     }
 }

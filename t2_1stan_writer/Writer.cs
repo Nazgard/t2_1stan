@@ -140,8 +140,12 @@ namespace t2_1stan_writer
                     MainWindow.move_tube();
                     _buffferRecive[_buffForRead[5]] = _buffForRead[6];
                 }
+
                 if (_buffForRead[4] == 0x02 && _buffForRead[6] != 0)
                     MainWindow.error_segment();
+
+                if (_buffForRead[4] == 0x01)
+                    MainWindow.control_tube();
             }
         }
 

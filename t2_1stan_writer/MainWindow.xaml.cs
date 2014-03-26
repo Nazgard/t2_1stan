@@ -158,6 +158,15 @@ namespace t2_1stan_writer
             }));
         }
 
+        public void control_tube()
+        {
+
+            Dispatcher.BeginInvoke(new ThreadStart(delegate 
+                { 
+                    Tube.Width = 96; 
+                }));
+        }
+
         private void textBox4_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
             if (!char.IsDigit(e.Text, e.Text.Length - 1))
