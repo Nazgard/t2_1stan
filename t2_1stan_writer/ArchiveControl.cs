@@ -5,6 +5,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shapes;
 using MySql.Data.MySqlClient;
+using MySql.Data.MySqlClient.Properties;
 
 namespace t2_1stan_writer
 {
@@ -41,6 +42,7 @@ namespace t2_1stan_writer
                 {
                     var item = new TreeViewItem
                     {
+                        Style = null,
                         Tag = "year",
                         Header = _mySqlDataReader.GetString(0)
                     };
@@ -87,6 +89,7 @@ namespace t2_1stan_writer
                     {
                         var itemMonth = new TreeViewItem
                         {
+                            Style = null,
                             Tag = "month",
                             Header = _mySqlDataReader.GetString(0)
                         };
@@ -120,6 +123,7 @@ namespace t2_1stan_writer
                     {
                         var itemDays = new TreeViewItem
                         {
+                            Style = null,
                             Tag = "day",
                             Header = _mySqlDataReader.GetString(0)
                         };
@@ -155,6 +159,7 @@ namespace t2_1stan_writer
                     {
                         var itemSmens = new TreeViewItem
                         {
+                            Style = null,
                             Uid = _mySqlDataReader.GetString(1),
                             Tag = "smena",
                             Header = _mySqlDataReader.GetString(0)
@@ -190,6 +195,7 @@ namespace t2_1stan_writer
                     {
                         var itemPart = new TreeViewItem
                         {
+                            Style = null,
                             Tag = "part",
                             Header = _mySqlDataReader.GetString(0)
                         };

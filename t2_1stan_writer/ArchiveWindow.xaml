@@ -59,6 +59,24 @@
                   Grid.Row="0" Grid.Column="1" VirtualizingStackPanel.IsVirtualizing="True"
                   VirtualizingStackPanel.VirtualizationMode="Recycling"
                   SelectedItemChanged="treeView1_SelectedItemChanged">
+            <TreeView.Resources>
+                <Style x:Name="stl" TargetType="{x:Type TreeViewItem}">
+                    <Setter x:Name="_123" Property="HeaderTemplate">
+                        <Setter.Value>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Name="img"
+                                   Width="20"
+                                   Height="20"
+                                   Stretch="Fill"
+                                   Source="icon.ico"/>
+                                    <TextBlock Text="{Binding}" Margin="5,0" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </TreeView.Resources>
         </TreeView>
         <StatusBar Grid.Column="0" Margin="0,0,0,0" Grid.ColumnSpan="2" Height="24" VerticalAlignment="Bottom">
             <TextBlock Margin="3,0,0,0">Ready</TextBlock>
