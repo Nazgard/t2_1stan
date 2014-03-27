@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -6,6 +7,7 @@ using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Shapes;
 using MySql.Data.MySqlClient;
+using Image = System.Drawing.Image;
 
 namespace t2_1stan_writer
 {
@@ -23,8 +25,8 @@ namespace t2_1stan_writer
         private string _currentMonth1;
         private string _currentPart;
         private string _currentPart1;
-        private string _currentSmena;
-        private string _currentSmena1;
+        private string _currentIdSmena;
+        private string _currentIdSmena1;
         private string _currentYear;
         private string _currentYear1;
         private MySqlDataReader _mySqlDataReader;
@@ -139,7 +141,8 @@ namespace t2_1stan_writer
                 {
                     _mySqlCommand.CommandText = @"
                         SELECT DISTINCT
-                        worksmens.NameSmen
+                        worksmens.NameSmen,
+                        worksmens.Id_WorkSmen
                         FROM
                         indexes
                         INNER JOIN defectsdata ON defectsdata.IndexData = indexes.IndexData
@@ -158,6 +161,7 @@ namespace t2_1stan_writer
                     {
                         var itemSmens = new TreeViewItem
                         {
+                            Uid = _mySqlDataReader.GetString(1),
                             Tag = "smena",
                             Header = _mySqlDataReader.GetString(0)
                         };
@@ -179,13 +183,13 @@ namespace t2_1stan_writer
                         INNER JOIN defectsdata ON defectsdata.IndexData = indexes.IndexData
                         INNER JOIN worksmens ON worksmens.Id_WorkSmen = indexes.Id_WorkSmen
                         WHERE DATE_FORMAT(defectsdata.DatePr, '%Y-%M-%d') = @A AND
-                              worksmens.NameSmen = @B  
+                              worksmens.Id_WorkSmen = @B  
                     ";
                     _mySqlCommand.Connection = _connection.MySqlConnection;
                     _mySqlCommand.Parameters.Clear();
                     _mySqlCommand.Parameters.AddWithValue("A",
                         _currentYear + "-" + _currentMonth + "-" + string.Format("{0:00}", Convert.ToInt32(_currentDay)));
-                    _mySqlCommand.Parameters.AddWithValue("B", item.Header.ToString());
+                    _mySqlCommand.Parameters.AddWithValue("B", item.Uid);
                     _mySqlDataReader = _mySqlCommand.ExecuteReader();
 
                     while (_mySqlDataReader.Read())
@@ -200,7 +204,7 @@ namespace t2_1stan_writer
                     }
                     _mySqlDataReader.Close();
 
-                    _currentSmena = item.Header.ToString();
+                    _currentIdSmena = item.Uid;
                 }
 
                 if (item.Tag.ToString() == "part")
@@ -209,20 +213,21 @@ namespace t2_1stan_writer
                         SELECT
                         defectsdata.NumberTube,
                         defectsdata.FlDefectTube,
-                        defectsdata.TimePr
+                        defectsdata.TimePr,
+                        defectsdata.IndexData
                         FROM
                         indexes
                         INNER JOIN defectsdata ON defectsdata.IndexData = indexes.IndexData
                         INNER JOIN worksmens ON worksmens.Id_WorkSmen = indexes.Id_WorkSmen
                         WHERE DATE_FORMAT(defectsdata.DatePr, '%Y-%M-%d') = @A AND
-                              worksmens.NameSmen = @B AND
+                              worksmens.Id_WorkSmen = @B AND
                               defectsdata.NumberPart = @C
                     ";
                     _mySqlCommand.Connection = _connection.MySqlConnection;
                     _mySqlCommand.Parameters.Clear();
                     _mySqlCommand.Parameters.AddWithValue("A",
                         _currentYear + "-" + _currentMonth + "-" + string.Format("{0:00}", Convert.ToInt32(_currentDay)));
-                    _mySqlCommand.Parameters.AddWithValue("B", _currentSmena);
+                    _mySqlCommand.Parameters.AddWithValue("B", _currentIdSmena);
                     _mySqlCommand.Parameters.AddWithValue("C", Convert.ToInt32(item.Header.ToString()));
                     _mySqlDataReader = _mySqlCommand.ExecuteReader();
 
@@ -231,8 +236,9 @@ namespace t2_1stan_writer
                     {
                         var itemTube = new TreeViewItem
                         {
-                            Tag = "tube",
-                            Header = "Труба № " + _mySqlDataReader.GetString(0)
+                            Uid     = _mySqlDataReader.GetString(3),
+                            Tag     = "tube",
+                            Header  = "Труба № " + _mySqlDataReader.GetString(0)
                         };
                         if (_mySqlDataReader.GetInt32(1) == 1)
                         {
@@ -284,20 +290,10 @@ namespace t2_1stan_writer
                         INNER JOIN operators o1 ON o1.Id_Operator = indexes.Id_Operator1
                         INNER JOIN operators o2 ON o2.Id_Operator = indexes.Id_Operator2
                         WHERE 
-                        YEAR(defectsdata.DatePr) = @A AND
-                        MONTHNAME(defectsdata.DatePr) = @B AND
-                        DAY(defectsdata.DatePr) = @C AND
-                        worksmens.NameSmen = @D AND 
-                        defectsdata.NumberPart = @E AND
-                        defectsdata.NumberTube = @F
+                        defectsdata.IndexData = @A
                     ";
                     _mySqlCommand.Parameters.Clear();
-                    _mySqlCommand.Parameters.AddWithValue("A", _currentYear);
-                    _mySqlCommand.Parameters.AddWithValue("B", _currentMonth);
-                    _mySqlCommand.Parameters.AddWithValue("C", _currentDay);
-                    _mySqlCommand.Parameters.AddWithValue("D", _currentSmena);
-                    _mySqlCommand.Parameters.AddWithValue("E", Convert.ToInt32(_currentPart));
-                    _mySqlCommand.Parameters.AddWithValue("F", Convert.ToInt32(item.Header.ToString().Substring(8)));
+                    _mySqlCommand.Parameters.AddWithValue("A", item.Uid);
 
                     _connection.Open();
                     _mySqlCommand.Connection = _connection.MySqlConnection;
@@ -319,7 +315,6 @@ namespace t2_1stan_writer
                         for (int i = 0; i < _countDeffectsLine; i++)
                         {
                             var line = (Line) ArchiveWindow.canvas1.FindName("errorLine" + i);
-                            line.Opacity = 0;
                             ArchiveWindow.canvas1.Children.Remove(line);
                             try
                             {
@@ -333,21 +328,48 @@ namespace t2_1stan_writer
                         }
                         _countDeffectsLine = 0;
 
-                        _mySqlDataReaderValue4 = _mySqlDataReader.GetValue(4);
+                        /*_mySqlDataReaderValue4 = _mySqlDataReader.GetValue(4);
                         _da.Completed += _da_Completed;
                         _da.From = ArchiveWindow.rectangle1.Width;
                         _da.To = _mySqlDataReader.GetDouble(3)*4;
                         _da.Duration = TimeSpan.FromMilliseconds(500);
-                        ArchiveWindow.rectangle1.BeginAnimation(FrameworkElement.WidthProperty, _da);
+                        ArchiveWindow.rectangle1.BeginAnimation(FrameworkElement.WidthProperty, _da);*/
+                        ArchiveWindow.rectangle1.Width = _mySqlDataReader.GetDouble(3)*4;
 
-                        int _countDeffectsLine1 = 0;
-                        foreach (byte deffect in (byte[]) _mySqlDataReaderValue4)
+                        int j = 0;
+
+                        foreach (byte deffect in (byte[])_mySqlDataReader.GetValue(4))
                         {
                             if (deffect != 0)
-                                _countDeffectsLine1++;
+                            {
+                                var redBrush = new SolidColorBrush
+                                {
+                                    Color = Colors.Red
+                                };
+
+                                var errorLine = new Line();
+
+                                Canvas.SetLeft(errorLine, 40 + (j * 4));
+                                errorLine.Opacity = 1;
+                                errorLine.X1 = 0;
+                                errorLine.X2 = 0;
+                                errorLine.Y1 = 151;
+                                errorLine.Y2 = 151 + 70;
+                                errorLine.StrokeThickness = 4;
+                                errorLine.Stroke = redBrush;
+                                errorLine.Fill = redBrush;
+                                ArchiveWindow.canvas1.RegisterName("errorLine" + _countDeffectsLine, errorLine);
+                                ArchiveWindow.canvas1.Children.Add(errorLine);
+                                /*_da1.From = 0;
+                                _da1.To = 1;
+                                _da1.Duration = TimeSpan.FromMilliseconds(2000);
+                                errorLine.BeginAnimation(UIElement.OpacityProperty, _da1);*/
+                                _countDeffectsLine++;
+                            }
+                            j++;
                         }
 
-                        ArchiveWindow.label6.Content = "Кол-во дефектных сегментов\t " + _countDeffectsLine1;
+                        ArchiveWindow.label6.Content = "Кол-во дефектных сегментов\t " + _countDeffectsLine;
                     }
                     _connection.Close();
                     _mySqlDataReader.Close();
@@ -368,38 +390,7 @@ namespace t2_1stan_writer
 
         private void DaOnCompleted(object mySqlDataReader)
         {
-            int j = 0;
-
-            foreach (byte deffect in (byte[]) mySqlDataReader)
-            {
-                if (deffect != 0)
-                {
-                    var redBrush = new SolidColorBrush
-                    {
-                        Color = Colors.Red
-                    };
-
-                    var errorLine = new Line();
-
-                    Canvas.SetLeft(errorLine, 40 + (j*4));
-                    errorLine.Opacity = 0;
-                    errorLine.X1 = 0;
-                    errorLine.X2 = 0;
-                    errorLine.Y1 = 151;
-                    errorLine.Y2 = 151 + 70;
-                    errorLine.StrokeThickness = 4;
-                    errorLine.Stroke = redBrush;
-                    errorLine.Fill = redBrush;
-                    ArchiveWindow.canvas1.RegisterName("errorLine" + _countDeffectsLine, errorLine);
-                    ArchiveWindow.canvas1.Children.Add(errorLine);
-                    _da1.From = 0;
-                    _da1.To = 1;
-                    _da1.Duration = TimeSpan.FromMilliseconds(2000);
-                    errorLine.BeginAnimation(UIElement.OpacityProperty, _da1);
-                    _countDeffectsLine++;
-                }
-                j++;
-            }
+            
         }
 
         public void Info(TreeViewItem item)
@@ -656,7 +647,7 @@ namespace t2_1stan_writer
                         YEAR(defectsdata.DatePr) = @A AND
                         MONTHNAME(defectsdata.DatePr) = @B AND
                         DAY(defectsdata.DatePr) = @C AND
-                        worksmens.NameSmen = @D
+                        worksmens.Id_WorkSmen = @D
                     ";
                 _mySqlCommand.Connection = _connection.MySqlConnection;
                 _mySqlCommand.Parameters.Clear();
@@ -664,7 +655,7 @@ namespace t2_1stan_writer
                 _mySqlCommand.Parameters.AddWithValue("B", _currentMonth);
                 _mySqlCommand.Parameters.AddWithValue("C",
                     string.Format("{0:00}", Convert.ToInt32(_currentDay)));
-                _mySqlCommand.Parameters.AddWithValue("D", item.Header.ToString());
+                _mySqlCommand.Parameters.AddWithValue("D", item.Uid);
                 _mySqlDataReader = _mySqlCommand.ExecuteReader();
 
                 while (_mySqlDataReader.Read())
@@ -686,7 +677,7 @@ namespace t2_1stan_writer
                         YEAR(defectsdata.DatePr) = @A AND
                         MONTHNAME(defectsdata.DatePr) = @B AND
                         DAY(defectsdata.DatePr) = @C AND
-                        worksmens.NameSmen = @D
+                        worksmens.Id_WorkSmen = @D
                     ";
                 _mySqlCommand.Connection = _connection.MySqlConnection;
                 _mySqlDataReader = _mySqlCommand.ExecuteReader();
@@ -712,7 +703,7 @@ namespace t2_1stan_writer
                         YEAR(defectsdata.DatePr) = @A AND
                         MONTHNAME(defectsdata.DatePr) = @B AND
                         DAY(defectsdata.DatePr) = @C AND
-                        worksmens.NameSmen = @D)  / Count(defectsdata.IndexData) * 100 ),2),'%') 
+                        worksmens.Id_WorkSmen = @D)  / Count(defectsdata.IndexData) * 100 ),2),'%') 
                         FROM
                         defectsdata
                         Inner Join indexes ON defectsdata.IndexData = indexes.IndexData
@@ -722,7 +713,7 @@ namespace t2_1stan_writer
                         YEAR(defectsdata.DatePr) = @A AND
                         MONTHNAME(defectsdata.DatePr) = @B AND
                         DAY(defectsdata.DatePr) = @C AND
-                        worksmens.NameSmen = @D
+                        worksmens.Id_WorkSmen = @D
                     ";
                 _mySqlCommand.Connection = _connection.MySqlConnection;
                 _mySqlDataReader = _mySqlCommand.ExecuteReader();
@@ -740,7 +731,7 @@ namespace t2_1stan_writer
                 _connection.Open();
                 ArchiveWindow.listBox1.Items.Clear();
                 ArchiveWindow.listBox1.Items.Add("ВРЕМЯ: \t\t\t" + _currentYear + "-" + _currentMonth + "-" +
-                                                 _currentDay + " / " + _currentSmena + " / Плавка № " + item.Header);
+                                                 _currentDay + " / " + _currentIdSmena + " / Плавка № " + item.Header);
                 _mySqlCommand.CommandText = @"
                         SELECT
                         Count(defectsdata.IndexData)
@@ -753,7 +744,7 @@ namespace t2_1stan_writer
                         YEAR(defectsdata.DatePr) = @A AND
                         MONTHNAME(defectsdata.DatePr) = @B AND
                         DAY(defectsdata.DatePr) = @C AND
-                        worksmens.NameSmen = @D AND
+                        worksmens.Id_WorkSmen = @D AND
                         defectsdata.NumberPart = @E
                     ";
                 _mySqlCommand.Connection = _connection.MySqlConnection;
@@ -762,7 +753,7 @@ namespace t2_1stan_writer
                 _mySqlCommand.Parameters.AddWithValue("B", _currentMonth);
                 _mySqlCommand.Parameters.AddWithValue("C",
                     string.Format("{0:00}", Convert.ToInt32(_currentDay)));
-                _mySqlCommand.Parameters.AddWithValue("D", _currentSmena);
+                _mySqlCommand.Parameters.AddWithValue("D", _currentIdSmena);
                 _mySqlCommand.Parameters.AddWithValue("E", item.Header.ToString());
                 _mySqlDataReader = _mySqlCommand.ExecuteReader();
 
@@ -785,7 +776,7 @@ namespace t2_1stan_writer
                         YEAR(defectsdata.DatePr) = @A AND
                         MONTHNAME(defectsdata.DatePr) = @B AND
                         DAY(defectsdata.DatePr) = @C AND
-                        worksmens.NameSmen = @D AND
+                        worksmens.Id_WorkSmen = @D AND
                         defectsdata.NumberPart = @E
                     ";
                 _mySqlCommand.Connection = _connection.MySqlConnection;
@@ -812,7 +803,7 @@ namespace t2_1stan_writer
                         YEAR(defectsdata.DatePr) = @A AND
                         MONTHNAME(defectsdata.DatePr) = @B AND
                         DAY(defectsdata.DatePr) = @C AND
-                        worksmens.NameSmen = @D AND
+                        worksmens.Id_WorkSmen = @D AND
                         defectsdata.NumberPart = @E)  / Count(defectsdata.IndexData) * 100 ),2),'%') 
                         FROM
                         defectsdata
@@ -823,7 +814,7 @@ namespace t2_1stan_writer
                         YEAR(defectsdata.DatePr) = @A AND
                         MONTHNAME(defectsdata.DatePr) = @B AND
                         DAY(defectsdata.DatePr) = @C AND
-                        worksmens.NameSmen = @D AND
+                        worksmens.Id_WorkSmen = @D AND
                         defectsdata.NumberPart = @E
                     ";
                 _mySqlCommand.Connection = _connection.MySqlConnection;
@@ -847,13 +838,13 @@ namespace t2_1stan_writer
 
             if (item.Tag.ToString() == "tube" &&
                 (_currentPart != _currentPart1 ||
-                _currentSmena != _currentSmena1 ||
+                _currentIdSmena != _currentIdSmena1 ||
                 _currentYear != _currentYear1 ||
                 _currentMonth != _currentMonth1 ||
                 _currentDay != _currentDay1))
             {
                 _currentPart1 = _currentPart;
-                _currentSmena1 = _currentSmena;
+                _currentIdSmena1 = _currentIdSmena;
                 _currentYear1 = _currentYear;
                 _currentMonth1 = _currentMonth;
                 _currentDay1 = _currentDay;
@@ -861,7 +852,7 @@ namespace t2_1stan_writer
                 _connection.Open();
                 ArchiveWindow.listBox1.Items.Clear();
                 ArchiveWindow.listBox1.Items.Add("ВРЕМЯ: \t\t\t" + _currentYear + "-" + _currentMonth + "-" +
-                                                 _currentDay + " / " + _currentSmena + " / Плавка № " + _currentPart);
+                                                 _currentDay + " / " + _currentIdSmena + " / Плавка № " + _currentPart);
                 _mySqlCommand.CommandText = @"
                         SELECT
                         Count(defectsdata.IndexData)
@@ -870,21 +861,11 @@ namespace t2_1stan_writer
                         Inner Join indexes ON defectsdata.IndexData = indexes.IndexData
                         Inner Join worksmens ON worksmens.Id_WorkSmen = indexes.Id_WorkSmen
                         WHERE
-                        defectsdata.NumberTube <>  0 AND
-                        YEAR(defectsdata.DatePr) = @A AND
-                        MONTHNAME(defectsdata.DatePr) = @B AND
-                        DAY(defectsdata.DatePr) = @C AND
-                        worksmens.NameSmen = @D AND
-                        defectsdata.NumberPart = @E
+                        defectsdata.IndexData = @A
                     ";
                 _mySqlCommand.Connection = _connection.MySqlConnection;
                 _mySqlCommand.Parameters.Clear();
-                _mySqlCommand.Parameters.AddWithValue("A", _currentYear);
-                _mySqlCommand.Parameters.AddWithValue("B", _currentMonth);
-                _mySqlCommand.Parameters.AddWithValue("C",
-                    string.Format("{0:00}", Convert.ToInt32(_currentDay)));
-                _mySqlCommand.Parameters.AddWithValue("D", _currentSmena);
-                _mySqlCommand.Parameters.AddWithValue("E", _currentPart);
+                _mySqlCommand.Parameters.AddWithValue("A", item.Uid);
                 _mySqlDataReader = _mySqlCommand.ExecuteReader();
 
                 while (_mySqlDataReader.Read())
@@ -901,13 +882,7 @@ namespace t2_1stan_writer
                         Inner Join indexes ON defectsdata.IndexData = indexes.IndexData
                         Inner Join worksmens ON worksmens.Id_WorkSmen = indexes.Id_WorkSmen
                         WHERE
-                        defectsdata.FlDefectTube =  1 AND
-                        defectsdata.NumberTube <>  0 AND
-                        YEAR(defectsdata.DatePr) = @A AND
-                        MONTHNAME(defectsdata.DatePr) = @B AND
-                        DAY(defectsdata.DatePr) = @C AND
-                        worksmens.NameSmen = @D AND
-                        defectsdata.NumberPart = @E
+                        defectsdata.IndexData = @A
                     ";
                 _mySqlCommand.Connection = _connection.MySqlConnection;
                 _mySqlDataReader = _mySqlCommand.ExecuteReader();
@@ -933,19 +908,14 @@ namespace t2_1stan_writer
                         YEAR(defectsdata.DatePr) = @A AND
                         MONTHNAME(defectsdata.DatePr) = @B AND
                         DAY(defectsdata.DatePr) = @C AND
-                        worksmens.NameSmen = @D AND
+                        worksmens.Id_WorkSmen = @D AND
                         defectsdata.NumberPart = @E)  / Count(defectsdata.IndexData) * 100 ),2),'%') 
                         FROM
                         defectsdata
                         Inner Join indexes ON defectsdata.IndexData = indexes.IndexData
                         Inner Join worksmens ON worksmens.Id_WorkSmen = indexes.Id_WorkSmen
                         WHERE
-                        defectsdata.NumberTube <>  0 AND
-                        YEAR(defectsdata.DatePr) = @A AND
-                        MONTHNAME(defectsdata.DatePr) = @B AND
-                        DAY(defectsdata.DatePr) = @C AND
-                        worksmens.NameSmen = @D AND
-                        defectsdata.NumberPart = @E
+                        defectsdata.IndexData = @A
                     ";
                 _mySqlCommand.Connection = _connection.MySqlConnection;
                 _mySqlDataReader = _mySqlCommand.ExecuteReader();

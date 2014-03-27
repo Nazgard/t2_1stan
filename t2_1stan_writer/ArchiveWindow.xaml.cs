@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using System.Windows.Controls;
 
 namespace t2_1stan_writer
@@ -35,8 +36,14 @@ namespace t2_1stan_writer
 
         private void treeView1_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
         {
-            _ac.Tube_Control((TreeViewItem) treeView1.SelectedItem);
-            _ac.Info((TreeViewItem) treeView1.SelectedItem);
+            try
+            {
+                _ac.Tube_Control((TreeViewItem)treeView1.SelectedItem);
+                _ac.Info((TreeViewItem)treeView1.SelectedItem);
+            }
+            catch
+            {
+            }
         }
     }
 }

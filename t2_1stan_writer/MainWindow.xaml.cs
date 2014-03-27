@@ -239,10 +239,7 @@ namespace t2_1stan_writer
 
         private void button4_Click(object sender, RoutedEventArgs e)
         {
-            var aw = new ArchiveWindow
-            {
-                Owner = this
-            };
+            var aw = new ArchiveWindow();
             try
             {
                 aw.Show();
