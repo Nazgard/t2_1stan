@@ -197,6 +197,7 @@ namespace t2_1stan_writer
             Settings ps = Settings.Default;
             Top = ps.Top;
             Left = ps.Left;
+            BdStatus.Text = ps.DataSource;
         }
 
         private void Window_Closing(object sender, CancelEventArgs e)
