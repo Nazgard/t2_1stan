@@ -1,21 +1,16 @@
 ﻿using System;
-using System.Drawing;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Animation;
 using System.Windows.Shapes;
 using MySql.Data.MySqlClient;
-using Image = System.Drawing.Image;
 
 namespace t2_1stan_writer
 {
     internal class ArchiveControl
     {
         private readonly Connection _connection = new Connection();
-        private readonly DoubleAnimation _da = new DoubleAnimation();
-        private readonly DoubleAnimation _da1 = new DoubleAnimation();
         private readonly MySqlCommand _mySqlCommand = new MySqlCommand();
         public ArchiveWindow ArchiveWindow;
         private int _countDeffectsLine;
@@ -30,7 +25,6 @@ namespace t2_1stan_writer
         private string _currentYear;
         private string _currentYear1;
         private MySqlDataReader _mySqlDataReader;
-        private object _mySqlDataReaderValue4;
 
         public void First_TreeData()
         {
@@ -381,16 +375,6 @@ namespace t2_1stan_writer
 // ReSharper restore EmptyGeneralCatchClause
             {
             }
-        }
-
-        private void _da_Completed(object sender, EventArgs e)
-        {
-            DaOnCompleted(_mySqlDataReaderValue4);
-        }
-
-        private void DaOnCompleted(object mySqlDataReader)
-        {
-            
         }
 
         public void Info(TreeViewItem item)
