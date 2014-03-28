@@ -23,7 +23,6 @@ namespace t2_1stan_imitation
         private byte _currentSegmentTube;
         private bool _errorState;
         private bool _positionDefectoscope;
-        private bool _controlSample = false;
         private const double PxMeterFactor = 30;
         private byte _segmentsTube;
 
@@ -306,14 +305,6 @@ namespace t2_1stan_imitation
         {
             _moveTubeTimer.Interval = TimeSpan.FromMilliseconds(Slider1.Value);
             _animation1.Duration = TimeSpan.FromMilliseconds(Slider1.Value);
-        }
-
-        private void button7_Click(object sender, RoutedEventArgs e)
-        {
-            if (_controlSample)
-                _controlSample = false;
-            else
-                _controlSample = true;
         }
     }
 }
