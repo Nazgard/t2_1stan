@@ -189,7 +189,7 @@
             Grid.Row="1" DockPanel.Dock="Bottom"
             Height="24" VerticalAlignment="Bottom">
             <TextBlock Margin="3,0,0,0">Ready</TextBlock>
-            <TextBlock x:Name="BdStatus" HorizontalAlignment="Right" />
+            <TextBlock x:Name="BdStatus" HorizontalAlignment="Right" MouseDown="BdStatus_MouseDown"></TextBlock>
             <StatusBarItem HorizontalAlignment="Right">
                 <ResizeGrip Opacity="0.75"/>
             </StatusBarItem>

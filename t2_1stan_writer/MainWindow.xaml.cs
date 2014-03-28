@@ -251,5 +251,11 @@ namespace t2_1stan_writer
             {
             }
         }
+
+        private void BdStatus_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            BdSettingsWindow BdSettingsWindow = new BdSettingsWindow();
+            BdSettingsWindow.Show();
+        }
     }
 }

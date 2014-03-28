@@ -160,7 +160,7 @@ namespace t2_1stan_writer
             _connection.Open();
             var myCommand =
                 new MySqlCommand(
-                    "SELECT NumberTube, defectsdata.NumberPart FROM DefectsData WHERE IndexData = (SELECT IndexData FROM defectsdata WHERE NumberTube <> 0 ORDER BY IndexData DESC LIMIT 1)",
+                    "SELECT NumberTube, defectsdata.NumberPart FROM defectsdata WHERE IndexData = (SELECT IndexData FROM defectsdata WHERE NumberTube <> 0 ORDER BY IndexData DESC LIMIT 1)",
                     _connection.MySqlConnection);
 
             MySqlDataReader mySqlDataReader = myCommand.ExecuteReader();
