@@ -19,7 +19,7 @@ namespace t2_1stan_writer
         private readonly Parameters _parameters = new Parameters();
         private readonly Writer _writer = new Writer();
         private int _count;
-        public Dictionary<string, int> parameters = new Dictionary<string, int>();
+        public Dictionary<string, int> Parameters = new Dictionary<string, int>();
 
 
         public MainWindow()
@@ -85,20 +85,20 @@ namespace t2_1stan_writer
                 TextBox2.Text != "" &&
                 TextBox3.Text != "")
             {
-                parameters.Clear();
-                parameters.Add("smena", ((KeyValuePair<int, string>) ComboBox1.SelectedItem).Key);
-                parameters.Add("smena_time", ((KeyValuePair<int, string>) ComboBox2.SelectedItem).Key);
-                parameters.Add("operator1", ((KeyValuePair<int, string>) ComboBox3.SelectedItem).Key);
-                parameters.Add("operator2", ((KeyValuePair<int, string>) ComboBox4.SelectedItem).Key);
-                parameters.Add("part", Convert.ToInt32(TextBox4.Text));
-                parameters.Add("gost", ((KeyValuePair<int, string>) ComboBox7.SelectedItem).Key);
-                parameters.Add("diameter", ((KeyValuePair<int, string>) ComboBox5.SelectedItem).Key);
-                parameters.Add("ho", Convert.ToInt32(TextBox1.Text));
-                parameters.Add("control_sample", ((KeyValuePair<int, string>) ComboBox8.SelectedItem).Key);
-                parameters.Add("name_defect", ((KeyValuePair<int, string>) ComboBox9.SelectedItem).Key);
-                parameters.Add("device", ((KeyValuePair<int, string>) ComboBox11.SelectedItem).Key);
-                parameters.Add("porog", Convert.ToInt32(TextBox2.Text));
-                parameters.Add("current", Convert.ToInt32(TextBox3.Text));
+                Parameters.Clear();
+                Parameters.Add("smena", ((KeyValuePair<int, string>) ComboBox1.SelectedItem).Key);
+                Parameters.Add("smena_time", ((KeyValuePair<int, string>) ComboBox2.SelectedItem).Key);
+                Parameters.Add("operator1", ((KeyValuePair<int, string>) ComboBox3.SelectedItem).Key);
+                Parameters.Add("operator2", ((KeyValuePair<int, string>) ComboBox4.SelectedItem).Key);
+                Parameters.Add("part", Convert.ToInt32(TextBox4.Text));
+                Parameters.Add("gost", ((KeyValuePair<int, string>) ComboBox7.SelectedItem).Key);
+                Parameters.Add("diameter", ((KeyValuePair<int, string>) ComboBox5.SelectedItem).Key);
+                Parameters.Add("ho", Convert.ToInt32(TextBox1.Text));
+                Parameters.Add("control_sample", ((KeyValuePair<int, string>) ComboBox8.SelectedItem).Key);
+                Parameters.Add("name_defect", ((KeyValuePair<int, string>) ComboBox9.SelectedItem).Key);
+                Parameters.Add("device", ((KeyValuePair<int, string>) ComboBox11.SelectedItem).Key);
+                Parameters.Add("porog", Convert.ToInt32(TextBox2.Text));
+                Parameters.Add("current", Convert.ToInt32(TextBox3.Text));
 
                 _writer.port_Open();
                 TabControl1.SelectedIndex = 2;
@@ -254,8 +254,8 @@ namespace t2_1stan_writer
 
         private void BdStatus_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            BdSettingsWindow BdSettingsWindow = new BdSettingsWindow();
-            BdSettingsWindow.Show();
+            var bdSettingsWindow = new BdSettingsWindow();
+            bdSettingsWindow.Show();
         }
     }
 }

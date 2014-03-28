@@ -12,7 +12,7 @@ namespace t2_1stan_writer
         private readonly byte[] _buffferRecive = new byte[90];
         private readonly Connection _connection = new Connection();
         private readonly Crc8 _crc8 = new Crc8();
-        private readonly SerialPort _serialPort = new SerialPort("COM2");
+        private readonly SerialPort _serialPort = new SerialPort("COM3");
         public MainWindow MainWindow;
 
         public Writer()
@@ -73,15 +73,15 @@ namespace t2_1stan_writer
                     MainWindow.Dispatcher.BeginInvoke(new ThreadStart(delegate
                     {
                         //НОМЕР ПАРТИИ
-                        myCommand.Parameters.AddWithValue("A", MainWindow.parameters["part"]);
+                        myCommand.Parameters.AddWithValue("A", MainWindow.Parameters["part"]);
                         //ПОРОГ
-                        myCommand.Parameters.AddWithValue("G", MainWindow.parameters["porog"]);
+                        myCommand.Parameters.AddWithValue("G", MainWindow.Parameters["porog"]);
                         //ТОК
-                        myCommand.Parameters.AddWithValue("H", MainWindow.parameters["current"]);
+                        myCommand.Parameters.AddWithValue("H", MainWindow.Parameters["current"]);
 
                         //НОМЕР ТРУБЫ
                         myCommand.Parameters.AddWithValue("B",
-                            LastNumberTube(MainWindow.parameters["part"]) + 1);
+                            LastNumberTube(MainWindow.Parameters["part"]) + 1);
                         //РАЗМЕР ТРУБЫ
                         myCommand.Parameters.AddWithValue("C", _buffForRead[5]);
                         //ДЕФЕКТЫ
@@ -113,17 +113,17 @@ namespace t2_1stan_writer
                             @Id_SizeTube, @Id_Gost, @Id_ControlSample, @Id_WorkSmen, @Id_TimeIntervalSmen,
                             @Id_Operator1, @Id_Operator2, @Id_Device, @Id_Sensor, @Id_NameDefect)
                         ", _connection.MySqlConnection);
-                        myCommand.Parameters.AddWithValue("Id_SizeTube", MainWindow.parameters["diameter"]);
-                        myCommand.Parameters.AddWithValue("Id_Gost", MainWindow.parameters["gost"]);
+                        myCommand.Parameters.AddWithValue("Id_SizeTube", MainWindow.Parameters["diameter"]);
+                        myCommand.Parameters.AddWithValue("Id_Gost", MainWindow.Parameters["gost"]);
                         myCommand.Parameters.AddWithValue("Id_ControlSample",
-                            MainWindow.parameters["control_sample"]);
-                        myCommand.Parameters.AddWithValue("Id_WorkSmen", MainWindow.parameters["smena"]);
-                        myCommand.Parameters.AddWithValue("Id_TimeIntervalSmen", MainWindow.parameters["smena_time"]);
-                        myCommand.Parameters.AddWithValue("Id_Operator1", MainWindow.parameters["operator1"]);
-                        myCommand.Parameters.AddWithValue("Id_Operator2", MainWindow.parameters["operator2"]);
-                        myCommand.Parameters.AddWithValue("Id_Device", MainWindow.parameters["device"]);
-                        myCommand.Parameters.AddWithValue("Id_Sensor", MainWindow.parameters["ho"]);
-                        myCommand.Parameters.AddWithValue("Id_NameDefect", MainWindow.parameters["name_defect"]);
+                            MainWindow.Parameters["control_sample"]);
+                        myCommand.Parameters.AddWithValue("Id_WorkSmen", MainWindow.Parameters["smena"]);
+                        myCommand.Parameters.AddWithValue("Id_TimeIntervalSmen", MainWindow.Parameters["smena_time"]);
+                        myCommand.Parameters.AddWithValue("Id_Operator1", MainWindow.Parameters["operator1"]);
+                        myCommand.Parameters.AddWithValue("Id_Operator2", MainWindow.Parameters["operator2"]);
+                        myCommand.Parameters.AddWithValue("Id_Device", MainWindow.Parameters["device"]);
+                        myCommand.Parameters.AddWithValue("Id_Sensor", MainWindow.Parameters["ho"]);
+                        myCommand.Parameters.AddWithValue("Id_NameDefect", MainWindow.Parameters["name_defect"]);
 
                         myCommand.ExecuteNonQuery();
                         _connection.Close();
