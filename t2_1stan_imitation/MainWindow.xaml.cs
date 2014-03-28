@@ -97,7 +97,7 @@ namespace t2_1stan_imitation
                 if (Canvas.GetLeft(Rectangle5) <= (Canvas.GetLeft(RectangleTube) + RectangleTube.Width) &&
                     _currentSegmentTube < _segmentsTube)
                 {
-                    if (_errorState && _positionDefectoscope && !_controlSample)
+                    if (_errorState && _positionDefectoscope)
                     {
                         PacOut2(_currentSegmentTube, 1);
                         _errorState = false;
@@ -105,15 +105,7 @@ namespace t2_1stan_imitation
                     else
                     {
                         _errorState = false;
-                        if (!_controlSample && _errorState)
-                            PacOut2(_currentSegmentTube, 0);
-                        if (_controlSample)
-                        {
-                            if (_errorState)
-                                PacOut1(1);
-                            else
-                                PacOut1(0);
-                        }
+                        PacOut2(_currentSegmentTube, 0);
                     }
 
                     _currentSegmentTube++;
