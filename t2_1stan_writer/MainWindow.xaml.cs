@@ -203,7 +203,7 @@ namespace t2_1stan_writer
         private void Window_Closing(object sender, CancelEventArgs e)
         {
 
-            if (MessageBox.Show("Вы уверены что хотите закрыть приложение?", "Вопрос", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+            if (MessageBox.Show("Вы уверены, что хотите закрыть приложение?", "Вопрос", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
             {
                 Settings ps = Settings.Default;
                 ps.Top = Top;
