@@ -202,12 +202,18 @@ namespace t2_1stan_writer
 
         private void Window_Closing(object sender, CancelEventArgs e)
         {
-            Settings ps = Settings.Default;
-            ps.Top = Top;
-            ps.Left = Left;
-            ps.Save();
 
-            _writer.port_Close();
+            if (MessageBox.Show("Вы уверены что хотите закрыть приложение?", "Вопрос", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+            {
+                Settings ps = Settings.Default;
+                ps.Top = Top;
+                ps.Left = Left;
+                ps.Save();
+
+                _writer.port_Close();
+            }
+            else 
+                e.Cancel = true;
         }
 
         private void comboBox7_SelectionChanged(object sender, SelectionChangedEventArgs e)
