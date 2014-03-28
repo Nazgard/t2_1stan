@@ -5,7 +5,6 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shapes;
 using MySql.Data.MySqlClient;
-using MySql.Data.MySqlClient.Properties;
 
 namespace t2_1stan_writer
 {
@@ -15,11 +14,6 @@ namespace t2_1stan_writer
         private readonly MySqlCommand _mySqlCommand = new MySqlCommand();
         public ArchiveWindow ArchiveWindow;
         private int _countDeffectsLine;
-        private string _currentDay;
-        private string _currentMonth;
-        private string _currentPart;
-        private string _currentIdSmena;
-        private string _currentYear;
         private MySqlDataReader _mySqlDataReader;
 
         public void First_TreeData()
@@ -94,8 +88,6 @@ namespace t2_1stan_writer
                         item.Items.Add(itemMonth);
                     }
                     _mySqlDataReader.Close();
-
-                    _currentYear = item.Header.ToString();
                 }
 
                 if (item.Tag.ToString() == "month")
@@ -114,7 +106,7 @@ namespace t2_1stan_writer
                     _mySqlCommand.Connection = _connection.MySqlConnection;
                     _mySqlCommand.Parameters.Clear();
                     _mySqlCommand.Parameters.AddWithValue("A", item.Header.ToString());
-                    _mySqlCommand.Parameters.AddWithValue("B", _currentYear);
+                    _mySqlCommand.Parameters.AddWithValue("B", item.Uid);
 
                     _mySqlDataReader = _mySqlCommand.ExecuteReader();
 
@@ -131,8 +123,6 @@ namespace t2_1stan_writer
                         item.Items.Add(itemDays);
                     }
                     _mySqlDataReader.Close();
-
-                    _currentMonth = item.Header.ToString();
                 }
 
                 if (item.Tag.ToString() == "day")
@@ -167,8 +157,6 @@ namespace t2_1stan_writer
                         item.Items.Add(itemSmens);
                     }
                     _mySqlDataReader.Close();
-
-                    _currentDay = item.Header.ToString();
                 }
 
                 if (item.Tag.ToString() == "smena")
@@ -204,8 +192,6 @@ namespace t2_1stan_writer
                         item.Items.Add(itemPart);
                     }
                     _mySqlDataReader.Close();
-
-                    _currentIdSmena = item.Uid;
                 }
 
                 if (item.Tag.ToString() == "part")
@@ -251,8 +237,6 @@ namespace t2_1stan_writer
                         item.Items.Add(itemTube);
                     }
                     _mySqlDataReader.Close();
-
-                    _currentPart = item.Header.ToString();
                 }
                 _connection.Close();
             }
