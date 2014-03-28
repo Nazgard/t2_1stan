@@ -16,15 +16,10 @@ namespace t2_1stan_writer
         public ArchiveWindow ArchiveWindow;
         private int _countDeffectsLine;
         private string _currentDay;
-        private string _currentDay1;
         private string _currentMonth;
-        private string _currentMonth1;
         private string _currentPart;
-        private string _currentPart1;
         private string _currentIdSmena;
-        private string _currentIdSmena1;
         private string _currentYear;
-        private string _currentYear1;
         private MySqlDataReader _mySqlDataReader;
 
         public void First_TreeData()
@@ -826,19 +821,8 @@ namespace t2_1stan_writer
             }
             Mouse.OverrideCursor = Cursors.Arrow;
 
-            if (item.Tag.ToString() == "tube" &&
-                (_currentPart != _currentPart1 ||
-                _currentIdSmena != _currentIdSmena1 ||
-                _currentYear != _currentYear1 ||
-                _currentMonth != _currentMonth1 ||
-                _currentDay != _currentDay1))
+            /*if (item.Tag.ToString() == "tube")
             {
-                _currentPart1 = _currentPart;
-                _currentIdSmena1 = _currentIdSmena;
-                _currentYear1 = _currentYear;
-                _currentMonth1 = _currentMonth;
-                _currentDay1 = _currentDay;
-
                 _connection.Open();
                 ArchiveWindow.listBox1.Items.Clear();
                 ArchiveWindow.listBox1.Items.Add("ВРЕМЯ: \t\t\t" + _currentYear + "-" + _currentMonth + "-" +
@@ -848,10 +832,8 @@ namespace t2_1stan_writer
                         Count(defectsdata.IndexData)
                         FROM
                         defectsdata
-                        Inner Join indexes ON defectsdata.IndexData = indexes.IndexData
-                        Inner Join worksmens ON worksmens.Id_WorkSmen = indexes.Id_WorkSmen
                         WHERE
-                        defectsdata.IndexData = @A
+                        defectsdata.DatePr = (SELECT defectsdata.DatePr FROM defectsdata WHERE defectsdata.IndexData = @A) 
                     ";
                 _mySqlCommand.Connection = _connection.MySqlConnection;
                 _mySqlCommand.Parameters.Clear();
@@ -869,10 +851,9 @@ namespace t2_1stan_writer
                         Count(defectsdata.IndexData)
                         FROM
                         defectsdata
-                        Inner Join indexes ON defectsdata.IndexData = indexes.IndexData
-                        Inner Join worksmens ON worksmens.Id_WorkSmen = indexes.Id_WorkSmen
                         WHERE
-                        defectsdata.IndexData = @A
+                        defectsdata.FlDefectTube =  1 AND
+                        defectsdata.DatePr = (SELECT defectsdata.DatePr FROM defectsdata WHERE defectsdata.IndexData = @A) 
                     ";
                 _mySqlCommand.Connection = _connection.MySqlConnection;
                 _mySqlDataReader = _mySqlCommand.ExecuteReader();
@@ -895,17 +876,15 @@ namespace t2_1stan_writer
                         WHERE
                         defectsdata.NumberTube <>  0 AND
                         defectsdata.FlDefectTube =  1 AND
-                        YEAR(defectsdata.DatePr) = @A AND
-                        MONTHNAME(defectsdata.DatePr) = @B AND
-                        DAY(defectsdata.DatePr) = @C AND
-                        worksmens.Id_WorkSmen = @D AND
-                        defectsdata.NumberPart = @E)  / Count(defectsdata.IndexData) * 100 ),2),'%') 
+                        defectsdata.DatePr = (SELECT defectsdata.DatePr FROM defectsdata WHERE defectsdata.IndexData = @A))  / Count(defectsdata.IndexData) * 100 ),2),'%') 
                         FROM
                         defectsdata
                         Inner Join indexes ON defectsdata.IndexData = indexes.IndexData
                         Inner Join worksmens ON worksmens.Id_WorkSmen = indexes.Id_WorkSmen
                         WHERE
-                        defectsdata.IndexData = @A
+                        defectsdata.NumberTube <>  0 AND
+                        defectsdata.FlDefectTube = 0 AND
+                        defectsdata.DatePr = (SELECT defectsdata.DatePr FROM defectsdata WHERE defectsdata.IndexData = @A) 
                     ";
                 _mySqlCommand.Connection = _connection.MySqlConnection;
                 _mySqlDataReader = _mySqlCommand.ExecuteReader();
@@ -923,7 +902,7 @@ namespace t2_1stan_writer
                 }
                 _mySqlDataReader.Close();
                 _connection.Close();
-            }
+            }*/
             Mouse.OverrideCursor = Cursors.Arrow;
         }
     }
