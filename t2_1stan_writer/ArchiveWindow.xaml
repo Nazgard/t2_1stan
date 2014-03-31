@@ -43,7 +43,7 @@
             <Label Canvas.Left="183" Canvas.Top="297" Content="LABEL" Height="28" Name="label9" />
             <Label Content="0" Canvas.Left="32" Canvas.Top="100" />
             <Label Content="2" Canvas.Left="79" Canvas.Top="100" />
-            <Label Content="4" Height="26" Canvas.Left="128" Canvas.Top="97" Width="16" />
+            <Label Content="4" Canvas.Left="128" Canvas.Top="100" />
             <Label Content="6" Canvas.Left="176" Canvas.Top="100" />
             <Label Content="8" Canvas.Left="224" Canvas.Top="100" />
             <Label Content="10" Canvas.Left="269" Canvas.Top="100" />
@@ -55,7 +55,7 @@
             <Label Content="20" Canvas.Left="508" Canvas.Top="100" />
             <Label Content="22" Canvas.Left="557" Canvas.Top="100" />
         </Canvas>
-        <TreeView Margin="6,12,12,29" Name="treeView1" Background="#EFEFF2" TreeViewItem.Expanded="trw_Expanded"
+        <TreeView Margin="6,52,12,29" Name="treeView1" Background="#EFEFF2" TreeViewItem.Expanded="trw_Expanded"
                   Grid.Row="0" Grid.Column="1" VirtualizingStackPanel.IsVirtualizing="True"
                   VirtualizingStackPanel.VirtualizationMode="Recycling"
                   SelectedItemChanged="treeView1_SelectedItemChanged">
@@ -84,5 +84,6 @@
                 <ResizeGrip Opacity="0.75"/>
             </StatusBarItem>
         </StatusBar>
+        <Button Content="Отчет" Grid.Column="1" HorizontalAlignment="Left" Margin="6,12,0,0" VerticalAlignment="Top" Width="75" Height="35" Click="Button_Click"/>
     </Grid>
 </Window>

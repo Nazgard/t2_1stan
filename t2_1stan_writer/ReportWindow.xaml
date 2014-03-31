@@ -1,0 +1,13 @@
+﻿<Window x:Class="t2_1stan_writer.ReportWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="ReportWindow" Height="521.5" Width="980">
+    <Grid Background="#808080">
+        <ScrollViewer HorizontalAlignment="Right" Width="962">
+            <Grid VerticalAlignment="Top" MinHeight="29.7cm" MaxHeight="29.7cm" Height="1123" MinWidth="21cm" MaxWidth="21cm" Background="White" Margin="0,30">
+                <Image Source="tmk_logo.gif" Margin="-1,0,594,1048" />
+                <TextBlock Height="53" TextWrapping="Wrap" Text='ОАО "Северский трубный завод" ТЭСЦ-2 стан 73-219' VerticalAlignment="Top" Width="264" FontSize="12" FontWeight="Bold" HorizontalAlignment="Center" Margin="0,50,0,0" TextAlignment="Center" FontFamily="Times New Roman"/>
+            </Grid>
+        </ScrollViewer>
+    </Grid>
+</Window>

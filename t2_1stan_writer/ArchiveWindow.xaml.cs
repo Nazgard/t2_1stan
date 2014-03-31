@@ -45,5 +45,11 @@ namespace t2_1stan_writer
             {
             }
         }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            var ReportWindow = new ReportWindow();
+            ReportWindow.Show();
+        }
     }
 }
