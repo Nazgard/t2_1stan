@@ -275,6 +275,7 @@ namespace t2_1stan_writer
                         INNER JOIN operators o2 ON o2.Id_Operator = indexes.Id_Operator2
                         WHERE 
                         defectsdata.IndexData = @A
+                        LIMIT 1
                     ";
                     _mySqlCommand.Parameters.Clear();
                     _mySqlCommand.Parameters.AddWithValue("A", item.Uid);
@@ -383,6 +384,7 @@ namespace t2_1stan_writer
                         WHERE
                         defectsdata.NumberTube <>  0 AND
                         YEAR(defectsdata.DatePr) = @A
+                        LIMIT 1
                     ";
                 _mySqlCommand.Connection = _connection.MySqlConnection;
                 _mySqlCommand.Parameters.Clear();
@@ -404,6 +406,7 @@ namespace t2_1stan_writer
                         defectsdata.FlDefectTube =  1 AND
                         defectsdata.NumberTube <>  0 AND
                         YEAR(defectsdata.DatePr) = @A
+                        LIMIT 1
                     ";
                 _mySqlCommand.Connection = _connection.MySqlConnection;
                 _mySqlDataReader = _mySqlCommand.ExecuteReader();
@@ -430,6 +433,7 @@ namespace t2_1stan_writer
                         WHERE
                         defectsdata.NumberTube <>  0 AND
                         YEAR(defectsdata.DatePr) = @A
+                        LIMIT 1
                     ";
                 _mySqlCommand.Connection = _connection.MySqlConnection;
                 _mySqlDataReader = _mySqlCommand.ExecuteReader();
@@ -457,6 +461,8 @@ namespace t2_1stan_writer
                         defectsdata.NumberTube <>  0 AND
                         YEAR(defectsdata.DatePr) = @A AND
                         MONTHNAME(defectsdata.DatePr) = @B
+                        GROUP BY MONTHNAME(defectsdata.DatePr)
+                        LIMIT 1
                     ";
                 _mySqlCommand.Connection = _connection.MySqlConnection;
                 _mySqlCommand.Parameters.Clear();
@@ -481,6 +487,7 @@ namespace t2_1stan_writer
                         defectsdata.NumberTube <>  0 AND
                         YEAR(defectsdata.DatePr) = @A AND
                         MONTHNAME(defectsdata.DatePr) = @B
+                        LIMIT 1
                     ";
                 _mySqlCommand.Connection = _connection.MySqlConnection;
                 _mySqlDataReader = _mySqlCommand.ExecuteReader();
@@ -509,6 +516,7 @@ namespace t2_1stan_writer
                         defectsdata.NumberTube <>  0 AND
                         YEAR(defectsdata.DatePr) = @A AND
                         MONTHNAME(defectsdata.DatePr) = @B
+                        LIMIT 1
                     ";
                 _mySqlCommand.Connection = _connection.MySqlConnection;
                 _mySqlDataReader = _mySqlCommand.ExecuteReader();
@@ -534,6 +542,7 @@ namespace t2_1stan_writer
                     WHERE
                     defectsdata.NumberTube <>  0 AND
                     DATE_FORMAT(defectsdata.DatePr, '%Y-%M-%d') = @A
+                    LIMIT 1
                 ";
                 _mySqlCommand.Connection = _connection.MySqlConnection;
                 _mySqlCommand.Parameters.Clear();
@@ -583,6 +592,7 @@ namespace t2_1stan_writer
                     WHERE
                     defectsdata.NumberTube <>  0 AND
                     DATE_FORMAT(defectsdata.DatePr, '%Y-%M-%d') = @A
+                    LIMIT 1
                 ";
                 _mySqlCommand.Connection = _connection.MySqlConnection;
                 _mySqlDataReader = _mySqlCommand.ExecuteReader();
@@ -612,6 +622,8 @@ namespace t2_1stan_writer
                         defectsdata.NumberTube <>  0 AND
                         DATE_FORMAT(defectsdata.DatePr, '%Y-%M-%d') = @A AND
                         worksmens.Id_WorkSmen = @B
+                        GROUP BY (defectsdata.DatePr)
+                        LIMIT 1
                     ";
                 _mySqlCommand.Connection = _connection.MySqlConnection;
                 _mySqlCommand.Parameters.Clear();
@@ -638,6 +650,7 @@ namespace t2_1stan_writer
                         defectsdata.NumberTube <>  0 AND
                         DATE_FORMAT(defectsdata.DatePr, '%Y-%M-%d') = @A AND
                         worksmens.Id_WorkSmen = @B
+                        LIMIT 1
                     ";
                 _mySqlCommand.Connection = _connection.MySqlConnection;
                 _mySqlDataReader = _mySqlCommand.ExecuteReader();
@@ -670,6 +683,7 @@ namespace t2_1stan_writer
                         defectsdata.NumberTube <>  0 AND
                         DATE_FORMAT(defectsdata.DatePr, '%Y-%M-%d') = @A AND
                         worksmens.Id_WorkSmen = @B
+                        LIMIT 1
                     ";
                 _mySqlCommand.Connection = _connection.MySqlConnection;
                 _mySqlDataReader = _mySqlCommand.ExecuteReader();
@@ -688,7 +702,8 @@ namespace t2_1stan_writer
                 ArchiveWindow.listBox1.Items.Clear();
                 _mySqlCommand.CommandText = @"
                         SELECT
-                        Count(defectsdata.IndexData)
+                        Count(defectsdata.IndexData),
+                        worksmens.NameSmen    
                         FROM
                         defectsdata
                         Inner Join indexes ON defectsdata.IndexData = indexes.IndexData
@@ -698,6 +713,8 @@ namespace t2_1stan_writer
                         DATE_FORMAT(defectsdata.DatePr, '%Y-%M-%d') = @A AND
                         worksmens.Id_WorkSmen = @B AND
                         defectsdata.NumberPart = @C
+                        GROUP BY defectsdata.DatePr
+                        LIMIT 1
                     ";
                 _mySqlCommand.Connection = _connection.MySqlConnection;
                 _mySqlCommand.Parameters.Clear();
@@ -706,10 +723,9 @@ namespace t2_1stan_writer
                 _mySqlCommand.Parameters.AddWithValue("C", item.Header);
                 _mySqlDataReader = _mySqlCommand.ExecuteReader();
 
-                ArchiveWindow.listBox1.Items.Add("ВРЕМЯ: \t\t\t" + item.Uid.Split('|')[0] + " / " + item.Uid.Split('|')[1] + " / Плавка № " + item.Header);
-
                 while (_mySqlDataReader.Read())
                 {
+                    ArchiveWindow.listBox1.Items.Add("ВРЕМЯ: \t\t\t" + item.Uid.Split('|')[0] + " / " + _mySqlDataReader.GetString(1) + " / Плавка № " + item.Header);
                     ArchiveWindow.listBox1.Items.Add("ТРУБ: \t\t\t" + _mySqlDataReader.GetString(0));
                 }
                 _mySqlDataReader.Close();
@@ -727,6 +743,7 @@ namespace t2_1stan_writer
                         DATE_FORMAT(defectsdata.DatePr, '%Y-%M-%d') = @A AND
                         worksmens.Id_WorkSmen = @B AND
                         defectsdata.NumberPart = @C
+                        LIMIT 1
                     ";
                 _mySqlCommand.Connection = _connection.MySqlConnection;
                 _mySqlDataReader = _mySqlCommand.ExecuteReader();
@@ -761,6 +778,7 @@ namespace t2_1stan_writer
                         DATE_FORMAT(defectsdata.DatePr, '%Y-%M-%d') = @A AND
                         worksmens.Id_WorkSmen = @B AND
                         defectsdata.NumberPart = @C
+                        LIMIT 1
                     ";
                 _mySqlCommand.Connection = _connection.MySqlConnection;
                 _mySqlDataReader = _mySqlCommand.ExecuteReader();
