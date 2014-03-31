@@ -263,5 +263,11 @@ namespace t2_1stan_writer
             var bdSettingsWindow = new BdSettingsWindow();
             bdSettingsWindow.Show();
         }
+
+        private void button5_Click(object sender, RoutedEventArgs e)
+        {
+            var BdEditorWindow = new BDEditorWindow();
+            BdEditorWindow.Show();
+        }
     }
 }

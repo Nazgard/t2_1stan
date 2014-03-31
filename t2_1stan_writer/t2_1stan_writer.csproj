@@ -85,6 +85,10 @@
     <Compile Include="ArchiveWindow.xaml.cs">
       <DependentUpon>ArchiveWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="BDEditorControl.cs" />
+    <Compile Include="BDEditorWindow.xaml.cs">
+      <DependentUpon>BDEditorWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="BDSettingsWindow.xaml.cs">
       <DependentUpon>BDSettingsWindow.xaml</DependentUpon>
     </Compile>
@@ -92,6 +96,10 @@
     <Compile Include="Styles\CustomizedWindow\VS2012WindowStyle.cs" />
     <Compile Include="Writer.cs" />
     <Page Include="ArchiveWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="BDEditorWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

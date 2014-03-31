@@ -70,7 +70,7 @@
                                    Height="20"
                                    Stretch="Fill"
                                    Source="icon.ico"/>
-                                    <TextBlock Text="{Binding}" Margin="5,0" />
+                                   <TextBlock Text="{Binding}" Margin="5,0" />
                                 </StackPanel>
                             </DataTemplate>
                         </Setter.Value>

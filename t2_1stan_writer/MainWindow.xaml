@@ -194,5 +194,6 @@
                 <ResizeGrip Opacity="0.75"/>
             </StatusBarItem>
         </StatusBar>
+        <Button Content="БД" Height="35" HorizontalAlignment="Right" Margin="0,10,133,0" Name="button5" VerticalAlignment="Top" Width="90" Click="button5_Click" />
     </Grid>
 </Window>
