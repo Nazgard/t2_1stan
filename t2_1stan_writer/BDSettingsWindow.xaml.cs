@@ -9,6 +9,7 @@ namespace t2_1stan_writer
     public partial class BdSettingsWindow
     {
         private readonly Connection _connection = new Connection();
+        private Settings ps = Settings.Default;
 
         public BdSettingsWindow()
         {
@@ -17,7 +18,6 @@ namespace t2_1stan_writer
 
         private void button1_Click(object sender, RoutedEventArgs e)
         {
-            Settings ps = Settings.Default;
             ps.Database = textBox1.Text;
             ps.DataSource = textBox2.Text;
             ps.UserId = textBox3.Text;
@@ -29,6 +29,12 @@ namespace t2_1stan_writer
 
         private void button2_Click(object sender, RoutedEventArgs e)
         {
+            Close();
+        }
+
+        private void button3_Click(object sender, RoutedEventArgs e)
+        {
+            ps.Reset();
             Close();
         }
     }

@@ -20,5 +20,6 @@
                 VerticalAlignment="Top" Width="75" Click="button1_Click" />
         <Button Content="Отмена" Height="23" Margin="110,182,93,0" Name="button2" VerticalAlignment="Top"
                 Click="button2_Click" />
+        <Button Content="Reset" Height="23" HorizontalAlignment="Left" Margin="12,183,0,0" Name="button3" VerticalAlignment="Top" Width="75" Click="button3_Click" />
     </Grid>
 </Window>

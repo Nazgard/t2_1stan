@@ -373,6 +373,8 @@ namespace t2_1stan_writer
             Mouse.OverrideCursor = Cursors.Wait;
             if (item.Tag.ToString() == "year")
             {
+                ArchiveWindow.button1.IsEnabled = false;
+
                 _connection.Open();
                 ArchiveWindow.listBox1.Items.Clear();
                 ArchiveWindow.listBox1.Items.Add("ВРЕМЯ: \t\t\t" + item.Header);
@@ -448,6 +450,8 @@ namespace t2_1stan_writer
 
             if (item.Tag.ToString() == "month")
             {
+                ArchiveWindow.button1.IsEnabled = false;
+
                 _connection.Open();
                 ArchiveWindow.listBox1.Items.Clear();
                 _mySqlCommand.CommandText = @"
@@ -531,6 +535,8 @@ namespace t2_1stan_writer
 
             if (item.Tag.ToString() == "day")
             {
+                ArchiveWindow.button1.IsEnabled = false;
+
                 _connection.Open();
                 ArchiveWindow.listBox1.Items.Clear();
                 
@@ -694,10 +700,14 @@ namespace t2_1stan_writer
                 }
                 _mySqlDataReader.Close();
                 _connection.Close();
+
+                ArchiveWindow.button1.IsEnabled = true;
             }
 
             if (item.Tag.ToString() == "part")
             {
+                ArchiveWindow.button1.IsEnabled = false;
+
                 _connection.Open();
                 ArchiveWindow.listBox1.Items.Clear();
                 _mySqlCommand.CommandText = @"

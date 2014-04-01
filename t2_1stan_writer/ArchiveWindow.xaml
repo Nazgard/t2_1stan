@@ -84,6 +84,6 @@
                 <ResizeGrip Opacity="0.75"/>
             </StatusBarItem>
         </StatusBar>
-        <Button Content="Отчет" Grid.Column="1" HorizontalAlignment="Left" Margin="6,12,0,0" VerticalAlignment="Top" Width="75" Height="35" Click="Button_Click"/>
+        <Button Content="Отчет" Grid.Column="1" HorizontalAlignment="Left" Margin="6,12,0,0" VerticalAlignment="Top" Width="75" Height="35" Click="Button_Click" IsEnabled="False" Name="button1" />
     </Grid>
 </Window>

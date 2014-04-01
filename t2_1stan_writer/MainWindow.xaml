@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="Архивация данных стана 73-219" MinHeight="570" Height="570" MinWidth="773" Width="773" Icon="icon.ico" Loaded="Window_Loaded"
         Closing="Window_Closing" Background="#FFE0E0E0"
-        Style="{StaticResource VS2012WindowStyle}">
+        Style="{StaticResource VS2012WindowStyle}" Activated="Window_Activated">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="106*" />

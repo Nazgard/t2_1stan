@@ -20,7 +20,7 @@ namespace t2_1stan_writer
         private readonly Writer _writer = new Writer();
         private int _count;
         public Dictionary<string, int> Parameters = new Dictionary<string, int>();
-
+        private Settings ps = Settings.Default;
 
         public MainWindow()
         {
@@ -205,7 +205,6 @@ namespace t2_1stan_writer
 
             if (MessageBox.Show("Вы уверены, что хотите закрыть приложение?", "Вопрос", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
             {
-                Settings ps = Settings.Default;
                 ps.Top = Top;
                 ps.Left = Left;
                 ps.Save();
@@ -268,6 +267,11 @@ namespace t2_1stan_writer
         {
             var BdEditorWindow = new BDEditorWindow();
             BdEditorWindow.Show();
+        }
+
+        private void Window_Activated(object sender, EventArgs e)
+        {
+            BdStatus.Text = ps.DataSource;
         }
     }
 }
