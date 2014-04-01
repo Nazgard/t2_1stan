@@ -48,7 +48,7 @@ namespace t2_1stan_writer
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            var ReportWindow = new ReportWindow((TreeViewItem)treeView1.SelectedItem);
+            var ReportWindow = new ReportWindow((TreeViewItem) treeView1.SelectedItem);
             ReportWindow.Show();
         }
     }

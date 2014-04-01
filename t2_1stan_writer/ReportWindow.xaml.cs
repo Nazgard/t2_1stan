@@ -1,11 +1,18 @@
-﻿using System.Windows;
+﻿using System;
+using System.IO;
+using System.IO.Packaging;
+using System.Reflection;
+using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Xps;
+using System.Windows.Xps.Packaging;
+using Microsoft.Win32;
 using MySql.Data.MySqlClient;
 
 namespace t2_1stan_writer
 {
     /// <summary>
-    /// Логика взаимодействия для ReportWindow.xaml
+    ///     Логика взаимодействия для ReportWindow.xaml
     /// </summary>
     public partial class ReportWindow : Window
     {
@@ -18,6 +25,23 @@ namespace t2_1stan_writer
             InitializeComponent();
 
             get_info(item);
+
+            var package = Package.Open("report.xps", FileMode.Create);
+            var doc = new XpsDocument(package);
+            //// Create an instance of XpsDocumentWriter for the document
+            XpsDocumentWriter writer = XpsDocument.CreateXpsDocumentWriter(doc);
+            writer.Write(grid1);
+            // Close document
+            doc.Close();
+            // Close package
+            package.Close();
+
+            var path = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location) +
+                          "/report.xps";
+
+            var xpsDocument = new XpsDocument(path, FileAccess.Read);
+
+            DocumentViewer.Document = xpsDocument.GetFixedDocumentSequence();
         }
 
         public void get_info(TreeViewItem item)
@@ -71,7 +95,7 @@ namespace t2_1stan_writer
 
             while (_mySqlDataReader.Read())
             {
-                this.Title = "Отчет за " + _mySqlDataReader.GetString(0) + " по смене " + _mySqlDataReader.GetString(1);
+                Title = "Отчет за " + _mySqlDataReader.GetString(0) + " по смене " + _mySqlDataReader.GetString(1);
                 label5.Content = _mySqlDataReader.GetString(0);
                 label6.Content = _mySqlDataReader.GetString(1);
                 label7.Content = _mySqlDataReader.GetString(2);
@@ -91,6 +115,41 @@ namespace t2_1stan_writer
             }
             _mySqlDataReader.Close();
             _connection.Close();
+        }
+
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+            var dlg = new SaveFileDialog();
+            dlg.FileName = Title;
+            dlg.DefaultExt = ".xps";
+            dlg.ShowDialog();
+
+            // Open new package
+            try
+            {
+                Package package = Package.Open(dlg.FileName, FileMode.Create);
+                // Create new xps document based on the package opened
+                var doc = new XpsDocument(package);
+                //// Create an instance of XpsDocumentWriter for the document
+                XpsDocumentWriter writer = XpsDocument.CreateXpsDocumentWriter(doc);
+
+                writer.Write(grid1);
+                // Close document
+                doc.Close();
+                // Close package
+                package.Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
+        }
+
+        private void Window_Closed(object sender, EventArgs e)
+        {
+            string path = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location) +
+                          "/report.xps";
+            File.Delete(path);
         }
     }
 }

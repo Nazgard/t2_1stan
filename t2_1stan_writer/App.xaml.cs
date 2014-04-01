@@ -7,5 +7,6 @@ namespace t2_1stan_writer
     /// </summary>
     public partial class App : Application
     {
+
     }
 }
