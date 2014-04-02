@@ -8,6 +8,8 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shapes;
 using t2_1stan_writer.Properties;
+using System.IO;
+using System.Reflection;
 
 namespace t2_1stan_writer
 {
@@ -198,16 +200,41 @@ namespace t2_1stan_writer
             Top = ps.Top;
             Left = ps.Left;
             BdStatus.Text = ps.DataSource;
+
+            try
+            {
+                string[] txtFiles = Directory.GetFiles(System.IO.Path.GetDirectoryName(Assembly.GetEntryAssembly().Location.ToString()), "*.report");
+                foreach (var txtFile in txtFiles)
+                {
+                    System.IO.File.Delete(txtFile);
+                }
+            }
+            catch
+            {
+
+            }
         }
 
         private void Window_Closing(object sender, CancelEventArgs e)
         {
-
             if (MessageBox.Show("Вы уверены, что хотите закрыть приложение?", "Вопрос", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
             {
                 ps.Top = Top;
                 ps.Left = Left;
                 ps.Save();
+
+                try
+                {
+                    string[] txtFiles = Directory.GetFiles(System.IO.Path.GetDirectoryName(Assembly.GetEntryAssembly().Location.ToString()), "*.report");
+                    foreach (var txtFile in txtFiles)
+                    {
+                        System.IO.File.Delete(txtFile);
+                    }
+                }
+                catch
+                {
+
+                }
 
                 _writer.port_Close();
             }

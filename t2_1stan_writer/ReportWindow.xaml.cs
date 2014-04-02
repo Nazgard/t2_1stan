@@ -19,29 +19,29 @@ namespace t2_1stan_writer
         private readonly Connection _connection = new Connection();
         private readonly MySqlCommand _mySqlCommand = new MySqlCommand();
         private MySqlDataReader _mySqlDataReader;
+        private string guid = Guid.NewGuid().ToString() + ".report";
+
 
         public ReportWindow(TreeViewItem item)
         {
             InitializeComponent();
 
             get_info(item);
+            xps();
+        }
 
-            var package = Package.Open("report.xps", FileMode.Create);
+        private void xps()
+        {
+            var package = Package.Open(guid, FileMode.Create);
             var doc = new XpsDocument(package);
-            //// Create an instance of XpsDocumentWriter for the document
             XpsDocumentWriter writer = XpsDocument.CreateXpsDocumentWriter(doc);
             writer.Write(grid1);
-            // Close document
             doc.Close();
-            // Close package
             package.Close();
 
-            var path = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location) +
-                          "/report.xps";
-
-            var xpsDocument = new XpsDocument(path, FileAccess.Read);
-
+            var xpsDocument = new XpsDocument(guid, FileAccess.Read);
             DocumentViewer.Document = xpsDocument.GetFixedDocumentSequence();
+            xpsDocument.Close();
         }
 
         public void get_info(TreeViewItem item)
@@ -124,19 +124,14 @@ namespace t2_1stan_writer
             dlg.DefaultExt = ".xps";
             dlg.ShowDialog();
 
-            // Open new package
             try
             {
                 Package package = Package.Open(dlg.FileName, FileMode.Create);
-                // Create new xps document based on the package opened
                 var doc = new XpsDocument(package);
-                //// Create an instance of XpsDocumentWriter for the document
                 XpsDocumentWriter writer = XpsDocument.CreateXpsDocumentWriter(doc);
 
                 writer.Write(grid1);
-                // Close document
                 doc.Close();
-                // Close package
                 package.Close();
             }
             catch (Exception ex)
@@ -147,9 +142,19 @@ namespace t2_1stan_writer
 
         private void Window_Closed(object sender, EventArgs e)
         {
-            string path = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location) +
-                          "/report.xps";
-            File.Delete(path);
+            DocumentViewer.Document = null;
+            try
+            {
+                string[] txtFiles = Directory.GetFiles(System.IO.Path.GetDirectoryName(Assembly.GetEntryAssembly().Location.ToString()), "*.report");
+                foreach (var txtFile in txtFiles)
+                {
+                    System.IO.File.Delete(txtFile);
+                }
+            }
+            catch
+            {
+
+            }
         }
     }
 }

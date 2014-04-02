@@ -12,7 +12,7 @@
                 <ResizeGrip Opacity="0.75"/>
             </StatusBarItem>
         </StatusBar>
-        <Grid x:Name="grid1" VerticalAlignment="Top" MinHeight="29.7cm" MaxHeight="29.7cm" Height="1123" MinWidth="21cm" MaxWidth="21cm" Background="White" Margin="0,30" HorizontalAlignment="Center">
+        <Grid x:Name="grid1" VerticalAlignment="Top" MinHeight="29.7cm" MaxHeight="29.7cm" Height="29.7cm" MinWidth="21cm" MaxWidth="21cm" Width="21cm" Background="White" Margin="0,30" HorizontalAlignment="Center">
             <Image Source="tmk_logo.gif" Margin="0,0,593,1047" />
             <TextBlock Height="72" TextWrapping="WrapWithOverflow" Text='ОАО "Северский трубный завод" ТЭСЦ-2 стан 73-219' VerticalAlignment="Top" Width="291" FontSize="18" FontWeight="Bold" HorizontalAlignment="Center" Margin="265,50,238,0" TextAlignment="Center" FontFamily="Times New Roman"/>
 
