@@ -1,11 +1,5 @@
-﻿using System;
-using System.IO;
-using System.IO.Packaging;
-using System.Reflection;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Xps;
-using System.Windows.Xps.Packaging;
 using Microsoft.Win32;
 using MySql.Data.MySqlClient;
 using MigraDoc.DocumentObjectModel;
@@ -14,8 +8,6 @@ using MigraDoc.DocumentObjectModel.Tables;
 using PdfSharp.Pdf;
 using MigraDoc.Rendering;
 using MigraDoc.RtfRendering;
-using System.Drawing;
-using PdfSharp.Drawing;
 
 namespace t2_1stan_writer
 {
@@ -27,7 +19,6 @@ namespace t2_1stan_writer
         private readonly Connection _connection = new Connection();
         private readonly MySqlCommand _mySqlCommand = new MySqlCommand();
         private MySqlDataReader _mySqlDataReader;
-        private string guid = Guid.NewGuid().ToString() + ".report";
         private TreeViewItem TVItem;
 
 
@@ -36,7 +27,7 @@ namespace t2_1stan_writer
             InitializeComponent();
 
             Document document = CreateSample1(item);
-            documentViewer1.Ddl = DdlWriter.WriteToString(document);
+            DocumentPreview1.Ddl = DdlWriter.WriteToString(document);
 
             TVItem = item;
         }
@@ -274,6 +265,11 @@ namespace t2_1stan_writer
 
             RtfDocumentRenderer rtf = new RtfDocumentRenderer();
             rtf.Render(CreateSample1(TVItem), dlg.FileName, null);
+        }
+
+        private void MenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
         }
     }
 }

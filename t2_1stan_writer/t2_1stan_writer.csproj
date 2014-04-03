@@ -57,12 +57,15 @@
   <ItemGroup>
     <Reference Include="MigraDoc.DocumentObjectModel-WPF">
       <HintPath>..\..\..\Documents and Settings\User\Мои документы\Загрузки\PDFSharp-MigraDocFoundation-1_32\MigraDoc\samples\Samples C#\Based on WPF\HelloMigraDoc\bin\Debug\MigraDoc.DocumentObjectModel-WPF.dll</HintPath>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
     </Reference>
     <Reference Include="MigraDoc.Rendering-WPF">
       <HintPath>..\..\..\Documents and Settings\User\Мои документы\Загрузки\PDFSharp-MigraDocFoundation-1_32\MigraDoc\samples\Samples C#\Based on WPF\HelloMigraDoc\bin\Debug\MigraDoc.Rendering-WPF.dll</HintPath>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
     </Reference>
     <Reference Include="MigraDoc.RtfRendering-WPF">
       <HintPath>..\..\..\Documents and Settings\User\Мои документы\Загрузки\PDFSharp-MigraDocFoundation-1_32\MigraDoc\samples\Samples C#\Based on WPF\HelloMigraDoc\bin\Debug\MigraDoc.RtfRendering-WPF.dll</HintPath>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
     </Reference>
     <Reference Include="MySql.Data, Version=6.8.3.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
       <EmbedInteropTypes>False</EmbedInteropTypes>
@@ -71,6 +74,7 @@
     <Reference Include="PdfSharp-WPF, Version=1.32.2608.0, Culture=neutral, PublicKeyToken=f94615aa0424f9eb, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\Documents and Settings\User\Мои документы\Загрузки\PDFSharp-MigraDocFoundation-1_32\MigraDoc\samples\Samples C#\Based on WPF\HelloMigraDoc\bin\Debug\PdfSharp-WPF.dll</HintPath>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
     </Reference>
     <Reference Include="PresentationUI" />
     <Reference Include="ReachFramework" />
@@ -80,7 +84,9 @@
     <Reference Include="System.Printing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
-    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.CSharp">
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+    </Reference>
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />

@@ -300,5 +300,10 @@ namespace t2_1stan_writer
         {
             BdStatus.Text = ps.DataSource;
         }
+
+        private void Window_Closed(object sender, EventArgs e)
+        {
+            Application.Current.Shutdown();
+        }
     }
 }

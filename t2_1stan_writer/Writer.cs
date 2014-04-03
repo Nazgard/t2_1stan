@@ -29,9 +29,9 @@ namespace t2_1stan_writer
                 if (!_serialPort.IsOpen)
                     _serialPort.Open();
             }
-            catch (Exception exception)
+            catch
             {
-                MessageBox.Show(exception.ToString());
+                MessageBox.Show("Для работы нужен COM порт");
             }
         }
 
