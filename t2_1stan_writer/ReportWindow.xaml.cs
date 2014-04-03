@@ -191,7 +191,7 @@ namespace t2_1stan_writer
                 cell = row.Cells[0];
                 cell.AddParagraph("Параметры настройки");
                 cell = row.Cells[1];
-                cell.AddParagraph(_mySqlDataReader.GetString(4));
+                cell.AddParagraph();
 
                 row = table.AddRow();
                 row.BottomPadding = BottomPadding;
@@ -205,7 +205,7 @@ namespace t2_1stan_writer
                 cell = row.Cells[0];
                 cell.AddParagraph("Установка");
                 cell = row.Cells[1];
-                cell.AddParagraph();
+                cell.AddParagraph(_mySqlDataReader.GetString(9));
 
                 row = table.AddRow();
                 row.BottomPadding = BottomPadding;
