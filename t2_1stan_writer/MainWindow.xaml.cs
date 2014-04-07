@@ -200,6 +200,7 @@ namespace t2_1stan_writer
             Top = ps.Top;
             Left = ps.Left;
             BdStatus.Text = ps.DataSource;
+            ComStatus.Text = ps.COM;
 
             try
             {

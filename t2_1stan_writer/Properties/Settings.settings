@@ -20,5 +20,8 @@
     <Setting Name="Password" Type="System.String" Scope="User">
       <Value Profile="(Default)">1475896</Value>
     </Setting>
+    <Setting Name="COM" Type="System.String" Scope="User">
+      <Value Profile="(Default)">COM3</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

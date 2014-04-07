@@ -3,16 +3,18 @@ using System.IO.Ports;
 using System.Threading;
 using System.Windows;
 using MySql.Data.MySqlClient;
+using t2_1stan_writer.Properties;
 
 namespace t2_1stan_writer
 {
     internal class Writer
     {
+        private static readonly Settings Ps = Settings.Default;
         private readonly Byte[] _buffForRead = new byte[11];
         private readonly byte[] _buffferRecive = new byte[90];
         private readonly Connection _connection = new Connection();
         private readonly Crc8 _crc8 = new Crc8();
-        private readonly SerialPort _serialPort = new SerialPort("COM3");
+        private readonly SerialPort _serialPort = new SerialPort(Ps.COM);
         public MainWindow MainWindow;
 
         public Writer()
@@ -127,7 +129,7 @@ namespace t2_1stan_writer
 
                         myCommand.ExecuteNonQuery();
                         _connection.Close();
-                    }));                    
+                    }));
                 }
 
                 //СЕГМЕНТ ТРУБЫ

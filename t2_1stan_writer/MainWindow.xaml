@@ -190,6 +190,7 @@
             Height="24" VerticalAlignment="Bottom">
             <TextBlock Margin="3,0,0,0">Ready</TextBlock>
             <TextBlock x:Name="BdStatus" HorizontalAlignment="Right" MouseDown="BdStatus_MouseDown"></TextBlock>
+            <TextBlock x:Name="ComStatus" HorizontalAlignment="Right"></TextBlock>
             <StatusBarItem HorizontalAlignment="Right">
                 <ResizeGrip Opacity="0.75"/>
             </StatusBarItem>
