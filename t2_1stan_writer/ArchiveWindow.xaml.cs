@@ -18,7 +18,7 @@ namespace t2_1stan_writer
 
             _ac.ArchiveWindow = this;
             _ac.First_TreeData();
-            _ac.bgworkercounter();
+            _ac.count();
             label1.Content = "";
             label2.Content = "";
             label3.Content = "";

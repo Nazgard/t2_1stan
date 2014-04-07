@@ -27,7 +27,7 @@ namespace t2_1stan_writer
         private Dictionary<string, string> count_defects_smens;
         private Dictionary<string, string> count_parts;
         private Dictionary<string, string> count_defects_parts;
-        private bool counts_loaded = false;
+        private bool counts_loaded = true;
         
         public void First_TreeData()
         {
@@ -78,7 +78,8 @@ namespace t2_1stan_writer
                         SELECT
                         DISTINCT
                         MONTHNAME(defectsdata.DatePr),
-                        YEAR(defectsdata.DatePr)
+                        YEAR(defectsdata.DatePr),
+                        DATE_FORMAT(defectsdata.DatePr, '%Y-%m')
                         FROM
                         defectsdata
                         WHERE YEAR(defectsdata.DatePr) = @A
@@ -93,7 +94,7 @@ namespace t2_1stan_writer
                     {
                         var itemMonth = new TreeViewItem
                         {
-                            Uid = _mySqlDataReader.GetString(1) + "-" + _mySqlDataReader.GetString(0),
+                            Uid = _mySqlDataReader.GetString(1) + "-" + _mySqlDataReader.GetString(0) + "|" + _mySqlDataReader.GetString(2),
                             Style = null,
                             Tag = "month",
                             Header = _mySqlDataReader.GetString(0)
@@ -114,11 +115,11 @@ namespace t2_1stan_writer
                         FROM
                         defectsdata
                         WHERE
-                        DATE_FORMAT(defectsdata.DatePr, '%Y-%M') = @A
+                        DATE_FORMAT(defectsdata.DatePr, '%Y-%m') = @A
                     ";
                     _mySqlCommand.Connection = _connection.MySqlConnection;
                     _mySqlCommand.Parameters.Clear();
-                    _mySqlCommand.Parameters.AddWithValue("A", item.Uid);
+                    _mySqlCommand.Parameters.AddWithValue("A", item.Uid.Split('|')[1]);
 
                     _mySqlDataReader = _mySqlCommand.ExecuteReader();
 
@@ -178,7 +179,8 @@ namespace t2_1stan_writer
                         SELECT DISTINCT
                         defectsdata.NumberPart,
                         DATE_FORMAT(defectsdata.DatePr, '%Y-%m-%d'),
-                        worksmens.Id_WorkSmen
+                        indexes.Id_WorkSmen,
+                        worksmens.NameSmen
                         FROM
                         indexes
                         INNER JOIN defectsdata ON defectsdata.IndexData = indexes.IndexData
@@ -196,7 +198,7 @@ namespace t2_1stan_writer
                     {
                         var itemPart = new TreeViewItem
                         {
-                            Uid = _mySqlDataReader.GetString(0) + "|" + _mySqlDataReader.GetString(1) + "|" + _mySqlDataReader.GetString(2),
+                            Uid = _mySqlDataReader.GetString(0) + "|" + _mySqlDataReader.GetString(1) + "|" + _mySqlDataReader.GetString(2) + "|" + _mySqlDataReader.GetString(1) + " " + _mySqlDataReader.GetString(3) + " плавка " + _mySqlDataReader.GetString(0),
                             Style = null,
                             Tag = "part",
                             Header = _mySqlDataReader.GetString(0)
@@ -418,11 +420,11 @@ namespace t2_1stan_writer
                             if (counts_loaded)
                             {
                                 ArchiveWindow.listBox1.Items.Clear();
-                                ArchiveWindow.listBox1.Items.Add("ВРЕМЯ: \t\t\t" + item.Uid);
-                                ArchiveWindow.listBox1.Items.Add("ТРУБ: \t\t\t" + count_months[item.Uid]);
-                                ArchiveWindow.listBox1.Items.Add("ДЕФЕКТНЫХ ТРУБ: \t" + count_defects_months[item.Uid]);
-                                double cd = Convert.ToInt32(count_defects_months[item.Uid]);
-                                double c = Convert.ToInt32(count_months[item.Uid]);
+                                ArchiveWindow.listBox1.Items.Add("ВРЕМЯ: \t\t\t" + item.Uid.Split('|')[1]);
+                                ArchiveWindow.listBox1.Items.Add("ТРУБ: \t\t\t" + count_months[item.Uid.Split('|')[0]]);
+                                ArchiveWindow.listBox1.Items.Add("ДЕФЕКТНЫХ ТРУБ: \t" + count_defects_months[item.Uid.Split('|')[0]]);
+                                double cd = Convert.ToInt32(count_defects_months[item.Uid.Split('|')[0]]);
+                                double c = Convert.ToInt32(count_months[item.Uid.Split('|')[0]]);
                                 double result = Math.Round(((cd / c) * 100), 2);
                                 ArchiveWindow.listBox1.Items.Add("ПРОЦЕНТ БРАКА: \t" + result.ToString());
                             }
@@ -479,11 +481,11 @@ namespace t2_1stan_writer
                             if (counts_loaded)
                             {
                                 ArchiveWindow.listBox1.Items.Clear();
-                                ArchiveWindow.listBox1.Items.Add("ВРЕМЯ: \t\t\t" + item.Uid);
+                                ArchiveWindow.listBox1.Items.Add("ВРЕМЯ: \t\t\t" + item.Uid.Split('|')[3]);
                                 ArchiveWindow.listBox1.Items.Add("ТРУБ: \t\t\t" + count_parts[item.Uid.Split('|')[0]]);
                                 ArchiveWindow.listBox1.Items.Add("ДЕФЕКТНЫХ ТРУБ: \t" + count_defects_parts[item.Uid.Split('|')[0]]);
-                                double cd = Convert.ToInt32(count_defects_parts[item.Uid]);
-                                double c = Convert.ToInt32(count_parts[item.Uid]);
+                                double cd = Convert.ToInt32(count_defects_parts[item.Uid.Split('|')[0]]);
+                                double c = Convert.ToInt32(count_parts[item.Uid.Split('|')[0]]);
                                 double result = Math.Round(((cd / c) * 100), 2);
                                 ArchiveWindow.listBox1.Items.Add("ПРОЦЕНТ БРАКА: \t" + result.ToString());
                             }
@@ -519,6 +521,49 @@ namespace t2_1stan_writer
             BackgroundWorker worker = sender as BackgroundWorker;
 
             count_years = new Dictionary<string,string>();
+            count_years.Clear();
+            count_years = cyears();
+
+            count_defects_years = new Dictionary<string, string>();
+            count_defects_years.Clear();
+            count_defects_years = cdyears();
+
+            count_months = new Dictionary<string, string>();
+            count_months.Clear();
+            count_months = cmonths();
+
+            count_defects_months = new Dictionary<string, string>();
+            count_defects_months.Clear();
+            count_defects_months = cdmonths();
+
+            count_days = new Dictionary<string, string>();
+            count_days.Clear();
+            count_days = cdays();
+
+            count_defects_days = new Dictionary<string, string>();
+            count_defects_days.Clear();
+            count_defects_days = cddays();
+
+            count_smens = new Dictionary<string, string>();
+            count_smens.Clear();
+            count_smens = csmens();
+
+            count_defects_smens = new Dictionary<string, string>();
+            count_defects_smens.Clear();
+            count_defects_smens = cdsmens();
+
+            count_parts = new Dictionary<string, string>();
+            count_parts.Clear();
+            count_parts = cparts();
+
+            count_defects_parts = new Dictionary<string, string>();
+            count_defects_parts.Clear();
+            count_defects_parts = cdparts();
+        }
+
+        public void count()
+        {
+            count_years = new Dictionary<string, string>();
             count_years.Clear();
             count_years = cyears();
 
