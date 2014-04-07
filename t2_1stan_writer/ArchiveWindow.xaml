@@ -3,8 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="Просмотр данных стана 73-219" MinHeight="530" Height="530" MinWidth="965" Width="965" WindowStartupLocation="CenterOwner"
         Background="#FFE0E0E0"
-        Icon="icon.ico"
-        Style="{StaticResource VS2012WindowStyle}">
+        Icon="icon.ico">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition />
