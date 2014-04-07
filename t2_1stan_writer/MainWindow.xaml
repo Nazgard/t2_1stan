@@ -195,5 +195,6 @@
             </StatusBarItem>
         </StatusBar>
         <Button Content="БД" Height="35" HorizontalAlignment="Right" Margin="0,10,133,0" Name="button5" VerticalAlignment="Top" Width="90" Click="button5_Click" />
+        <Button Content="К.О." Height="35" HorizontalAlignment="Left" Margin="374,10,0,0" Name="button6" VerticalAlignment="Top" Width="75" />
     </Grid>
 </Window>

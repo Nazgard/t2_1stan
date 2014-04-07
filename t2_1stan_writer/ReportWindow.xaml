@@ -4,8 +4,7 @@
         xmlns:System_Windows_Documents="clr-namespace:System.Windows.Documents;assembly=PresentationUI"
         xmlns:md="clr-namespace:MigraDoc.Rendering.Windows;assembly=MigraDoc.Rendering-WPF"
         Title="ReportWindow" Height="700" Width="980"
-        Icon="icon.ico"
-        Style="{StaticResource VS2012WindowStyle}">
+        Icon="icon.ico">
     <Grid>
         <StatusBar Grid.Column="0" Margin="0,0,0,0" Grid.ColumnSpan="2" Height="24" VerticalAlignment="Bottom">
             <TextBlock Margin="3,0,0,0">Ready</TextBlock>

@@ -18,6 +18,7 @@ namespace t2_1stan_writer
 
             _ac.ArchiveWindow = this;
             _ac.First_TreeData();
+            _ac.bgworkercounter();
             label1.Content = "";
             label2.Content = "";
             label3.Content = "";
@@ -38,8 +39,7 @@ namespace t2_1stan_writer
         {
             try
             {
-                _ac.Tube_Control((TreeViewItem)treeView1.SelectedItem);
-                _ac.Info((TreeViewItem)treeView1.SelectedItem);
+                _ac.info_router((TreeViewItem)treeView1.SelectedItem);
             }
             catch
             {

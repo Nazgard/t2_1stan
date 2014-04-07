@@ -13,9 +13,25 @@ namespace t2_1stan_writer
         public BDEditorWindow()
         {
             InitializeComponent();
+            button1.Click += new RoutedEventHandler(button1_Click);
             BDEditorControl = new BDEditorControl(this);
 
             treeView1.SelectedItemChanged += new RoutedPropertyChangedEventHandler<object>(treeView1_SelectedItemChanged);
+        }
+
+        void button1_Click(object sender, RoutedEventArgs e)
+        {
+            Window window = new Window();
+            window.Owner = this;
+            window.Height = 200;
+            window.Width = 200;
+
+            Grid grid = new Grid();
+            Label lbl1 = new Label();
+            lbl1.Content = "name";
+            grid.Children.Add(lbl1);
+
+            window.ShowDialog();
         }
 
         void treeView1_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
