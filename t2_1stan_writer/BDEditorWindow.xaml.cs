@@ -38,5 +38,11 @@ namespace t2_1stan_writer
         {
             BDEditorControl.SelectedItemControl((TreeViewItem)treeView1.SelectedItem);
         }
+
+        private void button3_Click(object sender, RoutedEventArgs e)
+        {
+            var selecteditem = (TreeViewItem)treeView1.SelectedItem;
+            BDEditorControl.delete_entry(selecteditem.Header.ToString());
+        }
     }
 }

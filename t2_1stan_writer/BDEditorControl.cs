@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Windows.Controls.Primitives;
 using MySql.Data.MySqlClient;
 using System.Windows.Controls;
 using System.Windows.Forms;
@@ -283,7 +284,21 @@ namespace t2_1stan_writer
             {
                 MessageBox.Show(ex.ToString());
             }
-            
+        }
+
+        public void delete_entry(string table)
+        {
+            _connection.Open();
+            _mySqlCommand.CommandText = @"
+                DELETE
+                FROM
+                @TABLE
+                WHERE id = @id
+            ";
+            _mySqlCommand.Connection = _connection.MySqlConnection;
+            _mySqlCommand.Parameters.AddWithValue("TABLE", table);
+            var dataRowView = (DataRowView)BDEditorWindow.dataGrid1.SelectedItems[0];
+            _mySqlCommand.Parameters.AddWithValue("id", dataRowView.Row.ItemArray[0]);
         }
     }
 }
