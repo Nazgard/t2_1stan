@@ -28,7 +28,7 @@ namespace t2_1stan_writer
                 {
                     Ps.Reset();
                     Connect = "Database=" + Ps.Database + ";Data Source=" + Ps.DataSource + ";User Id=" + Ps.UserId +
-                              ";Password=" + Ps.Password;
+                          ";Password=" + Ps.Password;
                     MySqlConnection = new MySqlConnection(Connect);
                     MySqlConnection.Open();
                 }

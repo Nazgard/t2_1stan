@@ -71,7 +71,7 @@ namespace t2_1stan_writer
                 Inner Join operators AS o1 ON o1.Id_Operator = indexes.Id_Operator1
                 Inner Join operators AS o2 ON o2.Id_Operator = indexes.Id_Operator2
                 Inner Join device ON device.Id_Device = indexes.Id_Device
-                WHERE DATE_FORMAT(defectsdata.DatePr, '%Y-%M-%d') = @A AND
+                WHERE DATE_FORMAT(defectsdata.DatePr, '%Y-%m-%d') = @A AND
                 indexes.Id_WorkSmen = @B AND
                 defectsdata.NumberTube <> 0
                 GROUP BY defectsdata.DatePr

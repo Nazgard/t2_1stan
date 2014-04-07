@@ -1,12 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shapes;
 using MySql.Data.MySqlClient;
-using System.Collections.Generic;
-using System.ComponentModel;
 
 namespace t2_1stan_writer
 {
@@ -14,28 +14,34 @@ namespace t2_1stan_writer
     {
         private readonly Connection _connection = new Connection();
         private readonly MySqlCommand _mySqlCommand = new MySqlCommand();
+        private readonly MySqlCommand _mySqlCommand1 = new MySqlCommand();
         public ArchiveWindow ArchiveWindow;
         private int _countDeffectsLine;
         private MySqlDataReader _mySqlDataReader;
-        private Dictionary<string, string> count_years;
-        private Dictionary<string, string> count_defects_years;
-        private Dictionary<string, string> count_months;
-        private Dictionary<string, string> count_defects_months;
-        private Dictionary<string, string> count_days;
-        private Dictionary<string, string> count_defects_days;
-        private Dictionary<string, string> count_smens;
-        private Dictionary<string, string> count_defects_smens;
-        private Dictionary<string, string> count_parts;
-        private Dictionary<string, string> count_defects_parts;
-        private bool counts_loaded = true;
-        
+        private MySqlDataReader _mySqlDataReader1;
+        private Dictionary<string, string> _countDays;
+        private Dictionary<string, string> _countDefectsDays;
+        private Dictionary<string, string> _countDefectsMonths;
+        private Dictionary<string, string> _countDefectsParts;
+        private Dictionary<string, string> _countDefectsSmens;
+        private Dictionary<string, string> _countDefectsYears;
+        private Dictionary<string, string> _countMonths;
+        private Dictionary<string, string> _countParts;
+        private Dictionary<string, string> _countSmens;
+        private Dictionary<string, string> _countYears;
+        private bool _countsLoaded = true;
+
+        public ArchiveControl()
+        {
+            _connection.Open();
+        }
+
         public void First_TreeData()
         {
             Mouse.OverrideCursor = Cursors.Wait;
 
             try
             {
-                _connection.Open();
                 _mySqlCommand.CommandText = "SELECT DISTINCT YEAR(defectsdata.DatePr) FROM defectsdata";
                 _mySqlCommand.Connection = _connection.MySqlConnection;
                 _mySqlDataReader = _mySqlCommand.ExecuteReader();
@@ -53,7 +59,6 @@ namespace t2_1stan_writer
                     ArchiveWindow.treeView1.Items.Add(item);
                 }
                 _mySqlDataReader.Close();
-                _connection.Close();
             }
             catch
             {
@@ -68,7 +73,6 @@ namespace t2_1stan_writer
             Mouse.OverrideCursor = Cursors.Wait;
             try
             {
-                _connection.Open();
                 var item = (TreeViewItem) e.OriginalSource;
                 item.Items.Clear();
 
@@ -88,13 +92,17 @@ namespace t2_1stan_writer
                     _mySqlCommand.Parameters.AddWithValue("A", item.Uid);
                     _mySqlCommand.Connection = _connection.MySqlConnection;
 
+                    
+
                     _mySqlDataReader = _mySqlCommand.ExecuteReader();
 
                     while (_mySqlDataReader.Read())
                     {
                         var itemMonth = new TreeViewItem
                         {
-                            Uid = _mySqlDataReader.GetString(1) + "-" + _mySqlDataReader.GetString(0) + "|" + _mySqlDataReader.GetString(2),
+                            Uid =
+                                _mySqlDataReader.GetString(1) + "-" + _mySqlDataReader.GetString(0) + "|" +
+                                _mySqlDataReader.GetString(2),
                             Style = null,
                             Tag = "month",
                             Header = _mySqlDataReader.GetString(0)
@@ -162,7 +170,7 @@ namespace t2_1stan_writer
                     {
                         var itemSmens = new TreeViewItem
                         {
-                            Uid = _mySqlDataReader.GetString(2) + "|" + _mySqlDataReader.GetString(3),
+                            Uid = _mySqlDataReader.GetString(2) + "|" + _mySqlDataReader.GetString(3) + "+" + _mySqlDataReader.GetString(2) + " / " + _mySqlDataReader.GetString(0),
                             Style = null,
                             Tag = "smena",
                             Header = _mySqlDataReader.GetString(0)
@@ -198,7 +206,10 @@ namespace t2_1stan_writer
                     {
                         var itemPart = new TreeViewItem
                         {
-                            Uid = _mySqlDataReader.GetString(0) + "|" + _mySqlDataReader.GetString(1) + "|" + _mySqlDataReader.GetString(2) + "|" + _mySqlDataReader.GetString(1) + " " + _mySqlDataReader.GetString(3) + " плавка " + _mySqlDataReader.GetString(0),
+                            Uid =
+                                _mySqlDataReader.GetString(0) + "|" + _mySqlDataReader.GetString(1) + "|" +
+                                _mySqlDataReader.GetString(2) + "|" + _mySqlDataReader.GetString(1) + " / " +
+                                _mySqlDataReader.GetString(3) + " / плавка " + _mySqlDataReader.GetString(0),
                             Style = null,
                             Tag = "part",
                             Header = _mySqlDataReader.GetString(0)
@@ -237,9 +248,9 @@ namespace t2_1stan_writer
                     {
                         var itemTube = new TreeViewItem
                         {
-                            Uid     = _mySqlDataReader.GetString(3),
-                            Tag     = "tube",
-                            Header  = "Труба № " + _mySqlDataReader.GetString(0)
+                            Uid = _mySqlDataReader.GetString(3),
+                            Tag = "tube",
+                            Header = "Труба № " + _mySqlDataReader.GetString(0)
                         };
                         if (_mySqlDataReader.GetInt32(1) == 1)
                         {
@@ -253,7 +264,7 @@ namespace t2_1stan_writer
                     }
                     _mySqlDataReader.Close();
                 }
-                _connection.Close();
+                
             }
 // ReSharper disable EmptyGeneralCatchClause
             catch
@@ -295,7 +306,6 @@ namespace t2_1stan_writer
                     _mySqlCommand.Parameters.Clear();
                     _mySqlCommand.Parameters.AddWithValue("A", item.Uid);
 
-                    _connection.Open();
                     _mySqlCommand.Connection = _connection.MySqlConnection;
                     _mySqlDataReader = _mySqlCommand.ExecuteReader();
 
@@ -338,7 +348,7 @@ namespace t2_1stan_writer
 
                         int j = 0;
 
-                        foreach (byte deffect in (byte[])_mySqlDataReader.GetValue(4))
+                        foreach (byte deffect in (byte[]) _mySqlDataReader.GetValue(4))
                         {
                             if (deffect != 0)
                             {
@@ -349,7 +359,7 @@ namespace t2_1stan_writer
 
                                 var errorLine = new Line();
 
-                                Canvas.SetLeft(errorLine, 40 + (j * 4));
+                                Canvas.SetLeft(errorLine, 40 + (j*4));
                                 errorLine.Opacity = 1;
                                 errorLine.X1 = 0;
                                 errorLine.X2 = 0;
@@ -371,7 +381,7 @@ namespace t2_1stan_writer
 
                         ArchiveWindow.label6.Content = "Кол-во дефектных сегментов\t " + _countDeffectsLine;
                     }
-                    _connection.Close();
+                    
                     _mySqlDataReader.Close();
                     Mouse.OverrideCursor = Cursors.Arrow;
                 }
@@ -390,218 +400,229 @@ namespace t2_1stan_writer
                 switch (item.Tag.ToString())
                 {
                     case "tube":
-                        {
-                            Tube_Control(item);
-                        }
-                        break;
+                    {
+                        ArchiveWindow.button1.IsEnabled = false;
+                        Tube_Control(item);
+                    }
+                    break;
                     case "year":
+                    {
+                        ArchiveWindow.button1.IsEnabled = false;
+                        if (_countsLoaded)
                         {
-                            if (counts_loaded)
-                            { 
-                                ArchiveWindow.listBox1.Items.Clear();
-                                ArchiveWindow.listBox1.Items.Add("ВРЕМЯ: \t\t\t" + item.Uid);
-                                ArchiveWindow.listBox1.Items.Add("ТРУБ: \t\t\t" + count_years[item.Uid]);
-                                ArchiveWindow.listBox1.Items.Add("ДЕФЕКТНЫХ ТРУБ: \t" + count_defects_years[item.Uid]);
-                                double cd = Convert.ToInt32(count_defects_years[item.Uid]);
-                                double c = Convert.ToInt32(count_years[item.Uid]);
-                                double result = Math.Round(((cd / c) * 100), 2);
-                                ArchiveWindow.listBox1.Items.Add("ПРОЦЕНТ БРАКА: \t" + result.ToString());
-                            }
-                            else
-                            {
-                                MessageBox.Show("Статистика еще загружается, попробуйте позже.");
-                            }
-                            
+                            ArchiveWindow.listBox1.Items.Clear();
+                            ArchiveWindow.listBox1.Items.Add("ВРЕМЯ: \t\t\t" + item.Uid);
+                            ArchiveWindow.listBox1.Items.Add("ТРУБ: \t\t\t" + _countYears[item.Uid]);
+                            ArchiveWindow.listBox1.Items.Add("ДЕФЕКТНЫХ ТРУБ: \t" + _countDefectsYears[item.Uid]);
+                            double cd = Convert.ToInt32(_countDefectsYears[item.Uid]);
+                            double c = Convert.ToInt32(_countYears[item.Uid]);
+                            double result = Math.Round(((cd/c)*100), 2);
+                            ArchiveWindow.listBox1.Items.Add("ПРОЦЕНТ БРАКА: \t" + result);
                         }
-                        break;
-                    
+                        else
+                        {
+                            MessageBox.Show("Статистика еще загружается, попробуйте позже.");
+                        }
+                    }
+                    break;
+
                     case "month":
+                    {
+                        ArchiveWindow.button1.IsEnabled = false;
+                        if (_countsLoaded)
                         {
-                            if (counts_loaded)
-                            {
-                                ArchiveWindow.listBox1.Items.Clear();
-                                ArchiveWindow.listBox1.Items.Add("ВРЕМЯ: \t\t\t" + item.Uid.Split('|')[1]);
-                                ArchiveWindow.listBox1.Items.Add("ТРУБ: \t\t\t" + count_months[item.Uid.Split('|')[0]]);
-                                ArchiveWindow.listBox1.Items.Add("ДЕФЕКТНЫХ ТРУБ: \t" + count_defects_months[item.Uid.Split('|')[0]]);
-                                double cd = Convert.ToInt32(count_defects_months[item.Uid.Split('|')[0]]);
-                                double c = Convert.ToInt32(count_months[item.Uid.Split('|')[0]]);
-                                double result = Math.Round(((cd / c) * 100), 2);
-                                ArchiveWindow.listBox1.Items.Add("ПРОЦЕНТ БРАКА: \t" + result.ToString());
-                            }
-                            else
-                            {
-                                MessageBox.Show("Статистика еще загружается, попробуйте позже.");
-                            }
-                            
+                            ArchiveWindow.listBox1.Items.Clear();
+                            ArchiveWindow.listBox1.Items.Add("ВРЕМЯ: \t\t\t" + item.Uid.Split('|')[1]);
+                            ArchiveWindow.listBox1.Items.Add("ТРУБ: \t\t\t" + _countMonths[item.Uid.Split('|')[0]]);
+                            ArchiveWindow.listBox1.Items.Add("ДЕФЕКТНЫХ ТРУБ: \t" +
+                                                             _countDefectsMonths[item.Uid.Split('|')[0]]);
+                            double cd = Convert.ToInt32(_countDefectsMonths[item.Uid.Split('|')[0]]);
+                            double c = Convert.ToInt32(_countMonths[item.Uid.Split('|')[0]]);
+                            double result = Math.Round(((cd/c)*100), 2);
+                            ArchiveWindow.listBox1.Items.Add("ПРОЦЕНТ БРАКА: \t" + result);
                         }
-                        break;
+                        else
+                        {
+                            MessageBox.Show("Статистика еще загружается, попробуйте позже.");
+                        }
+                    }
+                    break;
 
                     case "day":
+                    {
+                        ArchiveWindow.button1.IsEnabled = false;
+                        if (_countsLoaded)
                         {
-                            if (counts_loaded)
-                            {
-                                ArchiveWindow.listBox1.Items.Clear();
-                                ArchiveWindow.listBox1.Items.Add("ВРЕМЯ: \t\t\t" + item.Uid);
-                                ArchiveWindow.listBox1.Items.Add("ТРУБ: \t\t\t" + count_days[item.Uid]);
-                                ArchiveWindow.listBox1.Items.Add("ДЕФЕКТНЫХ ТРУБ: \t" + count_defects_days[item.Uid]);
-                                double cd = Convert.ToInt32(count_defects_days[item.Uid]);
-                                double c = Convert.ToInt32(count_days[item.Uid]);
-                                double result = Math.Round(((cd / c) * 100), 2);
-                                ArchiveWindow.listBox1.Items.Add("ПРОЦЕНТ БРАКА: \t" + result.ToString());
-                            }
-                            else
-                            {
-                                MessageBox.Show("Статистика еще загружается, попробуйте позже.");
-                            }
+                            ArchiveWindow.listBox1.Items.Clear();
+                            ArchiveWindow.listBox1.Items.Add("ВРЕМЯ: \t\t\t" + item.Uid);
+                            ArchiveWindow.listBox1.Items.Add("ТРУБ: \t\t\t" + _countDays[item.Uid]);
+                            ArchiveWindow.listBox1.Items.Add("ДЕФЕКТНЫХ ТРУБ: \t" + _countDefectsDays[item.Uid]);
+                            double cd = Convert.ToInt32(_countDefectsDays[item.Uid]);
+                            double c = Convert.ToInt32(_countDays[item.Uid]);
+                            double result = Math.Round(((cd/c)*100), 2);
+                            ArchiveWindow.listBox1.Items.Add("ПРОЦЕНТ БРАКА: \t" + result);
                         }
-                        break;
+                        else
+                        {
+                            MessageBox.Show("Статистика еще загружается, попробуйте позже.");
+                        }
+                    }
+                    break;
 
                     case "smena":
+                    {
+                        ArchiveWindow.button1.IsEnabled = true;
+                        if (_countsLoaded)
                         {
-                            if (counts_loaded)
-                            {
-                                ArchiveWindow.listBox1.Items.Clear();
-                                ArchiveWindow.listBox1.Items.Add("ВРЕМЯ: \t\t\t" + item.Uid);
-                                ArchiveWindow.listBox1.Items.Add("ТРУБ: \t\t\t" + count_smens[item.Uid]);
-                                ArchiveWindow.listBox1.Items.Add("ДЕФЕКТНЫХ ТРУБ: \t" + count_defects_smens[item.Uid]);
-                                double cd = Convert.ToInt32(count_defects_smens[item.Uid]);
-                                double c = Convert.ToInt32(count_smens[item.Uid]);
-                                double result = Math.Round(((cd / c) * 100), 2);
-                                ArchiveWindow.listBox1.Items.Add("ПРОЦЕНТ БРАКА: \t" + result.ToString());
-                            }
-                            else
-                            {
-                                MessageBox.Show("Статистика еще загружается, попробуйте позже.");
-                            }
+                            ArchiveWindow.listBox1.Items.Clear();
+                            ArchiveWindow.listBox1.Items.Add("ВРЕМЯ: \t\t\t" + item.Uid.Split('+')[1]);
+                            ArchiveWindow.listBox1.Items.Add("ТРУБ: \t\t\t" + _countSmens[item.Uid.Split('+')[0]]);
+                            ArchiveWindow.listBox1.Items.Add("ДЕФЕКТНЫХ ТРУБ: \t" + _countDefectsSmens[item.Uid.Split('+')[0]]);
+                            double cd = Convert.ToInt32(_countDefectsSmens[item.Uid.Split('+')[0]]);
+                            double c = Convert.ToInt32(_countSmens[item.Uid.Split('+')[0]]);
+                            double result = Math.Round(((cd/c)*100), 2);
+                            ArchiveWindow.listBox1.Items.Add("ПРОЦЕНТ БРАКА: \t" + result);
                         }
-                        break;
+                        else
+                        {
+                            MessageBox.Show("Статистика еще загружается, попробуйте позже.");
+                        }
+                    }
+                    break;
 
                     case "part":
+                    {
+                        ArchiveWindow.button1.IsEnabled = false;
+                        if (_countsLoaded)
                         {
-                            if (counts_loaded)
-                            {
-                                ArchiveWindow.listBox1.Items.Clear();
-                                ArchiveWindow.listBox1.Items.Add("ВРЕМЯ: \t\t\t" + item.Uid.Split('|')[3]);
-                                ArchiveWindow.listBox1.Items.Add("ТРУБ: \t\t\t" + count_parts[item.Uid.Split('|')[0]]);
-                                ArchiveWindow.listBox1.Items.Add("ДЕФЕКТНЫХ ТРУБ: \t" + count_defects_parts[item.Uid.Split('|')[0]]);
-                                double cd = Convert.ToInt32(count_defects_parts[item.Uid.Split('|')[0]]);
-                                double c = Convert.ToInt32(count_parts[item.Uid.Split('|')[0]]);
-                                double result = Math.Round(((cd / c) * 100), 2);
-                                ArchiveWindow.listBox1.Items.Add("ПРОЦЕНТ БРАКА: \t" + result.ToString());
-                            }
-                            else
-                            {
-                                MessageBox.Show("Статистика еще загружается, попробуйте позже.");
-                            }
+                            ArchiveWindow.listBox1.Items.Clear();
+                            ArchiveWindow.listBox1.Items.Add("ПЛАВКА: \t\t" + item.Uid.Split('|')[0]);
+                            ArchiveWindow.listBox1.Items.Add("ТРУБ: \t\t\t" + _countParts[item.Uid.Split('|')[0]]);
+                            ArchiveWindow.listBox1.Items.Add("ДЕФЕКТНЫХ ТРУБ: \t" +
+                                                             _countDefectsParts[item.Uid.Split('|')[0]]);
+                            double cd = Convert.ToInt32(_countDefectsParts[item.Uid.Split('|')[0]]);
+                            double c = Convert.ToInt32(_countParts[item.Uid.Split('|')[0]]);
+                            double result = Math.Round(((cd/c)*100), 2);
+                            ArchiveWindow.listBox1.Items.Add("ПРОЦЕНТ БРАКА: \t" + result);
                         }
-                        break;
+                        else
+                        {
+                            MessageBox.Show("Статистика еще загружается, попробуйте позже.");
+                        }
+                    }
+                    break;
+                    default:
+                    {
+                        ArchiveWindow.button1.IsEnabled = false;
+                    }
+                    break;
                 }
             }
             catch
             {
-
-            }            
+            }
         }
 
         public void bgworkercounter()
         {
             var backgroundWorker1 = new BackgroundWorker();
-            backgroundWorker1.DoWork += new DoWorkEventHandler(backgroundWorker1_DoWork);
-            backgroundWorker1.RunWorkerCompleted += new RunWorkerCompletedEventHandler(backgroundWorker1_RunWorkerCompleted);
+            backgroundWorker1.DoWork += backgroundWorker1_DoWork;
+            backgroundWorker1.RunWorkerCompleted += backgroundWorker1_RunWorkerCompleted;
             backgroundWorker1.RunWorkerAsync();
         }
 
-        void backgroundWorker1_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        private void backgroundWorker1_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-            counts_loaded = true;
+            _countsLoaded = true;
         }
 
         private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
         {
-            BackgroundWorker worker = sender as BackgroundWorker;
+            var worker = sender as BackgroundWorker;
 
-            count_years = new Dictionary<string,string>();
-            count_years.Clear();
-            count_years = cyears();
+            _countYears = new Dictionary<string, string>();
+            _countYears.Clear();
+            _countYears = cyears();
 
-            count_defects_years = new Dictionary<string, string>();
-            count_defects_years.Clear();
-            count_defects_years = cdyears();
+            _countDefectsYears = new Dictionary<string, string>();
+            _countDefectsYears.Clear();
+            _countDefectsYears = cdyears();
 
-            count_months = new Dictionary<string, string>();
-            count_months.Clear();
-            count_months = cmonths();
+            _countMonths = new Dictionary<string, string>();
+            _countMonths.Clear();
+            _countMonths = cmonths();
 
-            count_defects_months = new Dictionary<string, string>();
-            count_defects_months.Clear();
-            count_defects_months = cdmonths();
+            _countDefectsMonths = new Dictionary<string, string>();
+            _countDefectsMonths.Clear();
+            _countDefectsMonths = cdmonths();
 
-            count_days = new Dictionary<string, string>();
-            count_days.Clear();
-            count_days = cdays();
+            _countDays = new Dictionary<string, string>();
+            _countDays.Clear();
+            _countDays = cdays();
 
-            count_defects_days = new Dictionary<string, string>();
-            count_defects_days.Clear();
-            count_defects_days = cddays();
+            _countDefectsDays = new Dictionary<string, string>();
+            _countDefectsDays.Clear();
+            _countDefectsDays = cddays();
 
-            count_smens = new Dictionary<string, string>();
-            count_smens.Clear();
-            count_smens = csmens();
+            _countSmens = new Dictionary<string, string>();
+            _countSmens.Clear();
+            _countSmens = csmens();
 
-            count_defects_smens = new Dictionary<string, string>();
-            count_defects_smens.Clear();
-            count_defects_smens = cdsmens();
+            _countDefectsSmens = new Dictionary<string, string>();
+            _countDefectsSmens.Clear();
+            _countDefectsSmens = cdsmens();
 
-            count_parts = new Dictionary<string, string>();
-            count_parts.Clear();
-            count_parts = cparts();
+            _countParts = new Dictionary<string, string>();
+            _countParts.Clear();
+            _countParts = cparts();
 
-            count_defects_parts = new Dictionary<string, string>();
-            count_defects_parts.Clear();
-            count_defects_parts = cdparts();
+            _countDefectsParts = new Dictionary<string, string>();
+            _countDefectsParts.Clear();
+            _countDefectsParts = cdparts();
         }
 
         public void count()
         {
-            count_years = new Dictionary<string, string>();
-            count_years.Clear();
-            count_years = cyears();
+            //bgworkercounter();
+            _countYears = new Dictionary<string, string>();
+            _countYears.Clear();
+            _countYears = cyears();
 
-            count_defects_years = new Dictionary<string, string>();
-            count_defects_years.Clear();
-            count_defects_years = cdyears();
+            _countDefectsYears = new Dictionary<string, string>();
+            _countDefectsYears.Clear();
+            _countDefectsYears = cdyears();
 
-            count_months = new Dictionary<string, string>();
-            count_months.Clear();
-            count_months = cmonths();
+            _countMonths = new Dictionary<string, string>();
+            _countMonths.Clear();
+            _countMonths = cmonths();
 
-            count_defects_months = new Dictionary<string, string>();
-            count_defects_months.Clear();
-            count_defects_months = cdmonths();
+            _countDefectsMonths = new Dictionary<string, string>();
+            _countDefectsMonths.Clear();
+            _countDefectsMonths = cdmonths();
 
-            count_days = new Dictionary<string, string>();
-            count_days.Clear();
-            count_days = cdays();
+            _countDays = new Dictionary<string, string>();
+            _countDays.Clear();
+            _countDays = cdays();
 
-            count_defects_days = new Dictionary<string, string>();
-            count_defects_days.Clear();
-            count_defects_days = cddays();
+            _countDefectsDays = new Dictionary<string, string>();
+            _countDefectsDays.Clear();
+            _countDefectsDays = cddays();
 
-            count_smens = new Dictionary<string, string>();
-            count_smens.Clear();
-            count_smens = csmens();
+            _countSmens = new Dictionary<string, string>();
+            _countSmens.Clear();
+            _countSmens = csmens();
 
-            count_defects_smens = new Dictionary<string, string>();
-            count_defects_smens.Clear();
-            count_defects_smens = cdsmens();
+            _countDefectsSmens = new Dictionary<string, string>();
+            _countDefectsSmens.Clear();
+            _countDefectsSmens = cdsmens();
 
-            count_parts = new Dictionary<string, string>();
-            count_parts.Clear();
-            count_parts = cparts();
+            _countParts = new Dictionary<string, string>();
+            _countParts.Clear();
+            _countParts = cparts();
 
-            count_defects_parts = new Dictionary<string, string>();
-            count_defects_parts.Clear();
-            count_defects_parts = cdparts();
+            _countDefectsParts = new Dictionary<string, string>();
+            _countDefectsParts.Clear();
+            _countDefectsParts = cdparts();
         }
 
 
@@ -609,8 +630,8 @@ namespace t2_1stan_writer
         {
             var DictYears = new Dictionary<string, string>();
             DictYears.Clear();
- 
-            _mySqlCommand.CommandText = @"
+
+            _mySqlCommand1.CommandText = @"
                 SELECT
                 Count(defectsdata.IndexData),
                 YEAR(defectsdata.DatePr)
@@ -618,32 +639,24 @@ namespace t2_1stan_writer
                 defectsdata
                 GROUP BY YEAR(defectsdata.DatePr)
             ";
-            try
-            {
-                _mySqlCommand.Connection = _connection.MySqlConnection;
-                _mySqlDataReader = _mySqlCommand.ExecuteReader();
-            }
-            catch
-            {
-                _connection.Open();
-                _mySqlCommand.Connection = _connection.MySqlConnection;
-                _mySqlDataReader = _mySqlCommand.ExecuteReader();
-            }            
+            _mySqlCommand1.Connection = _connection.MySqlConnection;
+            _mySqlDataReader1 = _mySqlCommand1.ExecuteReader();
+            
 
-            while (_mySqlDataReader.Read())
+            while (_mySqlDataReader1.Read())
             {
                 try
                 {
-                    DictYears.Add(_mySqlDataReader.GetString(1), _mySqlDataReader.GetString(0));
+                    DictYears.Add(_mySqlDataReader1.GetString(1), _mySqlDataReader1.GetString(0));
                 }
-                catch
+                catch (Exception exception)
                 {
-                
+                    MessageBox.Show(exception.ToString());
                 }
             }
 
-            _mySqlDataReader.Close();
-            _connection.Close();
+            _mySqlDataReader1.Close();
+            
 
             return DictYears;
         }
@@ -653,7 +666,7 @@ namespace t2_1stan_writer
             var DictDYears = new Dictionary<string, string>();
             DictDYears.Clear();
 
-            _mySqlCommand.CommandText = @"
+            _mySqlCommand1.CommandText = @"
                 SELECT
                 Count(defectsdata.IndexData),
                 YEAR(defectsdata.DatePr)
@@ -663,32 +676,22 @@ namespace t2_1stan_writer
                 defectsdata.FlDefectTube = 1
                 GROUP BY YEAR(defectsdata.DatePr)
             ";
-            try
-            {
-                _mySqlCommand.Connection = _connection.MySqlConnection;
-                _mySqlDataReader = _mySqlCommand.ExecuteReader();
-            }
-            catch
-            {
-                _connection.Open();
-                _mySqlCommand.Connection = _connection.MySqlConnection;
-                _mySqlDataReader = _mySqlCommand.ExecuteReader();
-            }
+            _mySqlCommand1.Connection = _connection.MySqlConnection;
+            _mySqlDataReader1 = _mySqlCommand1.ExecuteReader();
 
-            while (_mySqlDataReader.Read())
+            while (_mySqlDataReader1.Read())
             {
                 try
                 {
-                    DictDYears.Add(_mySqlDataReader.GetString(1), _mySqlDataReader.GetString(0));
+                    DictDYears.Add(_mySqlDataReader1.GetString(1), _mySqlDataReader1.GetString(0));
                 }
                 catch
-                { 
-                
-                }                
+                {
+                }
             }
 
-            _mySqlDataReader.Close();
-            _connection.Close();
+            _mySqlDataReader1.Close();
+            
 
             return DictDYears;
         }
@@ -698,7 +701,7 @@ namespace t2_1stan_writer
             var DictMonths = new Dictionary<string, string>();
             DictMonths.Clear();
 
-            _mySqlCommand.CommandText = @"
+            _mySqlCommand1.CommandText = @"
                 SELECT    
                 Count(defectsdata.IndexData),
 			    DATE_FORMAT(defectsdata.DatePr, '%Y-%M')
@@ -707,31 +710,21 @@ namespace t2_1stan_writer
                 GROUP BY MONTHNAME(defectsdata.DatePr)
                 ORDER BY YEAR(defectsdata.DatePr), MONTH(defectsdata.DatePr)
             ";
-            try
-            {
-                _mySqlCommand.Connection = _connection.MySqlConnection;
-                _mySqlDataReader = _mySqlCommand.ExecuteReader();
-            }
-            catch
-            {
-                _connection.Open();
-                _mySqlCommand.Connection = _connection.MySqlConnection;
-                _mySqlDataReader = _mySqlCommand.ExecuteReader();
-            }
+            _mySqlCommand1.Connection = _connection.MySqlConnection;
+            _mySqlDataReader1 = _mySqlCommand1.ExecuteReader();
 
-            while (_mySqlDataReader.Read())
+            while (_mySqlDataReader1.Read())
             {
                 try
                 {
-                    DictMonths.Add(_mySqlDataReader.GetString(1), _mySqlDataReader.GetString(0));
+                    DictMonths.Add(_mySqlDataReader1.GetString(1), _mySqlDataReader1.GetString(0));
                 }
                 catch
-                { 
-                
-                }                
+                {
+                }
             }
 
-            _mySqlDataReader.Close();
+            _mySqlDataReader1.Close();
 
             return DictMonths;
         }
@@ -741,7 +734,7 @@ namespace t2_1stan_writer
             var DictDMonths = new Dictionary<string, string>();
             DictDMonths.Clear();
 
-            _mySqlCommand.CommandText = @"
+            _mySqlCommand1.CommandText = @"
                 SELECT    
                 Count(defectsdata.IndexData),
 			    DATE_FORMAT(defectsdata.DatePr, '%Y-%M')
@@ -752,31 +745,21 @@ namespace t2_1stan_writer
                 GROUP BY MONTHNAME(defectsdata.DatePr)
                 ORDER BY YEAR(defectsdata.DatePr), MONTH(defectsdata.DatePr)
             ";
-            try
-            {
-                _mySqlCommand.Connection = _connection.MySqlConnection;
-                _mySqlDataReader = _mySqlCommand.ExecuteReader();
-            }
-            catch
-            {
-                _connection.Open();
-                _mySqlCommand.Connection = _connection.MySqlConnection;
-                _mySqlDataReader = _mySqlCommand.ExecuteReader();
-            }
+            _mySqlCommand1.Connection = _connection.MySqlConnection;
+            _mySqlDataReader1 = _mySqlCommand1.ExecuteReader();
 
-            while (_mySqlDataReader.Read())
+            while (_mySqlDataReader1.Read())
             {
                 try
                 {
-                    DictDMonths.Add(_mySqlDataReader.GetString(1), _mySqlDataReader.GetString(0));
+                    DictDMonths.Add(_mySqlDataReader1.GetString(1), _mySqlDataReader1.GetString(0));
                 }
                 catch
-                { 
-                
-                }                
+                {
+                }
             }
 
-            _mySqlDataReader.Close();
+            _mySqlDataReader1.Close();
 
             return DictDMonths;
         }
@@ -786,7 +769,7 @@ namespace t2_1stan_writer
             var DictDays = new Dictionary<string, string>();
             DictDays.Clear();
 
-            _mySqlCommand.CommandText = @"
+            _mySqlCommand1.CommandText = @"
                 SELECT    
                 Count(defectsdata.IndexData),
                 DATE_FORMAT(defectsdata.DatePr, '%Y-%m-%d')
@@ -795,31 +778,21 @@ namespace t2_1stan_writer
                 GROUP BY defectsdata.DatePr
                 ORDER BY defectsdata.DatePr
             ";
-            try
-            {
-                _mySqlCommand.Connection = _connection.MySqlConnection;
-                _mySqlDataReader = _mySqlCommand.ExecuteReader();
-            }
-            catch
-            {
-                _connection.Open();
-                _mySqlCommand.Connection = _connection.MySqlConnection;
-                _mySqlDataReader = _mySqlCommand.ExecuteReader();
-            }
+            _mySqlCommand1.Connection = _connection.MySqlConnection;
+            _mySqlDataReader1 = _mySqlCommand1.ExecuteReader();
 
-            while (_mySqlDataReader.Read())
+            while (_mySqlDataReader1.Read())
             {
                 try
                 {
-                    DictDays.Add(_mySqlDataReader.GetString(1), _mySqlDataReader.GetString(0));
+                    DictDays.Add(_mySqlDataReader1.GetString(1), _mySqlDataReader1.GetString(0));
                 }
                 catch
-                { 
-                
-                }                
+                {
+                }
             }
 
-            _mySqlDataReader.Close();
+            _mySqlDataReader1.Close();
 
             return DictDays;
         }
@@ -829,7 +802,7 @@ namespace t2_1stan_writer
             var DictDays = new Dictionary<string, string>();
             DictDays.Clear();
 
-            _mySqlCommand.CommandText = @"
+            _mySqlCommand1.CommandText = @"
                 SELECT    
                 Count(defectsdata.IndexData),
                 DATE_FORMAT(defectsdata.DatePr, '%Y-%m-%d')
@@ -840,42 +813,31 @@ namespace t2_1stan_writer
                 GROUP BY defectsdata.DatePr
                 ORDER BY defectsdata.DatePr
             ";
-            try
-            {
-                _mySqlCommand.Connection = _connection.MySqlConnection;
-                _mySqlDataReader = _mySqlCommand.ExecuteReader();
-            }
-            catch
-            {
-                _connection.Open();
-                _mySqlCommand.Connection = _connection.MySqlConnection;
-                _mySqlDataReader = _mySqlCommand.ExecuteReader();
-            }
+            _mySqlCommand1.Connection = _connection.MySqlConnection;
+            _mySqlDataReader1 = _mySqlCommand1.ExecuteReader();
 
-            while (_mySqlDataReader.Read())
+            while (_mySqlDataReader1.Read())
             {
                 try
                 {
-                    DictDays.Add(_mySqlDataReader.GetString(1), _mySqlDataReader.GetString(0));
+                    DictDays.Add(_mySqlDataReader1.GetString(1), _mySqlDataReader1.GetString(0));
                 }
                 catch
                 {
-
-                }                
+                }
             }
 
-            _mySqlDataReader.Close();
+            _mySqlDataReader1.Close();
 
             return DictDays;
         }
-
-
+        
         public Dictionary<string, string> csmens()
         {
             var DictSmens = new Dictionary<string, string>();
             DictSmens.Clear();
 
-            _mySqlCommand.CommandText = @"
+            _mySqlCommand1.CommandText = @"
                 SELECT
                 Count(defectsdata.IndexData),
                 CONCAT(DATE_FORMAT(defectsdata.DatePr, '%Y-%m-%d'), '|', indexes.Id_WorkSmen)
@@ -884,31 +846,21 @@ namespace t2_1stan_writer
                 Inner Join indexes ON defectsdata.IndexData = indexes.IndexData
                 GROUP BY defectsdata.DatePr, indexes.Id_WorkSmen
             ";
-            try
-            {
-                _mySqlCommand.Connection = _connection.MySqlConnection;
-                _mySqlDataReader = _mySqlCommand.ExecuteReader();
-            }
-            catch
-            {
-                _connection.Open();
-                _mySqlCommand.Connection = _connection.MySqlConnection;
-                _mySqlDataReader = _mySqlCommand.ExecuteReader();
-            }
+            _mySqlCommand1.Connection = _connection.MySqlConnection;
+            _mySqlDataReader1 = _mySqlCommand1.ExecuteReader();
 
-            while (_mySqlDataReader.Read())
+            while (_mySqlDataReader1.Read())
             {
                 try
                 {
-                    DictSmens.Add(_mySqlDataReader.GetString(1), _mySqlDataReader.GetString(0));
+                    DictSmens.Add(_mySqlDataReader1.GetString(1), _mySqlDataReader1.GetString(0));
                 }
                 catch
-                { 
-                
-                }                
+                {
+                }
             }
 
-            _mySqlDataReader.Close();
+            _mySqlDataReader1.Close();
 
             return DictSmens;
         }
@@ -918,7 +870,7 @@ namespace t2_1stan_writer
             var DictDSmens = new Dictionary<string, string>();
             DictDSmens.Clear();
 
-            _mySqlCommand.CommandText = @"
+            _mySqlCommand1.CommandText = @"
                 SELECT
                 Count(defectsdata.IndexData),
                 CONCAT(DATE_FORMAT(defectsdata.DatePr, '%Y-%m-%d'), '|', indexes.Id_WorkSmen)
@@ -929,31 +881,21 @@ namespace t2_1stan_writer
                 defectsdata.FlDefectTube = 1
                 GROUP BY defectsdata.DatePr, indexes.Id_WorkSmen
             ";
-            try
-            {
-                _mySqlCommand.Connection = _connection.MySqlConnection;
-                _mySqlDataReader = _mySqlCommand.ExecuteReader();
-            }
-            catch
-            {
-                _connection.Open();
-                _mySqlCommand.Connection = _connection.MySqlConnection;
-                _mySqlDataReader = _mySqlCommand.ExecuteReader();
-            }
+            _mySqlCommand1.Connection = _connection.MySqlConnection;
+            _mySqlDataReader1 = _mySqlCommand1.ExecuteReader();
 
-            while (_mySqlDataReader.Read())
+            while (_mySqlDataReader1.Read())
             {
                 try
                 {
-                    DictDSmens.Add(_mySqlDataReader.GetString(1), _mySqlDataReader.GetString(0));
+                    DictDSmens.Add(_mySqlDataReader1.GetString(1), _mySqlDataReader1.GetString(0));
                 }
                 catch
-                { 
-                
-                }                
+                {
+                }
             }
 
-            _mySqlDataReader.Close();
+            _mySqlDataReader1.Close();
 
             return DictDSmens;
         }
@@ -963,7 +905,7 @@ namespace t2_1stan_writer
             var DictParts = new Dictionary<string, string>();
             DictParts.Clear();
 
-            _mySqlCommand.CommandText = @"
+            _mySqlCommand1.CommandText = @"
                 SELECT
                 Count(defectsdata.IndexData),
                 defectsdata.NumberPart
@@ -971,31 +913,20 @@ namespace t2_1stan_writer
                 defectsdata
                 GROUP BY defectsdata.NumberPart
             ";
-            try
-            {
-                _mySqlCommand.Connection = _connection.MySqlConnection;
-                _mySqlDataReader = _mySqlCommand.ExecuteReader();
-            }
-            catch
-            {
-                _connection.Open();
-                _mySqlCommand.Connection = _connection.MySqlConnection;
-                _mySqlDataReader = _mySqlCommand.ExecuteReader();
-            }
+            _mySqlCommand1.Connection = _connection.MySqlConnection;
+            _mySqlDataReader1 = _mySqlCommand1.ExecuteReader();
 
-            while (_mySqlDataReader.Read())
+            while (_mySqlDataReader1.Read())
             {
                 try
                 {
-                    DictParts.Add(_mySqlDataReader.GetString(1), _mySqlDataReader.GetString(0));
+                    DictParts.Add(_mySqlDataReader1.GetString(1), _mySqlDataReader1.GetString(0));
                 }
                 catch
-                { 
-                
+                {
                 }
-                
             }
-            _mySqlDataReader.Close();
+            _mySqlDataReader1.Close();
 
             return DictParts;
         }
@@ -1005,7 +936,7 @@ namespace t2_1stan_writer
             var DictDParts = new Dictionary<string, string>();
             DictDParts.Clear();
 
-            _mySqlCommand.CommandText = @"
+            _mySqlCommand1.CommandText = @"
                 SELECT
                 Count(defectsdata.IndexData),
                 defectsdata.NumberPart
@@ -1015,31 +946,20 @@ namespace t2_1stan_writer
                 defectsdata.FlDefectTube = 1
                 GROUP BY defectsdata.NumberPart
             ";
-            try
-            {
-                _mySqlCommand.Connection = _connection.MySqlConnection;
-                _mySqlDataReader = _mySqlCommand.ExecuteReader();
-            }
-            catch
-            {
-                _connection.Open();
-                _mySqlCommand.Connection = _connection.MySqlConnection;
-                _mySqlDataReader = _mySqlCommand.ExecuteReader();
-            }
+            _mySqlCommand1.Connection = _connection.MySqlConnection;
+            _mySqlDataReader1 = _mySqlCommand1.ExecuteReader();
 
-            while (_mySqlDataReader.Read())
+            while (_mySqlDataReader1.Read())
             {
                 try
                 {
-                    DictDParts.Add(_mySqlDataReader.GetString(1), _mySqlDataReader.GetString(0));
+                    DictDParts.Add(_mySqlDataReader1.GetString(1), _mySqlDataReader1.GetString(0));
                 }
                 catch
                 {
-
                 }
-
             }
-            _mySqlDataReader.Close();
+            _mySqlDataReader1.Close();
 
             return DictDParts;
         }
