@@ -102,6 +102,12 @@ namespace t2_1stan_writer
                 Parameters.Add("porog", Convert.ToInt32(TextBox2.Text));
                 Parameters.Add("current", Convert.ToInt32(TextBox3.Text));
 
+                lblinfo1.Content = ((KeyValuePair<int, string>)ComboBox1.SelectedItem).Value;
+                lblinfo2.Content += "\t" + ((KeyValuePair<int, string>)ComboBox3.SelectedItem).Value;
+                lblinfo3.Content += "\t" + ((KeyValuePair<int, string>)ComboBox4.SelectedItem).Value;
+                lblinfo4.Content += "\t\t " + TextBox4.Text;
+                lblinfo5.Content += "\t " + ((KeyValuePair<int, string>)ComboBox7.SelectedItem).Value;
+
                 _writer.port_Open();
                 TabControl1.SelectedIndex = 2;
             }
@@ -191,7 +197,10 @@ namespace t2_1stan_writer
 
         private void textBox1_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
-            //TODO Need to do it
+            if (!char.IsDigit(e.Text, e.Text.Length - 1))
+            {
+                e.Handled = true;
+            }
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
@@ -305,6 +314,11 @@ namespace t2_1stan_writer
         private void Window_Closed(object sender, EventArgs e)
         {
             Application.Current.Shutdown();
+        }
+
+        private void button6_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

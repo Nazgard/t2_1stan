@@ -7,7 +7,6 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="106*" />
-            <RowDefinition Height="19*" />
         </Grid.RowDefinitions>
         <Button Content="Новая смена" HorizontalAlignment="Left" Name="Button1" Width="115" Margin="10,10,0,0"
                 Click="button1_Click" Height="35" VerticalAlignment="Top" />
@@ -179,6 +178,11 @@
                         <Label Content="18" Canvas.Left="460" Canvas.Top="97" Foreground="Black" />
                         <Label Content="20" Canvas.Left="508" Canvas.Top="97" Foreground="Black" />
                         <Label Content="22" Canvas.Left="557" Canvas.Top="97" Foreground="Black" />
+                        <Label x:Name="lblinfo1" Content="Label" Canvas.Left="40" Canvas.Top="10" Foreground="Black"/>
+                        <Label x:Name="lblinfo2" Content="Специалист АСК ТЭСЦ 2:" Canvas.Left="332" Canvas.Top="10" Foreground="Black"/>
+                        <Label x:Name="lblinfo3" Content="Специалист ОККП:" Canvas.Left="332" Canvas.Top="41" Foreground="Black"/>
+                        <Label x:Name="lblinfo4" Content="Номер плавки:" Canvas.Left="32" Canvas.Top="288" Foreground="Black"/>
+                        <Label x:Name="lblinfo5" Content="Нормативные документы:" Canvas.Left="32" Canvas.Top="319" Foreground="Black"/>
                     </Canvas>
                 </Grid>
             </TabItem>
@@ -196,6 +200,6 @@
             </StatusBarItem>
         </StatusBar>
         <Button Content="БД" Height="35" HorizontalAlignment="Right" Margin="0,10,133,0" Name="button5" VerticalAlignment="Top" Width="90" Click="button5_Click" />
-        <Button Content="К.О." Height="35" HorizontalAlignment="Left" Margin="374,10,0,0" Name="button6" VerticalAlignment="Top" Width="75" />
+        <Button Content="К.О." Height="35" HorizontalAlignment="Left" Margin="374,10,0,0" Name="button6" VerticalAlignment="Top" Width="75" Click="button6_Click" />
     </Grid>
 </Window>
