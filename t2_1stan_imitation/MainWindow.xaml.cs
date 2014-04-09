@@ -4,6 +4,7 @@ using System.Globalization;
 using System.IO.Ports;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media.Animation;
 using System.Windows.Threading;
@@ -131,7 +132,8 @@ namespace t2_1stan_imitation
                     if (Canvas.GetLeft(Rectangle5) <= (Canvas.GetLeft(RectangleTube) + RectangleTube.Width) &&
                         _currentSegmentTube > _segmentsTube - 1)
                     {
-                        PacOut3();
+                        if (!_sampleState)
+                            PacOut3();
                         _currentSegmentTube = 0;
                     }
                 }
@@ -328,6 +330,7 @@ namespace t2_1stan_imitation
         {
             _sampleState = (!_sampleState);
             lbl1.Content = "Sample " + _sampleState;
+            PacOut1(0);
         }
     }
 }
