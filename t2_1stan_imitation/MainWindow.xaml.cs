@@ -22,6 +22,7 @@ namespace t2_1stan_imitation
         private readonly SerialPort _serialPort = new SerialPort();
         private byte _currentSegmentTube;
         private bool _errorState;
+        private bool _sampleState;
         private bool _positionDefectoscope;
         private const double PxMeterFactor = 30;
         private byte _segmentsTube;
@@ -98,13 +99,27 @@ namespace t2_1stan_imitation
                 {
                     if (_errorState && _positionDefectoscope)
                     {
-                        PacOut2(_currentSegmentTube, 1);
-                        _errorState = false;
+                        if (!_sampleState)
+                        {
+                            PacOut2(_currentSegmentTube, 1);
+                            _errorState = false;
+                        }
+                        else
+                        {
+                            PacOut1(1);
+                        }
                     }
                     else
                     {
-                        _errorState = false;
-                        PacOut2(_currentSegmentTube, 0);
+                        if (!_sampleState)
+                        {
+                            _errorState = false;
+                            PacOut2(_currentSegmentTube, 0);
+                        }
+                        else
+                        {
+                            PacOut1(0);
+                        }
                     }
 
                     _currentSegmentTube++;
@@ -305,6 +320,12 @@ namespace t2_1stan_imitation
         {
             _moveTubeTimer.Interval = TimeSpan.FromMilliseconds(Slider1.Value);
             _animation1.Duration = TimeSpan.FromMilliseconds(Slider1.Value);
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            _sampleState = (!_sampleState);
+            lbl1.Content = "Sample " + _sampleState;
         }
     }
 }

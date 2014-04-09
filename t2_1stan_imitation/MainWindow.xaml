@@ -28,5 +28,7 @@
         <Label Name="Label1" Content="" Canvas.Left="319" Canvas.Top="12" />
         <Slider Canvas.Left="229" Canvas.Top="114" Height="23" Name="Slider1" Width="100" Maximum="1500" Minimum="50"
                 ValueChanged="slider1_ValueChanged" Value="500" Delay="100" />
+        <Button Content="Sample" Canvas.Left="288" Canvas.Top="43" Width="75" Click="Button_Click"/>
+        <Label x:Name="lbl1" Content="" Canvas.Left="288" Canvas.Top="62"/>
     </Canvas>
 </Window>
