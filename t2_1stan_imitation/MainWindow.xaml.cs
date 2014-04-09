@@ -107,6 +107,7 @@ namespace t2_1stan_imitation
                         else
                         {
                             PacOut1(1);
+                            _errorState = false;
                         }
                     }
                     else
@@ -118,6 +119,7 @@ namespace t2_1stan_imitation
                         }
                         else
                         {
+                            _errorState = false;
                             PacOut1(0);
                         }
                     }
