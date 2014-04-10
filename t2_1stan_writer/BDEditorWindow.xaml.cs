@@ -49,9 +49,9 @@ namespace t2_1stan_writer
                 {
                     _connection.Open();
                     _mySqlCommand.CommandText = @"
-                    DELETE
-                    FROM
+                    UPDATE
                     operators
+                    SET active = 0
                     WHERE Id_Operator = @id
                 ";
                     _mySqlCommand.Connection = _connection.MySqlConnection;
@@ -102,6 +102,7 @@ namespace t2_1stan_writer
                     operators.LevelUSD AS 'Уровень USD'
                     FROM
                     operators
+                    WHERE active = 1
                 ";
                 _mySqlCommand.Connection = _connection.MySqlConnection;
 
@@ -135,9 +136,9 @@ namespace t2_1stan_writer
                 {
                     _connection.Open();
                     _mySqlCommand.CommandText = @"
-                    DELETE
-                    FROM
+                    UPDATE
                     worksmens
+                    SET active = 0
                     WHERE Id_WorkSmen = @id
                 ";
                     _mySqlCommand.Connection = _connection.MySqlConnection;
@@ -186,6 +187,7 @@ namespace t2_1stan_writer
                     worksmens.NameSmen AS 'Название смены'
                     FROM
                     worksmens
+                    WHERE active = 1
                 ";
                 _mySqlCommand.Connection = _connection.MySqlConnection;
 
@@ -219,9 +221,9 @@ namespace t2_1stan_writer
                 {
                     _connection.Open();
                     _mySqlCommand.CommandText = @"
-                    DELETE
-                    FROM
+                    UPDATE
                     sizetubes
+                    SET active = 0
                     WHERE Id_SizeTube = @id
                 ";
                     _mySqlCommand.Connection = _connection.MySqlConnection;
@@ -270,6 +272,7 @@ namespace t2_1stan_writer
                     sizetubes.SizeTube  AS 'Диаметр трубы'
                     FROM
                     sizetubes
+                    WHERE active = 1
                 ";
                 _mySqlCommand.Connection = _connection.MySqlConnection;
 
@@ -303,9 +306,9 @@ namespace t2_1stan_writer
                 {
                     _connection.Open();
                     _mySqlCommand.CommandText = @"
-                        DELETE
-                        FROM
+                        UPDATE
                         controlsamples
+                        SET active = 0
                         WHERE Id_ControlSample = @id
                     ";
                     _mySqlCommand.Connection = _connection.MySqlConnection;
@@ -362,6 +365,7 @@ namespace t2_1stan_writer
                     FROM
                     controlsamples
                     Inner Join sizetubes ON sizetubes.Id_SizeTube = controlsamples.Id_SizeTube
+                    WHERE active = 1
                 ";
                 _mySqlCommand.Connection = _connection.MySqlConnection;
 
@@ -414,9 +418,9 @@ namespace t2_1stan_writer
                 {
                     _connection.Open();
                     _mySqlCommand.CommandText = @"
-                        DELETE
-                        FROM
+                        UPDATE
                         gosts
+                        SET active = 0
                         WHERE Id_Gost = @id
                     ";
                     _mySqlCommand.Connection = _connection.MySqlConnection;
@@ -465,6 +469,7 @@ namespace t2_1stan_writer
                     gosts.NameGost AS 'Название ГОСТа'
                     FROM
                     gosts
+                    WHERE active = 1
                 ";
                 _mySqlCommand.Connection = _connection.MySqlConnection;
 
@@ -498,9 +503,9 @@ namespace t2_1stan_writer
                 {
                     _connection.Open();
                     _mySqlCommand.CommandText = @"
-                        DELETE
-                        FROM
-                        device
+                        UPDATE
+                        device    
+                        SET active = 0
                         WHERE Id_Device = @id
                     ";
                     _mySqlCommand.Connection = _connection.MySqlConnection;
@@ -549,6 +554,7 @@ namespace t2_1stan_writer
                     device.NameDevice AS 'Название дефектоскопа'
                     FROM
                     device
+                    WHERE active = 1
                 ";
                 _mySqlCommand.Connection = _connection.MySqlConnection;
 
@@ -582,9 +588,9 @@ namespace t2_1stan_writer
                 {
                     _connection.Open();
                     _mySqlCommand.CommandText = @"
-                        DELETE
-                        FROM
-                        sensors
+                        UPDATE
+                        sensors    
+                        SET active = 0
                         WHERE Id_Sensor = @id
                     ";
                     _mySqlCommand.Connection = _connection.MySqlConnection;
@@ -633,6 +639,7 @@ namespace t2_1stan_writer
                     sensors.NameSensor AS 'Название датчика'
                     FROM
                     sensors
+                    WHERE active = 1
                 ";
                 _mySqlCommand.Connection = _connection.MySqlConnection;
 
@@ -666,9 +673,9 @@ namespace t2_1stan_writer
                 {
                     _connection.Open();
                     _mySqlCommand.CommandText = @"
-                        DELETE
-                        FROM
-                        bufferdata
+                        UPDATE
+                        bufferdata    
+                        SET active = 0
                         WHERE Id = @id
                     ";
                     _mySqlCommand.Connection = _connection.MySqlConnection;
@@ -723,6 +730,7 @@ namespace t2_1stan_writer
                     bufferdata
                     Inner Join gosts ON gosts.Id_Gost = bufferdata.Id_Gost
                     Inner Join sizetubes ON sizetubes.Id_SizeTube = bufferdata.Id_SizeTube
+                    WHERE active = 1
                 ";
                 _mySqlCommand.Connection = _connection.MySqlConnection;
 
@@ -776,9 +784,9 @@ namespace t2_1stan_writer
                 {
                     _connection.Open();
                     _mySqlCommand.CommandText = @"
-                        DELETE
-                        FROM
-                        timeintervalsmens
+                        UPDATE
+                        timeintervalsmens    
+                        SET active = 0
                         WHERE Id_TimeIntervalSmen = @id
                     ";
                     _mySqlCommand.Connection = _connection.MySqlConnection;
@@ -828,6 +836,7 @@ namespace t2_1stan_writer
                     timeintervalsmens.TimeIntervalSmen AS 'Время'
                     FROM
                     timeintervalsmens
+                    WHERE active = 1
                 ";
                 _mySqlCommand.Connection = _connection.MySqlConnection;
 
@@ -861,9 +870,9 @@ namespace t2_1stan_writer
                 {
                     _connection.Open();
                     _mySqlCommand.CommandText = @"
-                        DELETE
-                        FROM
-                        listdefects
+                        UPDATE
+                        listdefects    
+                        SET active = 0
                         WHERE Id_NameDefect = @id
                     ";
                     _mySqlCommand.Connection = _connection.MySqlConnection;
@@ -912,6 +921,7 @@ namespace t2_1stan_writer
                     listdefects.NameDefect AS 'Искусственный дефект'
                     FROM
                     listdefects
+                    WHERE active = 1
                 ";
                 _mySqlCommand.Connection = _connection.MySqlConnection;
 

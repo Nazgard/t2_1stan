@@ -18,7 +18,7 @@ namespace t2_1stan_writer
             _connection.Open();
             var worksmens = new Dictionary<int, string>();
 
-            var myCommand = new MySqlCommand("SELECT Id_WorkSmen, NameSmen FROM worksmens", _connection.MySqlConnection);
+            var myCommand = new MySqlCommand("SELECT Id_WorkSmen, NameSmen FROM worksmens WHERE active = 1", _connection.MySqlConnection);
 
             _mySqlDataReader = myCommand.ExecuteReader();
 
@@ -36,7 +36,7 @@ namespace t2_1stan_writer
             _connection.Open();
             var timeintervalsmens = new Dictionary<int, string>();
 
-            var myCommand = new MySqlCommand("SELECT Id_TimeIntervalSmen, TimeIntervalSmen FROM timeintervalsmens",
+            var myCommand = new MySqlCommand("SELECT Id_TimeIntervalSmen, TimeIntervalSmen FROM timeintervalsmens WHERE active = 1",
                 _connection.MySqlConnection);
 
             _mySqlDataReader = myCommand.ExecuteReader();
@@ -56,7 +56,7 @@ namespace t2_1stan_writer
             _connection.Open();
             var surnames = new Dictionary<int, string>();
 
-            var myCommand = new MySqlCommand("SELECT Id_Operator, Surname FROM operators", _connection.MySqlConnection);
+            var myCommand = new MySqlCommand("SELECT Id_Operator, Surname FROM operators WHERE active = 1", _connection.MySqlConnection);
 
             _mySqlDataReader = myCommand.ExecuteReader();
 
@@ -81,7 +81,7 @@ namespace t2_1stan_writer
             _connection.Open();
             var gosts = new Dictionary<int, string>();
 
-            var myCommand = new MySqlCommand("SELECT Id_Gost, NameGost FROM gosts", _connection.MySqlConnection);
+            var myCommand = new MySqlCommand("SELECT Id_Gost, NameGost FROM gosts WHERE active = 1", _connection.MySqlConnection);
 
             _mySqlDataReader = myCommand.ExecuteReader();
 
@@ -99,7 +99,7 @@ namespace t2_1stan_writer
             _connection.Open();
             var sizetubes = new Dictionary<int, string>();
 
-            var myCommand = new MySqlCommand("SELECT Id_SizeTube, SizeTube FROM sizetubes", _connection.MySqlConnection);
+            var myCommand = new MySqlCommand("SELECT Id_SizeTube, SizeTube FROM sizetubes WHERE active = 1", _connection.MySqlConnection);
 
             _mySqlDataReader = myCommand.ExecuteReader();
 
@@ -117,7 +117,7 @@ namespace t2_1stan_writer
             _connection.Open();
             var controlsamples = new Dictionary<int, string>();
 
-            var myCommand = new MySqlCommand("SELECT Id_ControlSample, NameControlSample FROM controlsamples",
+            var myCommand = new MySqlCommand("SELECT Id_ControlSample, NameControlSample FROM controlsamples WHERE active = 1",
                 _connection.MySqlConnection);
 
             _mySqlDataReader = myCommand.ExecuteReader();
@@ -136,7 +136,7 @@ namespace t2_1stan_writer
             _connection.Open();
             var listdefects = new Dictionary<int, string>();
 
-            var myCommand = new MySqlCommand("SELECT Id_NameDefect, NameDefect FROM listdefects",
+            var myCommand = new MySqlCommand("SELECT Id_NameDefect, NameDefect FROM listdefects WHERE active = 1",
                 _connection.MySqlConnection);
 
             _mySqlDataReader = myCommand.ExecuteReader();
@@ -155,7 +155,7 @@ namespace t2_1stan_writer
             _connection.Open();
             var device = new Dictionary<int, string>();
 
-            var myCommand = new MySqlCommand("SELECT Id_Device, NameDevice FROM device", _connection.MySqlConnection);
+            var myCommand = new MySqlCommand("SELECT Id_Device, NameDevice FROM device WHERE active = 1", _connection.MySqlConnection);
 
             _mySqlDataReader = myCommand.ExecuteReader();
 
