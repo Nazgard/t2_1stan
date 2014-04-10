@@ -257,7 +257,16 @@ namespace t2_1stan_writer
             _connection.Open();
             var myCommand =
                 new MySqlCommand(
-                    "SELECT NumberTube, defectsdata.NumberPart FROM defectsdata WHERE IndexData = (SELECT IndexData FROM defectsdata WHERE NumberTube <> 0 ORDER BY IndexData DESC LIMIT 1)",
+                    @"
+                        SELECT
+                        defectsdata.NumberTube,
+                        defectsdata.NumberPart
+                        FROM
+                        defectsdata
+                        ORDER BY
+                        defectsdata.IndexData DESC
+                        LIMIT 1
+                    ",
                     _connection.MySqlConnection);
 
             MySqlDataReader mySqlDataReader = myCommand.ExecuteReader();
@@ -270,6 +279,11 @@ namespace t2_1stan_writer
                     last = mySqlDataReader.GetInt32(0);
             }
             mySqlDataReader.Close();
+
+            MainWindow.Dispatcher.BeginInvoke(new ThreadStart(delegate
+            {
+                MainWindow.lblinfo6.Content = "Пройдено труб:\t\t " + last;
+            }));
 
             return last;
         }

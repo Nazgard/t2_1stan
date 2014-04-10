@@ -28,6 +28,7 @@ namespace t2_1stan_writer
         {
             InitializeComponent();
             _writer.MainWindow = this;
+            button2_Click(null, null);
             button1_Click(null, null);
             TabItem1.Visibility = Visibility.Hidden;
             TabItem2.Visibility = Visibility.Hidden;
@@ -55,6 +56,34 @@ namespace t2_1stan_writer
                 ComboBox2.ItemsSource = _parameters.get_db_timeintervalsmens();
                 ComboBox3.ItemsSource = _parameters.get_db_surnames();
                 ComboBox4.ItemsSource = _parameters.get_db_surnames();
+
+                int last = _parameters.get_db_last_worksmens();
+                foreach (var item in ComboBox1.Items)
+                {
+                    if (((KeyValuePair<int, string>) item).Key == last)
+                        ComboBox1.SelectedItem = item;
+                }
+
+                last = _parameters.get_db_last_timeintervalsmens();
+                foreach (var item in ComboBox2.Items)
+                {
+                    if (((KeyValuePair<int, string>)item).Key == last)
+                        ComboBox2.SelectedItem = item;
+                }
+
+                last = _parameters.get_db_last_surname1();
+                foreach (var item in ComboBox3.Items)
+                {
+                    if (((KeyValuePair<int, string>)item).Key == last)
+                        ComboBox3.SelectedItem = item;
+                }
+
+                last = _parameters.get_db_last_surname2();
+                foreach (var item in ComboBox4.Items)
+                {
+                    if (((KeyValuePair<int, string>)item).Key == last)
+                        ComboBox4.SelectedItem = item;
+                }
             }
             catch (Exception ex)
             {
@@ -74,6 +103,46 @@ namespace t2_1stan_writer
                 ComboBox8.ItemsSource = _parameters.get_db_controlsamples();
                 ComboBox9.ItemsSource = _parameters.get_db_listdefects();
                 ComboBox11.ItemsSource = _parameters.get_db_device();
+
+                int last = _parameters.get_db_last_gosts();
+                foreach (var item in ComboBox7.Items)
+                {
+                    if (((KeyValuePair<int, string>)item).Key == last)
+                        ComboBox7.SelectedItem = item;
+                }
+
+                last = _parameters.get_db_last_sizetubes();
+                foreach (var item in ComboBox5.Items)
+                {
+                    if (((KeyValuePair<int, string>)item).Key == last)
+                        ComboBox5.SelectedItem = item;
+                }
+
+                last = _parameters.get_db_last_controlsamples();
+                foreach (var item in ComboBox8.Items)
+                {
+                    if (((KeyValuePair<int, string>)item).Key == last)
+                        ComboBox8.SelectedItem = item;
+                }
+
+                last = _parameters.get_db_last_listdefects();
+                foreach (var item in ComboBox9.Items)
+                {
+                    if (((KeyValuePair<int, string>)item).Key == last)
+                        ComboBox9.SelectedItem = item;
+                }
+
+                last = _parameters.get_db_last_device();
+                foreach (var item in ComboBox11.Items)
+                {
+                    if (((KeyValuePair<int, string>)item).Key == last)
+                        ComboBox11.SelectedItem = item;
+                }
+
+                TextBox4.Text = _parameters.get_db_last_part().ToString();
+                TextBox1.Text = _parameters.get_db_last_ho().ToString();
+                TextBox2.Text = _parameters.get_db_last_porog().ToString();
+                TextBox3.Text = _parameters.get_db_last_current().ToString();
             }
             catch (Exception ex)
             {
@@ -117,6 +186,7 @@ namespace t2_1stan_writer
                 lblinfo3.Visibility = Visibility.Visible;
                 lblinfo4.Visibility = Visibility.Visible;
                 lblinfo5.Visibility = Visibility.Visible;
+                lblinfo6.Visibility = Visibility.Visible;
                 ButtonCancel.Visibility = Visibility.Hidden;
                 ButtonSave.Visibility = Visibility.Hidden;
                 lblinfo1.Content = ((KeyValuePair<int, string>)ComboBox1.SelectedItem).Value;
@@ -124,6 +194,7 @@ namespace t2_1stan_writer
                 lblinfo3.Content = "Специалист ОККП:\t" + ((KeyValuePair<int, string>)ComboBox4.SelectedItem).Value;
                 lblinfo4.Content = "Номер плавки:\t\t " + TextBox4.Text;
                 lblinfo5.Content = "Нормативные документы:\t " + ((KeyValuePair<int, string>)ComboBox7.SelectedItem).Value;
+                lblinfo6.Content = "Пройдено труб:\t\t " + _parameters.get_db_last_NumberTube();
 
                 TabControl1.SelectedIndex = 2;
             }
@@ -378,6 +449,7 @@ namespace t2_1stan_writer
                 lblinfo3.Visibility = Visibility.Hidden;
                 lblinfo4.Visibility = Visibility.Hidden;
                 lblinfo5.Visibility = Visibility.Hidden;
+                lblinfo6.Visibility = Visibility.Hidden;
                 ButtonCancel.Visibility = Visibility.Visible;
                 ButtonSave.Visibility = Visibility.Visible;
 

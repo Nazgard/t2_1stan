@@ -183,9 +183,11 @@
                         <Label x:Name="lblinfo3" Content="Специалист ОККП:" Canvas.Left="332" Canvas.Top="41" Foreground="Black"/>
                         <Label x:Name="lblinfo4" Content="Номер плавки:" Canvas.Left="32" Canvas.Top="288" Foreground="Black"/>
                         <Label x:Name="lblinfo5" Content="Нормативные документы:" Canvas.Left="32" Canvas.Top="319" Foreground="Black"/>
+                        <Label x:Name="lblinfo6" Content="Label" Canvas.Left="32" Canvas.Top="350" Foreground="Black"/>
                     </Canvas>
                     <Button x:Name="ButtonCancel" Content="Отмена" HorizontalAlignment="Left" Margin="310,286,0,0" VerticalAlignment="Top" Width="100" Height="40" Click="ButtonCancel_Click" IsEnabled="False"/>
                     <Button x:Name="ButtonSave" Content="Сохранить" HorizontalAlignment="Left" Margin="431,286,0,0" VerticalAlignment="Top" Width="100" Height="40" Click="ButtonSave_Click" IsEnabled="False"/>
+                    
                 </Grid>
             </TabItem>
         </TabControl>
