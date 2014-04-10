@@ -263,6 +263,7 @@ namespace t2_1stan_writer
                         defectsdata.NumberPart
                         FROM
                         defectsdata
+                        WHERE defectsdata.NumberTube <> 0
                         ORDER BY
                         defectsdata.IndexData DESC
                         LIMIT 1
