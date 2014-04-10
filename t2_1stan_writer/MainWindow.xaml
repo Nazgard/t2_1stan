@@ -162,9 +162,16 @@
                               StrokeThickness="1" />
                         <Line X1="568" X2="568" Y1="120" Y2="250" Stroke="Black" Height="350" Width="628"
                               StrokeThickness="1" />
-                        <Rectangle Canvas.Left="40" Canvas.Top="151" Height="70" Name="TubeSample" Stroke="#FFFFF7BE"
-                                   Width="0"
-                                   Fill="#FFFFF7BE" />
+                        <Rectangle Canvas.Left="40" Canvas.Top="151" Height="70" Name="TubeSample"
+                                   Width="0" RadiusX="5" RadiusY="5" >
+                        	<Rectangle.Fill>
+                        		<LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                        			<GradientStop Color="#FFEEB18F" Offset="0"/>
+                        			<GradientStop Color="#FFC3A272" Offset="1"/>
+                        			<GradientStop Color="#FFF05D5D" Offset="0.546"/>
+                        		</LinearGradientBrush>
+                        	</Rectangle.Fill>
+                        </Rectangle>
                         <Label Content="0" Canvas.Left="32" Canvas.Top="97" Foreground="Black" />
                         <Label Content="2" Canvas.Left="79" Canvas.Top="97" Foreground="Black" />
                         <Label Content="4" Height="26" Canvas.Left="128" Canvas.Top="97" Width="16" Foreground="Black" />
@@ -215,9 +222,16 @@
                               StrokeThickness="1" />
                         <Line X1="568" X2="568" Y1="120" Y2="250" Stroke="Black" Height="350" Width="628"
                               StrokeThickness="1" />
-                        <Rectangle Canvas.Left="40" Canvas.Top="151" Height="70" Name="Tube" Stroke="#FFFFF7BE"
-                                   Width="0"
-                                   Fill="#FFFFF7BE" />
+                        <Rectangle Canvas.Left="40" Canvas.Top="151" Height="70" Name="Tube"
+                                   Width="0" RadiusX="5" RadiusY="5" >
+                        	<Rectangle.Fill>
+                        		<LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                        			<GradientStop Color="Gray" Offset="1"/>
+                        			<GradientStop Color="White" Offset="0.457"/>
+                        			<GradientStop Color="#FF8B8B8B" Offset="0.01"/>
+                        		</LinearGradientBrush>
+                        	</Rectangle.Fill>
+                        </Rectangle>
                         <Label Content="0" Canvas.Left="32" Canvas.Top="97" Foreground="Black" />
                         <Label Content="2" Canvas.Left="79" Canvas.Top="97" Foreground="Black" />
                         <Label Content="4" Height="26" Canvas.Left="128" Canvas.Top="97" Width="16" Foreground="Black" />

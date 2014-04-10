@@ -30,8 +30,15 @@
             <Line X1="472" X2="472" Y1="123" Y2="253" Stroke="Black" Height="350" Width="628" StrokeThickness="1" />
             <Line X1="520" X2="520" Y1="123" Y2="253" Stroke="Black" Height="350" Width="628" StrokeThickness="1" />
             <Line X1="568" X2="568" Y1="123" Y2="253" Stroke="Black" Height="350" Width="628" StrokeThickness="1" />
-            <Rectangle Canvas.Left="40" Canvas.Top="151" Height="70" Name="rectangle1" Stroke="#FFFFF7BE" Width="0"
-                       Fill="#FFFFF7BE" />
+            <Rectangle Canvas.Left="40" Canvas.Top="151" Height="70" Name="rectangle1" Width="0" RadiusX="3" RadiusY="5" >
+            	<Rectangle.Fill>
+            		<LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+            			<GradientStop Color="Gray" Offset="0"/>
+            			<GradientStop Color="#FF9E9E9E" Offset="1"/>
+            			<GradientStop Color="White" Offset="0.437"/>
+            		</LinearGradientBrush>
+            	</Rectangle.Fill>
+            </Rectangle>
             <Label x:Name="label1" Content="LABEL" Canvas.Left="6" Canvas.Top="6" />
             <Label Canvas.Left="146" Canvas.Top="39" Content="LABEL" Height="28" Name="label4" />
             <Label Canvas.Left="374" Canvas.Top="6" Content="LABEL" Height="28" Name="label5" />
@@ -59,24 +66,35 @@
                   Grid.Row="0" Grid.Column="1" VirtualizingStackPanel.IsVirtualizing="True"
                   VirtualizingStackPanel.VirtualizationMode="Recycling"
                   SelectedItemChanged="treeView1_SelectedItemChanged">
-            <TreeView.Resources>
-                <Style x:Name="stl" TargetType="{x:Type TreeViewItem}">
-                    <Setter x:Name="_123" Property="HeaderTemplate">
-                        <Setter.Value>
-                            <DataTemplate>
-                                <StackPanel Orientation="Horizontal">
-                                    <Image Name="img"
+            <TreeView.ItemContainerStyle>
+                <Style TargetType="{x:Type TreeViewItem}">
+                    <Style.Triggers>
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsExpanded" Value="True"/>
+                                <Condition Property="Tag" Value="tube"/>
+                            </MultiTrigger.Conditions>
+                            <MultiTrigger.Setters>
+                                <Setter Property="HeaderTemplate">
+                                    <Setter.Value>
+                                        <DataTemplate>
+                                            <StackPanel Orientation="Horizontal">
+                                                <Image Name="img"
                                    Width="20"
                                    Height="20"
                                    Stretch="Fill"
                                    Source="icon.ico"/>
-                                   <TextBlock Text="{Binding}" Margin="5,0" />
-                                </StackPanel>
-                            </DataTemplate>
-                        </Setter.Value>
-                    </Setter>
+                                                <TextBlock Text="{Binding}" Margin="5,0" />
+                                            </StackPanel>
+                                        </DataTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </MultiTrigger.Setters>
+                        </MultiTrigger>
+                    </Style.Triggers>
+                    
                 </Style>
-            </TreeView.Resources>
+            </TreeView.ItemContainerStyle>
         </TreeView>
         <StatusBar Grid.Column="0" Margin="0,0,0,0" Grid.ColumnSpan="2" Height="24" VerticalAlignment="Bottom">
             <TextBlock Margin="3,0,0,0">Ready</TextBlock>
