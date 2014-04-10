@@ -30,5 +30,6 @@
                 ValueChanged="slider1_ValueChanged" Value="500" Delay="100" />
         <Button Content="Sample" Canvas.Left="288" Canvas.Top="43" Width="75" Click="Button_Click"/>
         <Label x:Name="lbl1" Content="" Canvas.Left="288" Canvas.Top="62"/>
+        <Button Canvas.Left="133" Canvas.Top="69" Content="Random ER" Height="23" Name="button7" Width="75" Click="button7_Click" />
     </Canvas>
 </Window>

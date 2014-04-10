@@ -23,6 +23,7 @@ namespace t2_1stan_imitation
         private readonly SerialPort _serialPort = new SerialPort();
         private byte _currentSegmentTube;
         private bool _errorState;
+        private bool _randomizeState = false;
         private bool _sampleState;
         private bool _positionDefectoscope;
         private const double PxMeterFactor = 30;
@@ -89,6 +90,15 @@ namespace t2_1stan_imitation
 
         private void move_tube(object sender, EventArgs e)
         {
+            if (_randomizeState)
+            {
+                var rand = new Random();
+                if (rand.Next(0, 100) <= 10)
+                {
+                    _errorState = true;
+                }
+            }
+            
             try
             {
                 _animation1.From = RectangleTube.Width;
@@ -331,6 +341,11 @@ namespace t2_1stan_imitation
             _sampleState = (!_sampleState);
             lbl1.Content = "Sample " + _sampleState;
             PacOut1(0);
+        }
+
+        private void button7_Click(object sender, RoutedEventArgs e)
+        {
+            _randomizeState = !_randomizeState;
         }
     }
 }
