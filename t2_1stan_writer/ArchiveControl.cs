@@ -14,11 +14,9 @@ namespace t2_1stan_writer
     {
         private readonly Connection _connection = new Connection();
         private readonly MySqlCommand _mySqlCommand = new MySqlCommand();
-        private readonly MySqlCommand _mySqlCommand1 = new MySqlCommand();
         public ArchiveWindow ArchiveWindow;
         private int _countDeffectsLine;
         private MySqlDataReader _mySqlDataReader;
-        private MySqlDataReader _mySqlDataReader1;
         private Dictionary<string, string> _countDays;
         private Dictionary<string, string> _countDefectsDays;
         private Dictionary<string, string> _countDefectsMonths;
@@ -543,94 +541,62 @@ namespace t2_1stan_writer
         private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
         {
             var worker = sender as BackgroundWorker;
+            CollectClass collectClass = new CollectClass();
 
             _countYears = new Dictionary<string, string>();
             _countYears.Clear();
-            _countYears = cyears();
+            _countYears = collectClass.Cyears();
 
             _countDefectsYears = new Dictionary<string, string>();
             _countDefectsYears.Clear();
-            _countDefectsYears = cdyears();
+            _countDefectsYears = collectClass.Cdyears();
 
             _countMonths = new Dictionary<string, string>();
             _countMonths.Clear();
-            _countMonths = cmonths();
+            _countMonths = collectClass.Cmonths();
 
             _countDefectsMonths = new Dictionary<string, string>();
             _countDefectsMonths.Clear();
-            _countDefectsMonths = cdmonths();
+            _countDefectsMonths = collectClass.Cdmonths();
 
             _countDays = new Dictionary<string, string>();
             _countDays.Clear();
-            _countDays = cdays();
+            _countDays = collectClass.Cdays();
 
             _countDefectsDays = new Dictionary<string, string>();
             _countDefectsDays.Clear();
-            _countDefectsDays = cddays();
+            _countDefectsDays = collectClass.Cddays();
 
             _countSmens = new Dictionary<string, string>();
             _countSmens.Clear();
-            _countSmens = csmens();
+            _countSmens = collectClass.Csmens();
 
             _countDefectsSmens = new Dictionary<string, string>();
             _countDefectsSmens.Clear();
-            _countDefectsSmens = cdsmens();
+            _countDefectsSmens = collectClass.Cdsmens();
 
             _countParts = new Dictionary<string, string>();
             _countParts.Clear();
-            _countParts = cparts();
+            _countParts = collectClass.Cparts();
 
             _countDefectsParts = new Dictionary<string, string>();
             _countDefectsParts.Clear();
-            _countDefectsParts = cdparts();
+            _countDefectsParts = collectClass.cdparts();
         }
 
         public void count()
         {
-            //bgworkercounter();
-            _countYears = new Dictionary<string, string>();
-            _countYears.Clear();
-            _countYears = cyears();
-
-            _countDefectsYears = new Dictionary<string, string>();
-            _countDefectsYears.Clear();
-            _countDefectsYears = cdyears();
-
-            _countMonths = new Dictionary<string, string>();
-            _countMonths.Clear();
-            _countMonths = cmonths();
-
-            _countDefectsMonths = new Dictionary<string, string>();
-            _countDefectsMonths.Clear();
-            _countDefectsMonths = cdmonths();
-
-            _countDays = new Dictionary<string, string>();
-            _countDays.Clear();
-            _countDays = cdays();
-
-            _countDefectsDays = new Dictionary<string, string>();
-            _countDefectsDays.Clear();
-            _countDefectsDays = cddays();
-
-            _countSmens = new Dictionary<string, string>();
-            _countSmens.Clear();
-            _countSmens = csmens();
-
-            _countDefectsSmens = new Dictionary<string, string>();
-            _countDefectsSmens.Clear();
-            _countDefectsSmens = cdsmens();
-
-            _countParts = new Dictionary<string, string>();
-            _countParts.Clear();
-            _countParts = cparts();
-
-            _countDefectsParts = new Dictionary<string, string>();
-            _countDefectsParts.Clear();
-            _countDefectsParts = cdparts();
+            bgworkercounter();
         }
+    }
 
+    class CollectClass
+    {
+        private readonly Connection _connection = new Connection();
+        private readonly MySqlCommand _mySqlCommand1 = new MySqlCommand();
+        private MySqlDataReader _mySqlDataReader1;
 
-        public Dictionary<string, string> cyears()
+        public Dictionary<string, string> Cyears()
         {
             var DictYears = new Dictionary<string, string>();
             DictYears.Clear();
@@ -644,9 +610,18 @@ namespace t2_1stan_writer
                 WHERE defectsdata.NumberTube <> 0
                 GROUP BY YEAR(defectsdata.DatePr)
             ";
-            _mySqlCommand1.Connection = _connection.MySqlConnection;
-            _mySqlDataReader1 = _mySqlCommand1.ExecuteReader();
-            
+            try
+            {
+                _mySqlCommand1.Connection = _connection.MySqlConnection;
+                _mySqlDataReader1 = _mySqlCommand1.ExecuteReader();
+            }
+            catch (Exception e)
+            {
+                _connection.Open();
+                _mySqlCommand1.Connection = _connection.MySqlConnection;
+                _mySqlDataReader1 = _mySqlCommand1.ExecuteReader();
+            }
+
 
             while (_mySqlDataReader1.Read())
             {
@@ -661,12 +636,12 @@ namespace t2_1stan_writer
             }
 
             _mySqlDataReader1.Close();
-            
+
 
             return DictYears;
         }
 
-        public Dictionary<string, string> cdyears()
+        public Dictionary<string, string> Cdyears()
         {
             var DictDYears = new Dictionary<string, string>();
             DictDYears.Clear();
@@ -682,8 +657,17 @@ namespace t2_1stan_writer
                 defectsdata.NumberTube <> 0
                 GROUP BY YEAR(defectsdata.DatePr)
             ";
-            _mySqlCommand1.Connection = _connection.MySqlConnection;
-            _mySqlDataReader1 = _mySqlCommand1.ExecuteReader();
+            try
+            {
+                _mySqlCommand1.Connection = _connection.MySqlConnection;
+                _mySqlDataReader1 = _mySqlCommand1.ExecuteReader();
+            }
+            catch (Exception e)
+            {
+                _connection.Open();
+                _mySqlCommand1.Connection = _connection.MySqlConnection;
+                _mySqlDataReader1 = _mySqlCommand1.ExecuteReader();
+            }
 
             while (_mySqlDataReader1.Read())
             {
@@ -697,12 +681,12 @@ namespace t2_1stan_writer
             }
 
             _mySqlDataReader1.Close();
-            
+
 
             return DictDYears;
         }
 
-        public Dictionary<string, string> cmonths()
+        public Dictionary<string, string> Cmonths()
         {
             var DictMonths = new Dictionary<string, string>();
             DictMonths.Clear();
@@ -717,8 +701,17 @@ namespace t2_1stan_writer
                 GROUP BY MONTHNAME(defectsdata.DatePr)
                 ORDER BY YEAR(defectsdata.DatePr), MONTH(defectsdata.DatePr)
             ";
-            _mySqlCommand1.Connection = _connection.MySqlConnection;
-            _mySqlDataReader1 = _mySqlCommand1.ExecuteReader();
+            try
+            {
+                _mySqlCommand1.Connection = _connection.MySqlConnection;
+                _mySqlDataReader1 = _mySqlCommand1.ExecuteReader();
+            }
+            catch (Exception e)
+            {
+                _connection.Open();
+                _mySqlCommand1.Connection = _connection.MySqlConnection;
+                _mySqlDataReader1 = _mySqlCommand1.ExecuteReader();
+            }
 
             while (_mySqlDataReader1.Read())
             {
@@ -736,7 +729,7 @@ namespace t2_1stan_writer
             return DictMonths;
         }
 
-        public Dictionary<string, string> cdmonths()
+        public Dictionary<string, string> Cdmonths()
         {
             var DictDMonths = new Dictionary<string, string>();
             DictDMonths.Clear();
@@ -753,8 +746,17 @@ namespace t2_1stan_writer
                 GROUP BY MONTHNAME(defectsdata.DatePr)
                 ORDER BY YEAR(defectsdata.DatePr), MONTH(defectsdata.DatePr)
             ";
-            _mySqlCommand1.Connection = _connection.MySqlConnection;
-            _mySqlDataReader1 = _mySqlCommand1.ExecuteReader();
+            try
+            {
+                _mySqlCommand1.Connection = _connection.MySqlConnection;
+                _mySqlDataReader1 = _mySqlCommand1.ExecuteReader();
+            }
+            catch (Exception e)
+            {
+                _connection.Open();
+                _mySqlCommand1.Connection = _connection.MySqlConnection;
+                _mySqlDataReader1 = _mySqlCommand1.ExecuteReader();
+            }
 
             while (_mySqlDataReader1.Read())
             {
@@ -772,7 +774,7 @@ namespace t2_1stan_writer
             return DictDMonths;
         }
 
-        public Dictionary<string, string> cdays()
+        public Dictionary<string, string> Cdays()
         {
             var DictDays = new Dictionary<string, string>();
             DictDays.Clear();
@@ -787,8 +789,17 @@ namespace t2_1stan_writer
                 GROUP BY defectsdata.DatePr
                 ORDER BY defectsdata.DatePr
             ";
-            _mySqlCommand1.Connection = _connection.MySqlConnection;
-            _mySqlDataReader1 = _mySqlCommand1.ExecuteReader();
+            try
+            {
+                _mySqlCommand1.Connection = _connection.MySqlConnection;
+                _mySqlDataReader1 = _mySqlCommand1.ExecuteReader();
+            }
+            catch (Exception e)
+            {
+                _connection.Open();
+                _mySqlCommand1.Connection = _connection.MySqlConnection;
+                _mySqlDataReader1 = _mySqlCommand1.ExecuteReader();
+            }
 
             while (_mySqlDataReader1.Read())
             {
@@ -806,7 +817,7 @@ namespace t2_1stan_writer
             return DictDays;
         }
 
-        public Dictionary<string, string> cddays()
+        public Dictionary<string, string> Cddays()
         {
             var DictDays = new Dictionary<string, string>();
             DictDays.Clear();
@@ -823,8 +834,17 @@ namespace t2_1stan_writer
                 GROUP BY defectsdata.DatePr
                 ORDER BY defectsdata.DatePr
             ";
-            _mySqlCommand1.Connection = _connection.MySqlConnection;
-            _mySqlDataReader1 = _mySqlCommand1.ExecuteReader();
+            try
+            {
+                _mySqlCommand1.Connection = _connection.MySqlConnection;
+                _mySqlDataReader1 = _mySqlCommand1.ExecuteReader();
+            }
+            catch (Exception e)
+            {
+                _connection.Open();
+                _mySqlCommand1.Connection = _connection.MySqlConnection;
+                _mySqlDataReader1 = _mySqlCommand1.ExecuteReader();
+            }
 
             while (_mySqlDataReader1.Read())
             {
@@ -841,8 +861,8 @@ namespace t2_1stan_writer
 
             return DictDays;
         }
-        
-        public Dictionary<string, string> csmens()
+
+        public Dictionary<string, string> Csmens()
         {
             var DictSmens = new Dictionary<string, string>();
             DictSmens.Clear();
@@ -857,8 +877,17 @@ namespace t2_1stan_writer
                 WHERE defectsdata.NumberTube <> 0
                 GROUP BY defectsdata.DatePr, indexes.Id_WorkSmen
             ";
-            _mySqlCommand1.Connection = _connection.MySqlConnection;
-            _mySqlDataReader1 = _mySqlCommand1.ExecuteReader();
+            try
+            {
+                _mySqlCommand1.Connection = _connection.MySqlConnection;
+                _mySqlDataReader1 = _mySqlCommand1.ExecuteReader();
+            }
+            catch (Exception e)
+            {
+                _connection.Open();
+                _mySqlCommand1.Connection = _connection.MySqlConnection;
+                _mySqlDataReader1 = _mySqlCommand1.ExecuteReader();
+            }
 
             while (_mySqlDataReader1.Read())
             {
@@ -876,7 +905,7 @@ namespace t2_1stan_writer
             return DictSmens;
         }
 
-        public Dictionary<string, string> cdsmens()
+        public Dictionary<string, string> Cdsmens()
         {
             var DictDSmens = new Dictionary<string, string>();
             DictDSmens.Clear();
@@ -893,8 +922,17 @@ namespace t2_1stan_writer
                 defectsdata.NumberTube <> 0
                 GROUP BY defectsdata.DatePr, indexes.Id_WorkSmen
             ";
-            _mySqlCommand1.Connection = _connection.MySqlConnection;
-            _mySqlDataReader1 = _mySqlCommand1.ExecuteReader();
+            try
+            {
+                _mySqlCommand1.Connection = _connection.MySqlConnection;
+                _mySqlDataReader1 = _mySqlCommand1.ExecuteReader();
+            }
+            catch (Exception e)
+            {
+                _connection.Open();
+                _mySqlCommand1.Connection = _connection.MySqlConnection;
+                _mySqlDataReader1 = _mySqlCommand1.ExecuteReader();
+            }
 
             while (_mySqlDataReader1.Read())
             {
@@ -912,7 +950,7 @@ namespace t2_1stan_writer
             return DictDSmens;
         }
 
-        public Dictionary<string, string> cparts()
+        public Dictionary<string, string> Cparts()
         {
             var DictParts = new Dictionary<string, string>();
             DictParts.Clear();
@@ -926,8 +964,17 @@ namespace t2_1stan_writer
                 WHERE defectsdata.NumberTube <> 0
                 GROUP BY defectsdata.NumberPart
             ";
-            _mySqlCommand1.Connection = _connection.MySqlConnection;
-            _mySqlDataReader1 = _mySqlCommand1.ExecuteReader();
+            try
+            {
+                _mySqlCommand1.Connection = _connection.MySqlConnection;
+                _mySqlDataReader1 = _mySqlCommand1.ExecuteReader();
+            }
+            catch (Exception e)
+            {
+                _connection.Open();
+                _mySqlCommand1.Connection = _connection.MySqlConnection;
+                _mySqlDataReader1 = _mySqlCommand1.ExecuteReader();
+            }
 
             while (_mySqlDataReader1.Read())
             {
@@ -960,8 +1007,17 @@ namespace t2_1stan_writer
                 defectsdata.NumberTube <> 0
                 GROUP BY defectsdata.NumberPart
             ";
-            _mySqlCommand1.Connection = _connection.MySqlConnection;
-            _mySqlDataReader1 = _mySqlCommand1.ExecuteReader();
+            try
+            {
+                _mySqlCommand1.Connection = _connection.MySqlConnection;
+                _mySqlDataReader1 = _mySqlCommand1.ExecuteReader();
+            }
+            catch (Exception e)
+            {
+                _connection.Open();
+                _mySqlCommand1.Connection = _connection.MySqlConnection;
+                _mySqlDataReader1 = _mySqlCommand1.ExecuteReader();
+            }
 
             while (_mySqlDataReader1.Read())
             {

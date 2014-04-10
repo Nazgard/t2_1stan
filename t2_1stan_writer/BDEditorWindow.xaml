@@ -6,8 +6,8 @@
         Icon="icon.ico"
         Style="{StaticResource VS2012WindowStyle}">
     <Grid>
-        <TabControl Margin="10">
-            <TabItem Header="Специалисты">
+        <TabControl Margin="10" SelectionChanged="Selector_OnSelectionChanged" Name="TabControl">
+            <TabItem Header="Специалисты" Name="TabItem1">
                 <Grid Background="#FFE5E5E5">
                     <GroupBox Header="Данные" Margin="10,10,248,10" BorderBrush="#FF303030">
                         <DataGrid Name="dg1" CanUserResizeRows="False" IsReadOnly="True">

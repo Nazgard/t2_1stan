@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Forms;
 using MySql.Data.MySqlClient;
 using MessageBox = System.Windows.Forms.MessageBox;
@@ -20,7 +21,7 @@ namespace t2_1stan_writer
         public BDEditorWindow()
         {
             InitializeComponent();
-            fill_dg1();
+            /*fill_dg1();
             fill_dg2();
             fill_dg3();
             fill_dg4();
@@ -29,7 +30,7 @@ namespace t2_1stan_writer
             fill_dg7();
             fill_dg8();
             fill_dg9();
-            fill_dg10();
+            fill_dg10();*/
         }
 
 
@@ -102,7 +103,7 @@ namespace t2_1stan_writer
                     operators.LevelUSD AS 'Уровень USD'
                     FROM
                     operators
-                    WHERE active = 1
+                    WHERE operators.active = 1
                 ";
                 _mySqlCommand.Connection = _connection.MySqlConnection;
 
@@ -187,7 +188,7 @@ namespace t2_1stan_writer
                     worksmens.NameSmen AS 'Название смены'
                     FROM
                     worksmens
-                    WHERE active = 1
+                    WHERE worksmens.active = 1
                 ";
                 _mySqlCommand.Connection = _connection.MySqlConnection;
 
@@ -272,7 +273,7 @@ namespace t2_1stan_writer
                     sizetubes.SizeTube  AS 'Диаметр трубы'
                     FROM
                     sizetubes
-                    WHERE active = 1
+                    WHERE sizetubes.active = 1
                 ";
                 _mySqlCommand.Connection = _connection.MySqlConnection;
 
@@ -365,7 +366,7 @@ namespace t2_1stan_writer
                     FROM
                     controlsamples
                     Inner Join sizetubes ON sizetubes.Id_SizeTube = controlsamples.Id_SizeTube
-                    WHERE active = 1
+                    WHERE controlsamples.active = 1
                 ";
                 _mySqlCommand.Connection = _connection.MySqlConnection;
 
@@ -469,7 +470,7 @@ namespace t2_1stan_writer
                     gosts.NameGost AS 'Название ГОСТа'
                     FROM
                     gosts
-                    WHERE active = 1
+                    WHERE gosts.active = 1
                 ";
                 _mySqlCommand.Connection = _connection.MySqlConnection;
 
@@ -554,7 +555,7 @@ namespace t2_1stan_writer
                     device.NameDevice AS 'Название дефектоскопа'
                     FROM
                     device
-                    WHERE active = 1
+                    WHERE device.active = 1
                 ";
                 _mySqlCommand.Connection = _connection.MySqlConnection;
 
@@ -639,7 +640,7 @@ namespace t2_1stan_writer
                     sensors.NameSensor AS 'Название датчика'
                     FROM
                     sensors
-                    WHERE active = 1
+                    WHERE sensors.active = 1
                 ";
                 _mySqlCommand.Connection = _connection.MySqlConnection;
 
@@ -730,7 +731,7 @@ namespace t2_1stan_writer
                     bufferdata
                     Inner Join gosts ON gosts.Id_Gost = bufferdata.Id_Gost
                     Inner Join sizetubes ON sizetubes.Id_SizeTube = bufferdata.Id_SizeTube
-                    WHERE active = 1
+                    WHERE bufferdata.active = 1
                 ";
                 _mySqlCommand.Connection = _connection.MySqlConnection;
 
@@ -836,7 +837,7 @@ namespace t2_1stan_writer
                     timeintervalsmens.TimeIntervalSmen AS 'Время'
                     FROM
                     timeintervalsmens
-                    WHERE active = 1
+                    WHERE timeintervalsmens.active = 1
                 ";
                 _mySqlCommand.Connection = _connection.MySqlConnection;
 
@@ -921,7 +922,7 @@ namespace t2_1stan_writer
                     listdefects.NameDefect AS 'Искусственный дефект'
                     FROM
                     listdefects
-                    WHERE active = 1
+                    WHERE listdefects.active = 1
                 ";
                 _mySqlCommand.Connection = _connection.MySqlConnection;
 
@@ -936,6 +937,64 @@ namespace t2_1stan_writer
             catch (Exception e)
             {
                 Console.WriteLine(e);
+            }
+        }
+
+        private void Selector_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            //MessageBox.Show(TabControl.SelectedIndex.ToString());
+            switch (TabControl.SelectedIndex)
+            {
+                case 0:
+                    {
+                        fill_dg1();
+                    }
+                    break;
+                case 1:
+                    {
+                        fill_dg2();
+                    }
+                    break;
+                case 2:
+                    {
+                        fill_dg3();
+                    }
+                    break;
+                case 3:
+                    {
+                        fill_dg4();
+                    }
+                    break;
+                case 4:
+                    {
+                        fill_dg5();
+                    }
+                    break;
+                case 5:
+                    {
+                        fill_dg6();
+                    }
+                    break;
+                case 6:
+                    {
+                        fill_dg10();
+                    }
+                    break;
+                case 7:
+                    {
+                        fill_dg7();
+                    }
+                    break;
+                case 8:
+                    {
+                        fill_dg8();
+                    }
+                    break;
+                case 9:
+                    {
+                        fill_dg9();
+                    }
+                    break;
             }
         }
     }
