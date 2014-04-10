@@ -26,13 +26,13 @@ namespace Whush.Demo.Styles.CustomizedWindow
 
         public static void ForWindowFromTemplate(this object templateFrameworkElement, Action<Window> action)
         {
-            Window window = ((FrameworkElement)templateFrameworkElement).TemplatedParent as Window;
+            var window = ((FrameworkElement)templateFrameworkElement).TemplatedParent as Window;
             if (window != null) action(window);
         }
 
         public static IntPtr GetWindowHandle(this Window window)
         {
-            WindowInteropHelper helper = new WindowInteropHelper(window);
+            var helper = new WindowInteropHelper(window);
             return helper.Handle;
         }
     }
@@ -111,7 +111,7 @@ namespace Whush.Demo.Styles.CustomizedWindow
                         if (w.WindowState == WindowState.Maximized)
                         {
                             w.BeginInit();
-                            double adjustment = 40.0;
+                            var adjustment = 40.0;
                             var mouse1 = e.MouseDevice.GetPosition(w);
                             var width1 = Math.Max(w.ActualWidth - 2 * adjustment, adjustment);
                             w.WindowState = WindowState.Normal;

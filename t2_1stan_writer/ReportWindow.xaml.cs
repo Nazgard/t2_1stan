@@ -26,7 +26,7 @@ namespace t2_1stan_writer
         {
             InitializeComponent();
 
-            Document document = CreateSample1(item);
+            var document = CreateSample1(item);
             DocumentPreview1.Ddl = DdlWriter.WriteToString(document);
 
             TVItem = item;
@@ -84,11 +84,11 @@ namespace t2_1stan_writer
             _mySqlDataReader = _mySqlCommand.ExecuteReader();
 
             // Create a new MigraDoc document
-            Document document = new Document();
+            var document = new Document();
             // Add a section to the document
-            Section section = document.AddSection();
+            var section = document.AddSection();
             // Add a paragraph to the section
-            Paragraph paragraph = section.AddParagraph();
+            var paragraph = section.AddParagraph();
 
             while (_mySqlDataReader.Read())
             {
@@ -103,124 +103,124 @@ namespace t2_1stan_writer
                 paragraph.Format.Font.Size = "12";
                 paragraph.Format.Alignment = ParagraphAlignment.Center;
                 document.LastSection.AddParagraph();
-                Table table = new Table();
+                var table = new Table();
                 table.Format.Font.Size = "11";
                 table.Borders.Width = 0.5;
 
-                Column column = table.AddColumn(Unit.FromCentimeter(8));
+                var column = table.AddColumn(Unit.FromCentimeter(8));
                 //column.Format.Alignment = ParagraphAlignment.Center;
 
                 table.AddColumn(Unit.FromCentimeter(10));
 
-                var BottomPadding = 8;
+                var padding = 8;
 
-                Row row = row = table.AddRow();
-                row.BottomPadding = BottomPadding;
+                var row = table.AddRow();
+                row.BottomPadding = padding;
                 Cell cell = row.Cells[0];
                 cell.AddParagraph("Дата");
                 cell = row.Cells[1];
                 cell.AddParagraph(_mySqlDataReader.GetString(0));
 
                 row = table.AddRow();
-                row.BottomPadding = BottomPadding;
+                row.BottomPadding = padding;
                 cell = row.Cells[0];
                 cell.AddParagraph("Смена");
                 cell = row.Cells[1];
                 cell.AddParagraph(_mySqlDataReader.GetString(1));
 
                 row = table.AddRow();
-                row.BottomPadding = BottomPadding;
+                row.BottomPadding = padding;
                 cell = row.Cells[0];
                 cell.AddParagraph("Типоразмер труб");
                 cell = row.Cells[1];
                 cell.AddParagraph(_mySqlDataReader.GetString(2));
 
                 row = table.AddRow();
-                row.BottomPadding = BottomPadding;
+                row.BottomPadding = padding;
                 cell = row.Cells[0];
                 cell.AddParagraph("Нормативные документы");
                 cell = row.Cells[1];
                 cell.AddParagraph(_mySqlDataReader.GetString(3));
 
                 row = table.AddRow();
-                row.BottomPadding = BottomPadding;
+                row.BottomPadding = padding;
                 cell = row.Cells[0];
                 cell.AddParagraph("Контрольный образец");
                 cell = row.Cells[1];
                 cell.AddParagraph(_mySqlDataReader.GetString(4));
 
                 row = table.AddRow();
-                row.BottomPadding = BottomPadding;
+                row.BottomPadding = padding;
                 cell = row.Cells[0];
                 cell.AddParagraph("Специалист ОКПП");
                 cell = row.Cells[1];
                 cell.AddParagraph(_mySqlDataReader.GetString(5));
 
                 row = table.AddRow();
-                row.BottomPadding = BottomPadding;
+                row.BottomPadding = padding;
                 cell = row.Cells[0];
                 cell.AddParagraph("Уровень по МПР (FT)");
                 cell = row.Cells[1];
                 cell.AddParagraph(_mySqlDataReader.GetString(6));
 
                 row = table.AddRow();
-                row.BottomPadding = BottomPadding;
+                row.BottomPadding = padding;
                 cell = row.Cells[0];
                 cell.AddParagraph("Специалист АСК ТЭСЦ-2");
                 cell = row.Cells[1];
                 cell.AddParagraph(_mySqlDataReader.GetString(7));
 
                 row = table.AddRow();
-                row.BottomPadding = BottomPadding;
+                row.BottomPadding = padding;
                 cell = row.Cells[0];
                 cell.AddParagraph("Уровень по МПР (FT)");
                 cell = row.Cells[1];
                 cell.AddParagraph(_mySqlDataReader.GetString(8));
 
                 row = table.AddRow();
-                row.BottomPadding = BottomPadding;
+                row.BottomPadding = padding;
                 cell = row.Cells[0];
                 cell.AddParagraph("Параметры настройки");
                 cell = row.Cells[1];
                 cell.AddParagraph();
 
                 row = table.AddRow();
-                row.BottomPadding = BottomPadding;
+                row.BottomPadding = padding;
                 cell = row.Cells[0];
                 cell.AddParagraph("Автоматический контроль шва");
                 cell = row.Cells[1];
                 cell.AddParagraph();
 
                 row = table.AddRow();
-                row.BottomPadding = BottomPadding;
+                row.BottomPadding = padding;
                 cell = row.Cells[0];
                 cell.AddParagraph("Установка");
                 cell = row.Cells[1];
                 cell.AddParagraph(_mySqlDataReader.GetString(9));
 
                 row = table.AddRow();
-                row.BottomPadding = BottomPadding;
+                row.BottomPadding = padding;
                 cell = row.Cells[0];
                 cell.AddParagraph("Порог, мВ");
                 cell = row.Cells[1];
                 cell.AddParagraph(_mySqlDataReader.GetString(10));
 
                 row = table.AddRow();
-                row.BottomPadding = BottomPadding;
+                row.BottomPadding = padding;
                 cell = row.Cells[0];
                 cell.AddParagraph("Ток, А");
                 cell = row.Cells[1];
                 cell.AddParagraph(_mySqlDataReader.GetString(11));
 
                 row = table.AddRow();
-                row.BottomPadding = BottomPadding;
+                row.BottomPadding = padding;
                 cell = row.Cells[0];
                 cell.AddParagraph("Проконтролировано труб");
                 cell = row.Cells[1];
                 cell.AddParagraph(_mySqlDataReader.GetString(12));
 
                 row = table.AddRow();
-                row.BottomPadding = BottomPadding;
+                row.BottomPadding = padding;
                 cell = row.Cells[0];
                 cell.AddParagraph("Дефектных труб");
                 cell = row.Cells[1];
@@ -240,7 +240,7 @@ namespace t2_1stan_writer
         {
             const bool unicode = true;
             const PdfFontEmbedding embedding = PdfFontEmbedding.Always;
-            PdfDocumentRenderer pdfRenderer = new PdfDocumentRenderer(unicode, embedding);
+            var pdfRenderer = new PdfDocumentRenderer(unicode, embedding);
 
             // Associate the MigraDoc document with a renderer
             pdfRenderer.Document = CreateSample1(TVItem);
@@ -250,7 +250,7 @@ namespace t2_1stan_writer
 
             // Save the document...            
             var dlg = new SaveFileDialog();
-            dlg.FileName = "ТЭСЦ-2 стан 73-219" + Title;
+            dlg.FileName = "ТЭСЦ-2 стан 73-219 " + Title;
             dlg.DefaultExt = ".pdf";
             dlg.ShowDialog();
             pdfRenderer.PdfDocument.Save(dlg.FileName);
@@ -259,11 +259,11 @@ namespace t2_1stan_writer
         private void button2_Click(object sender, RoutedEventArgs e)
         {
             var dlg = new SaveFileDialog();
-            dlg.FileName = "ТЭСЦ-2 стан 73-219" + Title;
+            dlg.FileName = "ТЭСЦ-2 стан 73-219 " + Title;
             dlg.DefaultExt = ".rtf";
             dlg.ShowDialog();
 
-            RtfDocumentRenderer rtf = new RtfDocumentRenderer();
+            var rtf = new RtfDocumentRenderer();
             rtf.Render(CreateSample1(TVItem), dlg.FileName, null);
         }
 

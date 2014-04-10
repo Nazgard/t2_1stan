@@ -57,7 +57,7 @@ namespace t2_1stan_writer
                 ComboBox3.ItemsSource = _parameters.get_db_surnames();
                 ComboBox4.ItemsSource = _parameters.get_db_surnames();
 
-                int last = _parameters.get_db_last_worksmens();
+                var last = _parameters.get_db_last_worksmens();
                 foreach (var item in ComboBox1.Items)
                 {
                     if (((KeyValuePair<int, string>) item).Key == last)
@@ -104,7 +104,7 @@ namespace t2_1stan_writer
                 ComboBox9.ItemsSource = _parameters.get_db_listdefects();
                 ComboBox11.ItemsSource = _parameters.get_db_device();
 
-                int last = _parameters.get_db_last_gosts();
+                var last = _parameters.get_db_last_gosts();
                 foreach (var item in ComboBox7.Items)
                 {
                     if (((KeyValuePair<int, string>)item).Key == last)
@@ -209,7 +209,7 @@ namespace t2_1stan_writer
             Dispatcher.BeginInvoke(new ThreadStart(delegate
             {
                 Tube.Width = 0;
-                for (int i = 0; i <= _count; i++)
+                for (var i = 0; i <= _count; i++)
                 {
                     Canvas.Children.Remove((UIElement) Canvas.FindName("errorLine" + i));
                     try
@@ -316,7 +316,7 @@ namespace t2_1stan_writer
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            Settings ps = Settings.Default;
+            var ps = Settings.Default;
             Top = ps.Top;
             Left = ps.Left;
             BdStatus.Text = ps.DataSource;
@@ -324,7 +324,7 @@ namespace t2_1stan_writer
 
             try
             {
-                string[] txtFiles = Directory.GetFiles(System.IO.Path.GetDirectoryName(Assembly.GetEntryAssembly().Location.ToString()), "*.report");
+                var txtFiles = Directory.GetFiles(System.IO.Path.GetDirectoryName(Assembly.GetEntryAssembly().Location.ToString()), "*.report");
                 foreach (var txtFile in txtFiles)
                 {
                     System.IO.File.Delete(txtFile);
@@ -346,7 +346,7 @@ namespace t2_1stan_writer
 
                 try
                 {
-                    string[] txtFiles = Directory.GetFiles(System.IO.Path.GetDirectoryName(Assembly.GetEntryAssembly().Location.ToString()), "*.report");
+                    var txtFiles = Directory.GetFiles(System.IO.Path.GetDirectoryName(Assembly.GetEntryAssembly().Location.ToString()), "*.report");
                     foreach (var txtFile in txtFiles)
                     {
                         System.IO.File.Delete(txtFile);

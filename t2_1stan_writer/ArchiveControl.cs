@@ -326,7 +326,7 @@ namespace t2_1stan_writer
                         ArchiveWindow.label9.Content = "Специалист АСК ТЭСЦ-2\t" + _mySqlDataReader.GetString(8);
 
 
-                        for (int i = 0; i < _countDeffectsLine; i++)
+                        for (var i = 0; i < _countDeffectsLine; i++)
                         {
                             var line = (Line) ArchiveWindow.canvas1.FindName("errorLine" + i);
                             ArchiveWindow.canvas1.Children.Remove(line);
@@ -350,9 +350,9 @@ namespace t2_1stan_writer
                         ArchiveWindow.rectangle1.BeginAnimation(FrameworkElement.WidthProperty, _da);*/
                         ArchiveWindow.rectangle1.Width = _mySqlDataReader.GetDouble(3)*4;
 
-                        int j = 0;
+                        var j = 0;
 
-                        foreach (byte deffect in (byte[]) _mySqlDataReader.GetValue(4))
+                        foreach (var deffect in (byte[]) _mySqlDataReader.GetValue(4))
                         {
                             if (deffect != 0)
                             {
@@ -420,7 +420,7 @@ namespace t2_1stan_writer
                             ArchiveWindow.listBox1.Items.Add("ДЕФЕКТНЫХ ТРУБ: \t" + _countDefectsYears[item.Uid]);
                             double cd = Convert.ToInt32(_countDefectsYears[item.Uid]);
                             double c = Convert.ToInt32(_countYears[item.Uid]);
-                            double result = Math.Round(((cd/c)*100), 2);
+                            var result = Math.Round(((cd/c)*100), 2);
                             ArchiveWindow.listBox1.Items.Add("ПРОЦЕНТ БРАКА: \t" + result);
                         }
                         else
@@ -442,7 +442,7 @@ namespace t2_1stan_writer
                                                              _countDefectsMonths[item.Uid.Split('|')[0]]);
                             double cd = Convert.ToInt32(_countDefectsMonths[item.Uid.Split('|')[0]]);
                             double c = Convert.ToInt32(_countMonths[item.Uid.Split('|')[0]]);
-                            double result = Math.Round(((cd/c)*100), 2);
+                            var result = Math.Round(((cd/c)*100), 2);
                             ArchiveWindow.listBox1.Items.Add("ПРОЦЕНТ БРАКА: \t" + result);
                         }
                         else
@@ -463,7 +463,7 @@ namespace t2_1stan_writer
                             ArchiveWindow.listBox1.Items.Add("ДЕФЕКТНЫХ ТРУБ: \t" + _countDefectsDays[item.Uid]);
                             double cd = Convert.ToInt32(_countDefectsDays[item.Uid]);
                             double c = Convert.ToInt32(_countDays[item.Uid]);
-                            double result = Math.Round(((cd/c)*100), 2);
+                            var result = Math.Round(((cd/c)*100), 2);
                             ArchiveWindow.listBox1.Items.Add("ПРОЦЕНТ БРАКА: \t" + result);
                         }
                         else
@@ -484,7 +484,7 @@ namespace t2_1stan_writer
                             ArchiveWindow.listBox1.Items.Add("ДЕФЕКТНЫХ ТРУБ: \t" + _countDefectsSmens[item.Uid.Split('+')[0]]);
                             double cd = Convert.ToInt32(_countDefectsSmens[item.Uid.Split('+')[0]]);
                             double c = Convert.ToInt32(_countSmens[item.Uid.Split('+')[0]]);
-                            double result = Math.Round(((cd/c)*100), 2);
+                            var result = Math.Round(((cd/c)*100), 2);
                             ArchiveWindow.listBox1.Items.Add("ПРОЦЕНТ БРАКА: \t" + result);
                         }
                         else
@@ -506,7 +506,7 @@ namespace t2_1stan_writer
                                                              _countDefectsParts[item.Uid.Split('|')[0]]);
                             double cd = Convert.ToInt32(_countDefectsParts[item.Uid.Split('|')[0]]);
                             double c = Convert.ToInt32(_countParts[item.Uid.Split('|')[0]]);
-                            double result = Math.Round(((cd/c)*100), 2);
+                            var result = Math.Round(((cd/c)*100), 2);
                             ArchiveWindow.listBox1.Items.Add("ПРОЦЕНТ БРАКА: \t" + result);
                         }
                         else

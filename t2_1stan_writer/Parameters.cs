@@ -226,7 +226,7 @@ namespace t2_1stan_writer
 
         public int get_db_last_worksmens()
         {
-            int last = 0;
+            var last = 0;
             _connection.Open();
 
             var myCommand = new MySqlCommand(@"
@@ -252,7 +252,7 @@ namespace t2_1stan_writer
 
         public int get_db_last_timeintervalsmens()
         {
-            int last = 0;
+            var last = 0;
             _connection.Open();
 
             var myCommand = new MySqlCommand(@"
@@ -278,7 +278,7 @@ namespace t2_1stan_writer
 
         public int get_db_last_surname1()
         {
-            int last = 0;
+            var last = 0;
             _connection.Open();
 
             var myCommand = new MySqlCommand(@"
@@ -304,7 +304,7 @@ namespace t2_1stan_writer
 
         public int get_db_last_surname2()
         {
-            int last = 0;
+            var last = 0;
             _connection.Open();
 
             var myCommand = new MySqlCommand(@"
@@ -330,7 +330,7 @@ namespace t2_1stan_writer
 
         public int get_db_last_gosts()
         {
-            int last = 0;
+            var last = 0;
             _connection.Open();
 
             var myCommand = new MySqlCommand(@"
@@ -356,7 +356,7 @@ namespace t2_1stan_writer
 
         public int get_db_last_sizetubes()
         {
-            int last = 0;
+            var last = 0;
             _connection.Open();
 
             var myCommand = new MySqlCommand(@"
@@ -382,7 +382,7 @@ namespace t2_1stan_writer
 
         public int get_db_last_controlsamples()
         {
-            int last = 0;
+            var last = 0;
             _connection.Open();
 
             var myCommand = new MySqlCommand(@"
@@ -408,7 +408,7 @@ namespace t2_1stan_writer
 
         public int get_db_last_listdefects()
         {
-            int last = 0;
+            var last = 0;
             _connection.Open();
 
             var myCommand = new MySqlCommand(@"
@@ -433,7 +433,7 @@ namespace t2_1stan_writer
 
         public int get_db_last_device()
         {
-            int last = 0;
+            var last = 0;
             _connection.Open();
 
             var myCommand = new MySqlCommand(@"
@@ -458,7 +458,7 @@ namespace t2_1stan_writer
 
         public int get_db_last_part()
         {
-            int last = 0;
+            var last = 0;
             _connection.Open();
 
             var myCommand = new MySqlCommand(@"
@@ -484,7 +484,7 @@ namespace t2_1stan_writer
 
         public int get_db_last_ho()
         {
-            int last = 0;
+            var last = 0;
             _connection.Open();
 
             var myCommand = new MySqlCommand(@"
@@ -510,7 +510,7 @@ namespace t2_1stan_writer
 
         public int get_db_last_porog()
         {
-            int last = 0;
+            var last = 0;
             _connection.Open();
 
             var myCommand = new MySqlCommand(@"
@@ -536,7 +536,7 @@ namespace t2_1stan_writer
 
         public int get_db_last_current()
         {
-            int last = 0;
+            var last = 0;
             _connection.Open();
 
             var myCommand = new MySqlCommand(@"
@@ -562,7 +562,7 @@ namespace t2_1stan_writer
 
         public int get_db_last_NumberTube()
         {
-            int last = 0;
+            var last = 0;
             _connection.Open();
 
             var myCommand = new MySqlCommand(@"

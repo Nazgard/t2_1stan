@@ -32,12 +32,12 @@ namespace t2_1stan_writer
 
         private void SerialPortDataReceived(object sender, SerialDataReceivedEventArgs e)
         {
-            int n = _serialPort.BytesToRead;
+            var n = _serialPort.BytesToRead;
 
-            for (int i = 0; i < n; i++)
+            for (var i = 0; i < n; i++)
             {
                 // shift
-                for (int j = 0; j < 10; j++)
+                for (var j = 0; j < 10; j++)
                     _buffForRead[j] = _buffForRead[j + 1];
 
                 // read byte
@@ -61,7 +61,7 @@ namespace t2_1stan_writer
                     if (MainWindow.Parameters.Count == 13)
                     {
 
-                        int hasDeffect = 0;
+                        var hasDeffect = 0;
 
                         _connection.Open();
                         var myCommand =
@@ -84,14 +84,14 @@ namespace t2_1stan_writer
                             myCommand.Parameters.AddWithValue("C", _buffForRead[5]);
                             //ДЕФЕКТЫ
                             var deffectsArray = new byte[_buffForRead[5]];
-                            for (int k = 0; k < (int)_buffForRead[5]; k++)
+                            for (var k = 0; k < (int)_buffForRead[5]; k++)
                             {
                                 if (_buffferRecive[k] != 0) hasDeffect = 1;
                                 deffectsArray[k] = _buffferRecive[k];
                             }
                             myCommand.Parameters.AddWithValue("D", deffectsArray);
                             //ТЕКУЩАЯ ДАТА
-                            DateTime theDate = DateTime.Now;
+                            var theDate = DateTime.Now;
                             myCommand.Parameters.AddWithValue("E", theDate.ToString("yyyy-MM-dd"));
                             //ТЕКУЩИЕ ВРЕМЯ
                             myCommand.Parameters.AddWithValue("F", theDate.ToString("H:mm:ss"));
@@ -179,7 +179,7 @@ namespace t2_1stan_writer
         {
             if (MainWindow.Parameters.Count == 13)
             {
-                int hasDeffect = 0;
+                var hasDeffect = 0;
                 _connection.Open();
                 var myCommand =
                     new MySqlCommand(
@@ -200,14 +200,14 @@ namespace t2_1stan_writer
                     myCommand.Parameters.AddWithValue("C", 40);
                     //ДЕФЕКТЫ
                     var deffectsArray = new byte[40];
-                    for (int k = 0; k < 40; k++)
+                    for (var k = 0; k < 40; k++)
                     {
                         if (_sampledataBytes[k] != 0) hasDeffect = 1;
                         deffectsArray[k] = _sampledataBytes[k];
                     }
                     myCommand.Parameters.AddWithValue("D", deffectsArray);
                     //ТЕКУЩАЯ ДАТА
-                    DateTime theDate = DateTime.Now;
+                    var theDate = DateTime.Now;
                     myCommand.Parameters.AddWithValue("E", theDate.ToString("yyyy-MM-dd"));
                     //ТЕКУЩИЕ ВРЕМЯ
                     myCommand.Parameters.AddWithValue("F", theDate.ToString("H:mm:ss"));
@@ -252,7 +252,7 @@ namespace t2_1stan_writer
 
         private int LastNumberTube(int part)
         {
-            int last = 0;
+            var last = 0;
 
             _connection.Open();
             var myCommand =
@@ -269,7 +269,7 @@ namespace t2_1stan_writer
                     ",
                     _connection.MySqlConnection);
 
-            MySqlDataReader mySqlDataReader = myCommand.ExecuteReader();
+            var mySqlDataReader = myCommand.ExecuteReader();
 
             while (mySqlDataReader.Read())
             {

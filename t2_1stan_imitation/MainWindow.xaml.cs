@@ -162,7 +162,7 @@ namespace t2_1stan_imitation
         {
             try
             {
-                Settings ps = Settings.Default;
+                var ps = Settings.Default;
                 Top = ps.Top;
                 Left = ps.Left;
 
@@ -201,7 +201,7 @@ namespace t2_1stan_imitation
         {
             try
             {
-                Settings ps = Settings.Default;
+                var ps = Settings.Default;
                 ps.Top = Top;
                 ps.Left = Left;
                 ps.Save();
