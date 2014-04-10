@@ -32,6 +32,16 @@ namespace t2_1stan_writer
             TabItem1.Visibility = Visibility.Hidden;
             TabItem2.Visibility = Visibility.Hidden;
             TabItem3.Visibility = Visibility.Hidden;
+
+            try
+            {
+                _writer.port_Open();
+            }
+            catch (Exception)
+            {
+                Button3.IsEnabled = false;
+                Button3.ToolTip = "COM порт не обнаружен";
+            }
         }
 
         private void button1_Click(object sender, RoutedEventArgs e)
@@ -102,13 +112,19 @@ namespace t2_1stan_writer
                 Parameters.Add("porog", Convert.ToInt32(TextBox2.Text));
                 Parameters.Add("current", Convert.ToInt32(TextBox3.Text));
 
+                lblinfo1.Visibility = Visibility.Visible;
+                lblinfo2.Visibility = Visibility.Visible;
+                lblinfo3.Visibility = Visibility.Visible;
+                lblinfo4.Visibility = Visibility.Visible;
+                lblinfo5.Visibility = Visibility.Visible;
+                ButtonCancel.Visibility = Visibility.Hidden;
+                ButtonSave.Visibility = Visibility.Hidden;
                 lblinfo1.Content = ((KeyValuePair<int, string>)ComboBox1.SelectedItem).Value;
-                lblinfo2.Content += "\t" + ((KeyValuePair<int, string>)ComboBox3.SelectedItem).Value;
-                lblinfo3.Content += "\t" + ((KeyValuePair<int, string>)ComboBox4.SelectedItem).Value;
-                lblinfo4.Content += "\t\t " + TextBox4.Text;
-                lblinfo5.Content += "\t " + ((KeyValuePair<int, string>)ComboBox7.SelectedItem).Value;
+                lblinfo2.Content = "Специалист АСК ТЭСЦ 2:\t" + ((KeyValuePair<int, string>)ComboBox3.SelectedItem).Value;
+                lblinfo3.Content = "Специалист ОККП:\t" + ((KeyValuePair<int, string>)ComboBox4.SelectedItem).Value;
+                lblinfo4.Content = "Номер плавки:\t\t " + TextBox4.Text;
+                lblinfo5.Content = "Нормативные документы:\t " + ((KeyValuePair<int, string>)ComboBox7.SelectedItem).Value;
 
-                _writer.port_Open();
                 TabControl1.SelectedIndex = 2;
             }
             else
@@ -166,9 +182,33 @@ namespace t2_1stan_writer
             }));
         }
 
+        public void error_sample_segment(int segment)
+        {
+            Dispatcher.BeginInvoke(new ThreadStart(delegate
+            {
+                var redBrush = new SolidColorBrush
+                {
+                    Color = Colors.Red
+                };
+                var errorLine = new Line();
+
+                Canvas.SetLeft(errorLine, (Canvas.GetLeft(Tube) + (segment * 4)));
+                errorLine.X1 = 0;
+                errorLine.X2 = 0;
+                errorLine.Y1 = 151;
+                errorLine.Y2 = 151 + 70;
+                errorLine.StrokeThickness = 4;
+                errorLine.Stroke = redBrush;
+                errorLine.Fill = redBrush;
+                Canvas.RegisterName("errorLine" + _count, errorLine);
+                _count++;
+                Canvas.Children.Add(errorLine);
+            }));
+        }
+
         public void control_tube()
         {
-            Dispatcher.BeginInvoke(new ThreadStart(delegate { Tube.Width = 96; }));
+            Dispatcher.BeginInvoke(new ThreadStart(delegate { Tube.Width = 240; }));
         }
 
         private void textBox4_PreviewTextInput(object sender, TextCompositionEventArgs e)
@@ -318,7 +358,61 @@ namespace t2_1stan_writer
 
         private void button6_Click(object sender, RoutedEventArgs e)
         {
+            if (ComboBox1.SelectedIndex != -1 &&
+                ComboBox2.SelectedIndex != -1 &&
+                ComboBox3.SelectedIndex != -1 &&
+                ComboBox4.SelectedIndex != -1 &&
+                TextBox4.Text != "" &&
+                ComboBox7.SelectedIndex != -1 &&
+                ComboBox8.SelectedIndex != -1 &&
+                ComboBox5.SelectedIndex != -1 &&
+                TextBox1.Text != "" &&
+                ComboBox9.SelectedIndex != -1 &&
+                ComboBox11.SelectedIndex != -1 &&
+                TextBox2.Text != "" &&
+                TextBox3.Text != "")
+            {
+                TabControl1.SelectedIndex = 2;
+                lblinfo1.Visibility = Visibility.Hidden;
+                lblinfo2.Visibility = Visibility.Hidden;
+                lblinfo3.Visibility = Visibility.Hidden;
+                lblinfo4.Visibility = Visibility.Hidden;
+                lblinfo5.Visibility = Visibility.Hidden;
+                ButtonCancel.Visibility = Visibility.Visible;
+                ButtonSave.Visibility = Visibility.Visible;
 
+                Parameters.Clear();
+                Parameters.Add("smena", ((KeyValuePair<int, string>) ComboBox1.SelectedItem).Key);
+                Parameters.Add("smena_time", ((KeyValuePair<int, string>) ComboBox2.SelectedItem).Key);
+                Parameters.Add("operator1", ((KeyValuePair<int, string>) ComboBox3.SelectedItem).Key);
+                Parameters.Add("operator2", ((KeyValuePair<int, string>) ComboBox4.SelectedItem).Key);
+                Parameters.Add("part", Convert.ToInt32(TextBox4.Text));
+                Parameters.Add("gost", ((KeyValuePair<int, string>) ComboBox7.SelectedItem).Key);
+                Parameters.Add("diameter", ((KeyValuePair<int, string>) ComboBox5.SelectedItem).Key);
+                Parameters.Add("ho", Convert.ToInt32(TextBox1.Text));
+                Parameters.Add("control_sample", ((KeyValuePair<int, string>) ComboBox8.SelectedItem).Key);
+                Parameters.Add("name_defect", ((KeyValuePair<int, string>) ComboBox9.SelectedItem).Key);
+                Parameters.Add("device", ((KeyValuePair<int, string>) ComboBox11.SelectedItem).Key);
+                Parameters.Add("porog", Convert.ToInt32(TextBox2.Text));
+                Parameters.Add("current", Convert.ToInt32(TextBox3.Text));
+            }
+            else
+            {
+                MessageBox.Show("Заполните все поля");
+            }
+        }
+
+        private void ButtonSave_Click(object sender, RoutedEventArgs e)
+        {
+            _writer.save_sample();
+            new_tube();
+            _writer.Sampledatacount = 0;
+        }
+
+        private void ButtonCancel_Click(object sender, RoutedEventArgs e)
+        {
+            new_tube();
+            _writer.Sampledatacount = 0;
         }
     }
 }

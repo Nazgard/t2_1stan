@@ -252,6 +252,10 @@ namespace t2_1stan_writer
                             Tag = "tube",
                             Header = "Труба № " + _mySqlDataReader.GetString(0)
                         };
+                        if (_mySqlDataReader.GetInt32(0) == 0)
+                        {
+                            itemTube.Header = "К.О. (" + _mySqlDataReader.GetString(2) + ")";
+                        }
                         if (_mySqlDataReader.GetInt32(1) == 1)
                         {
                             var redBrush = new SolidColorBrush
@@ -637,6 +641,7 @@ namespace t2_1stan_writer
                 YEAR(defectsdata.DatePr)
                 FROM
                 defectsdata
+                WHERE defectsdata.NumberTube <> 0
                 GROUP BY YEAR(defectsdata.DatePr)
             ";
             _mySqlCommand1.Connection = _connection.MySqlConnection;
@@ -673,7 +678,8 @@ namespace t2_1stan_writer
                 FROM
                 defectsdata
                 WHERE
-                defectsdata.FlDefectTube = 1
+                defectsdata.FlDefectTube = 1 AND
+                defectsdata.NumberTube <> 0
                 GROUP BY YEAR(defectsdata.DatePr)
             ";
             _mySqlCommand1.Connection = _connection.MySqlConnection;
@@ -707,6 +713,7 @@ namespace t2_1stan_writer
 			    DATE_FORMAT(defectsdata.DatePr, '%Y-%M')
                 FROM
                 defectsdata
+                WHERE defectsdata.NumberTube <> 0
                 GROUP BY MONTHNAME(defectsdata.DatePr)
                 ORDER BY YEAR(defectsdata.DatePr), MONTH(defectsdata.DatePr)
             ";
@@ -741,7 +748,8 @@ namespace t2_1stan_writer
                 FROM
                 defectsdata
                 WHERE
-                defectsdata.FlDefectTube = 1
+                defectsdata.FlDefectTube = 1 AND
+                defectsdata.NumberTube <> 0
                 GROUP BY MONTHNAME(defectsdata.DatePr)
                 ORDER BY YEAR(defectsdata.DatePr), MONTH(defectsdata.DatePr)
             ";
@@ -775,6 +783,7 @@ namespace t2_1stan_writer
                 DATE_FORMAT(defectsdata.DatePr, '%Y-%m-%d')
                 FROM
                 defectsdata
+                WHERE defectsdata.NumberTube <> 0
                 GROUP BY defectsdata.DatePr
                 ORDER BY defectsdata.DatePr
             ";
@@ -809,7 +818,8 @@ namespace t2_1stan_writer
                 FROM
                 defectsdata
                 WHERE
-                defectsdata.FlDefectTube = 1
+                defectsdata.FlDefectTube = 1 AND
+                defectsdata.NumberTube <> 0
                 GROUP BY defectsdata.DatePr
                 ORDER BY defectsdata.DatePr
             ";
@@ -844,6 +854,7 @@ namespace t2_1stan_writer
                 FROM
                 defectsdata
                 Inner Join indexes ON defectsdata.IndexData = indexes.IndexData
+                WHERE defectsdata.NumberTube <> 0
                 GROUP BY defectsdata.DatePr, indexes.Id_WorkSmen
             ";
             _mySqlCommand1.Connection = _connection.MySqlConnection;
@@ -878,7 +889,8 @@ namespace t2_1stan_writer
                 defectsdata
                 Inner Join indexes ON defectsdata.IndexData = indexes.IndexData
                 WHERE
-                defectsdata.FlDefectTube = 1
+                defectsdata.FlDefectTube = 1 AND
+                defectsdata.NumberTube <> 0
                 GROUP BY defectsdata.DatePr, indexes.Id_WorkSmen
             ";
             _mySqlCommand1.Connection = _connection.MySqlConnection;
@@ -911,6 +923,7 @@ namespace t2_1stan_writer
                 defectsdata.NumberPart
                 FROM
                 defectsdata
+                WHERE defectsdata.NumberTube <> 0
                 GROUP BY defectsdata.NumberPart
             ";
             _mySqlCommand1.Connection = _connection.MySqlConnection;
@@ -943,7 +956,8 @@ namespace t2_1stan_writer
                 FROM
                 defectsdata
                 WHERE
-                defectsdata.FlDefectTube = 1
+                defectsdata.FlDefectTube = 1 AND
+                defectsdata.NumberTube <> 0
                 GROUP BY defectsdata.NumberPart
             ";
             _mySqlCommand1.Connection = _connection.MySqlConnection;

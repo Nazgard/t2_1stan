@@ -1,7 +1,6 @@
 ﻿using System;
 using System.IO.Ports;
 using System.Threading;
-using System.Windows;
 using MySql.Data.MySqlClient;
 using t2_1stan_writer.Properties;
 
@@ -15,6 +14,8 @@ namespace t2_1stan_writer
         private readonly Connection _connection = new Connection();
         private readonly Crc8 _crc8 = new Crc8();
         private readonly SerialPort _serialPort = new SerialPort(Ps.COM);
+        private readonly byte[] _sampledataBytes = new byte[40];
+        public int Sampledatacount = 0;
         public MainWindow MainWindow;
 
         public Writer()
@@ -26,15 +27,7 @@ namespace t2_1stan_writer
 
         public void port_Open()
         {
-            try
-            {
-                if (!_serialPort.IsOpen)
-                    _serialPort.Open();
-            }
-            catch
-            {
-                MessageBox.Show("Для работы нужен COM порт");
-            }
+            _serialPort.Open();
         }
 
         private void SerialPortDataReceived(object sender, SerialDataReceivedEventArgs e)
@@ -48,7 +41,7 @@ namespace t2_1stan_writer
                     _buffForRead[j] = _buffForRead[j + 1];
 
                 // read byte
-                _buffForRead[10] = (Byte) _serialPort.ReadByte();
+                _buffForRead[10] = (Byte)_serialPort.ReadByte();
                 if (_buffForRead[0] != 0xE6) continue;
                 if (_buffForRead[1] != 0x19) continue;
                 if (_buffForRead[2] != 0xFF) continue;
@@ -65,47 +58,50 @@ namespace t2_1stan_writer
                 {
                     MainWindow.new_tube();
 
-                    int hasDeffect = 0;
-
-                    _connection.Open();
-                    var myCommand =
-                        new MySqlCommand(
-                            "INSERT INTO defectsdata(defectsdata.NumberPart, defectsdata.NumberTube, defectsdata.NumberSegments, defectsdata.DataSensors, defectsdata.DatePr, defectsdata.TimePr, defectsdata.Porog, defectsdata.Current, defectsdata.FlDefectTube) values(@A, @B, @C, @D, @E, @F, @G, @H, @I)",
-                            _connection.MySqlConnection);
-                    MainWindow.Dispatcher.BeginInvoke(new ThreadStart(delegate
+                    if (MainWindow.Parameters.Count == 13)
                     {
-                        //НОМЕР ПАРТИИ
-                        myCommand.Parameters.AddWithValue("A", MainWindow.Parameters["part"]);
-                        //ПОРОГ
-                        myCommand.Parameters.AddWithValue("G", MainWindow.Parameters["porog"]);
-                        //ТОК
-                        myCommand.Parameters.AddWithValue("H", MainWindow.Parameters["current"]);
 
-                        //НОМЕР ТРУБЫ
-                        myCommand.Parameters.AddWithValue("B",
-                            LastNumberTube(MainWindow.Parameters["part"]) + 1);
-                        //РАЗМЕР ТРУБЫ
-                        myCommand.Parameters.AddWithValue("C", _buffForRead[5]);
-                        //ДЕФЕКТЫ
-                        var deffectsArray = new byte[_buffForRead[5]];
-                        for (int k = 0; k < (int) _buffForRead[5]; k++)
+                        int hasDeffect = 0;
+
+                        _connection.Open();
+                        var myCommand =
+                            new MySqlCommand(
+                                "INSERT INTO defectsdata(defectsdata.NumberPart, defectsdata.NumberTube, defectsdata.NumberSegments, defectsdata.DataSensors, defectsdata.DatePr, defectsdata.TimePr, defectsdata.Porog, defectsdata.Current, defectsdata.FlDefectTube) values(@A, @B, @C, @D, @E, @F, @G, @H, @I)",
+                                _connection.MySqlConnection);
+                        MainWindow.Dispatcher.BeginInvoke(new ThreadStart(delegate
                         {
-                            if (_buffferRecive[k] != 0) hasDeffect = 1;
-                            deffectsArray[k] = _buffferRecive[k];
-                        }
-                        myCommand.Parameters.AddWithValue("D", deffectsArray);
-                        //ТЕКУЩАЯ ДАТА
-                        DateTime theDate = DateTime.Now;
-                        myCommand.Parameters.AddWithValue("E", theDate.ToString("yyyy-MM-dd"));
-                        //ТЕКУЩИЕ ВРЕМЯ
-                        myCommand.Parameters.AddWithValue("F", theDate.ToString("H:mm:ss"));
-                        //НАЛИЧИЕ ДЕФФЕКТОВ
-                        myCommand.Parameters.AddWithValue("I", hasDeffect);
+                            //НОМЕР ПАРТИИ
+                            myCommand.Parameters.AddWithValue("A", MainWindow.Parameters["part"]);
+                            //ПОРОГ
+                            myCommand.Parameters.AddWithValue("G", MainWindow.Parameters["porog"]);
+                            //ТОК
+                            myCommand.Parameters.AddWithValue("H", MainWindow.Parameters["current"]);
 
-                        myCommand.ExecuteNonQuery();
+                            //НОМЕР ТРУБЫ
+                            myCommand.Parameters.AddWithValue("B",
+                                LastNumberTube(MainWindow.Parameters["part"]) + 1);
+                            //РАЗМЕР ТРУБЫ
+                            myCommand.Parameters.AddWithValue("C", _buffForRead[5]);
+                            //ДЕФЕКТЫ
+                            var deffectsArray = new byte[_buffForRead[5]];
+                            for (int k = 0; k < (int)_buffForRead[5]; k++)
+                            {
+                                if (_buffferRecive[k] != 0) hasDeffect = 1;
+                                deffectsArray[k] = _buffferRecive[k];
+                            }
+                            myCommand.Parameters.AddWithValue("D", deffectsArray);
+                            //ТЕКУЩАЯ ДАТА
+                            DateTime theDate = DateTime.Now;
+                            myCommand.Parameters.AddWithValue("E", theDate.ToString("yyyy-MM-dd"));
+                            //ТЕКУЩИЕ ВРЕМЯ
+                            myCommand.Parameters.AddWithValue("F", theDate.ToString("H:mm:ss"));
+                            //НАЛИЧИЕ ДЕФФЕКТОВ
+                            myCommand.Parameters.AddWithValue("I", hasDeffect);
+
+                            myCommand.ExecuteNonQuery();
 
 
-                        myCommand = new MySqlCommand(@"
+                            myCommand = new MySqlCommand(@"
                             INSERT INTO indexes
                             (Version,IndexData,Id_SizeTube,Id_Gost,Id_ControlSample
                             ,Id_WorkSmen,Id_TimeIntervalSmen,Id_Operator1,Id_Operator2,Id_Device,
@@ -115,21 +111,22 @@ namespace t2_1stan_writer
                             @Id_SizeTube, @Id_Gost, @Id_ControlSample, @Id_WorkSmen, @Id_TimeIntervalSmen,
                             @Id_Operator1, @Id_Operator2, @Id_Device, @Id_Sensor, @Id_NameDefect)
                         ", _connection.MySqlConnection);
-                        myCommand.Parameters.AddWithValue("Id_SizeTube", MainWindow.Parameters["diameter"]);
-                        myCommand.Parameters.AddWithValue("Id_Gost", MainWindow.Parameters["gost"]);
-                        myCommand.Parameters.AddWithValue("Id_ControlSample",
-                            MainWindow.Parameters["control_sample"]);
-                        myCommand.Parameters.AddWithValue("Id_WorkSmen", MainWindow.Parameters["smena"]);
-                        myCommand.Parameters.AddWithValue("Id_TimeIntervalSmen", MainWindow.Parameters["smena_time"]);
-                        myCommand.Parameters.AddWithValue("Id_Operator1", MainWindow.Parameters["operator1"]);
-                        myCommand.Parameters.AddWithValue("Id_Operator2", MainWindow.Parameters["operator2"]);
-                        myCommand.Parameters.AddWithValue("Id_Device", MainWindow.Parameters["device"]);
-                        myCommand.Parameters.AddWithValue("Id_Sensor", MainWindow.Parameters["ho"]);
-                        myCommand.Parameters.AddWithValue("Id_NameDefect", MainWindow.Parameters["name_defect"]);
+                            myCommand.Parameters.AddWithValue("Id_SizeTube", MainWindow.Parameters["diameter"]);
+                            myCommand.Parameters.AddWithValue("Id_Gost", MainWindow.Parameters["gost"]);
+                            myCommand.Parameters.AddWithValue("Id_ControlSample",
+                                MainWindow.Parameters["control_sample"]);
+                            myCommand.Parameters.AddWithValue("Id_WorkSmen", MainWindow.Parameters["smena"]);
+                            myCommand.Parameters.AddWithValue("Id_TimeIntervalSmen", MainWindow.Parameters["smena_time"]);
+                            myCommand.Parameters.AddWithValue("Id_Operator1", MainWindow.Parameters["operator1"]);
+                            myCommand.Parameters.AddWithValue("Id_Operator2", MainWindow.Parameters["operator2"]);
+                            myCommand.Parameters.AddWithValue("Id_Device", MainWindow.Parameters["device"]);
+                            myCommand.Parameters.AddWithValue("Id_Sensor", MainWindow.Parameters["ho"]);
+                            myCommand.Parameters.AddWithValue("Id_NameDefect", MainWindow.Parameters["name_defect"]);
 
-                        myCommand.ExecuteNonQuery();
-                        _connection.Close();
-                    }));
+                            myCommand.ExecuteNonQuery();
+                            _connection.Close();
+                        }));
+                    }
                 }
 
                 //СЕГМЕНТ ТРУБЫ
@@ -143,7 +140,108 @@ namespace t2_1stan_writer
                     MainWindow.error_segment();
 
                 if (_buffForRead[4] == 0x01)
-                    MainWindow.control_tube();
+                {
+                    MainWindow.Dispatcher.BeginInvoke(new ThreadStart(delegate
+                    {
+                        MainWindow.button6.IsEnabled = true;
+                        if (Sampledatacount < 40)
+                        {
+                            _sampledataBytes[Sampledatacount] = _buffForRead[5];
+                            MainWindow.move_tube();
+                            
+                            MainWindow.ButtonCancel.IsEnabled = false;
+                            MainWindow.ButtonSave.IsEnabled = false;
+                        }
+                        if (_buffForRead[5] != 0)
+                        {
+                            MainWindow.error_sample_segment(Sampledatacount);
+                        }
+                        Sampledatacount++;
+                        if (Sampledatacount >= 39)
+                        {
+                            MainWindow.ButtonCancel.IsEnabled = true;
+                            MainWindow.ButtonSave.IsEnabled = true;
+                        }
+                    }));
+                }
+
+                if (_buffForRead[4] != 0x01)
+                {
+                    MainWindow.Dispatcher.BeginInvoke(new ThreadStart(delegate
+                    {
+                        MainWindow.button6.IsEnabled = false;
+                    }));
+                }
+            }
+        }
+
+        public void save_sample()
+        {
+            if (MainWindow.Parameters.Count == 13)
+            {
+                int hasDeffect = 0;
+                _connection.Open();
+                var myCommand =
+                    new MySqlCommand(
+                        "INSERT INTO defectsdata(defectsdata.NumberPart, defectsdata.NumberTube, defectsdata.NumberSegments, defectsdata.DataSensors, defectsdata.DatePr, defectsdata.TimePr, defectsdata.Porog, defectsdata.Current, defectsdata.FlDefectTube) values(@A, @B, @C, @D, @E, @F, @G, @H, @I)",
+                        _connection.MySqlConnection);
+                MainWindow.Dispatcher.BeginInvoke(new ThreadStart(delegate
+                {
+                    //НОМЕР ПАРТИИ
+                    myCommand.Parameters.AddWithValue("A", MainWindow.Parameters["part"]);
+                    //ПОРОГ
+                    myCommand.Parameters.AddWithValue("G", MainWindow.Parameters["porog"]);
+                    //ТОК
+                    myCommand.Parameters.AddWithValue("H", MainWindow.Parameters["current"]);
+
+                    //НОМЕР ТРУБЫ
+                    myCommand.Parameters.AddWithValue("B", 0);
+                    //РАЗМЕР ТРУБЫ
+                    myCommand.Parameters.AddWithValue("C", 40);
+                    //ДЕФЕКТЫ
+                    var deffectsArray = new byte[40];
+                    for (int k = 0; k < 40; k++)
+                    {
+                        if (_sampledataBytes[k] != 0) hasDeffect = 1;
+                        deffectsArray[k] = _sampledataBytes[k];
+                    }
+                    myCommand.Parameters.AddWithValue("D", deffectsArray);
+                    //ТЕКУЩАЯ ДАТА
+                    DateTime theDate = DateTime.Now;
+                    myCommand.Parameters.AddWithValue("E", theDate.ToString("yyyy-MM-dd"));
+                    //ТЕКУЩИЕ ВРЕМЯ
+                    myCommand.Parameters.AddWithValue("F", theDate.ToString("H:mm:ss"));
+                    //НАЛИЧИЕ ДЕФФЕКТОВ
+                    myCommand.Parameters.AddWithValue("I", hasDeffect);
+
+                    myCommand.ExecuteNonQuery();
+
+
+                    myCommand = new MySqlCommand(@"
+                            INSERT INTO indexes
+                            (Version,IndexData,Id_SizeTube,Id_Gost,Id_ControlSample
+                            ,Id_WorkSmen,Id_TimeIntervalSmen,Id_Operator1,Id_Operator2,Id_Device,
+                            Id_Sensor, Id_NameDefect)
+                            values (1, 
+                            (SELECT IndexData FROM defectsdata ORDER BY IndexData DESC LIMIT 1),
+                            @Id_SizeTube, @Id_Gost, @Id_ControlSample, @Id_WorkSmen, @Id_TimeIntervalSmen,
+                            @Id_Operator1, @Id_Operator2, @Id_Device, @Id_Sensor, @Id_NameDefect)
+                        ", _connection.MySqlConnection);
+                    myCommand.Parameters.AddWithValue("Id_SizeTube", MainWindow.Parameters["diameter"]);
+                    myCommand.Parameters.AddWithValue("Id_Gost", MainWindow.Parameters["gost"]);
+                    myCommand.Parameters.AddWithValue("Id_ControlSample",
+                        MainWindow.Parameters["control_sample"]);
+                    myCommand.Parameters.AddWithValue("Id_WorkSmen", MainWindow.Parameters["smena"]);
+                    myCommand.Parameters.AddWithValue("Id_TimeIntervalSmen", MainWindow.Parameters["smena_time"]);
+                    myCommand.Parameters.AddWithValue("Id_Operator1", MainWindow.Parameters["operator1"]);
+                    myCommand.Parameters.AddWithValue("Id_Operator2", MainWindow.Parameters["operator2"]);
+                    myCommand.Parameters.AddWithValue("Id_Device", MainWindow.Parameters["device"]);
+                    myCommand.Parameters.AddWithValue("Id_Sensor", MainWindow.Parameters["ho"]);
+                    myCommand.Parameters.AddWithValue("Id_NameDefect", MainWindow.Parameters["name_defect"]);
+
+                    myCommand.ExecuteNonQuery();
+                    _connection.Close();
+                }));
             }
         }
 

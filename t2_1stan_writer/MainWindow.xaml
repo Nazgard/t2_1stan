@@ -133,7 +133,7 @@
             </TabItem>
             <TabItem Header="Контроль" Name="TabItem3" IsEnabled="False">
                 <Grid>
-                    <Canvas x:Name="Canvas" Background="{x:Null}" IsEnabled="False">
+                    <Canvas x:Name="Canvas" Background="{x:Null}" IsEnabled="False" Margin="0,0,0,127">
                         <Polyline Stroke="LightSalmon" StrokeThickness="1" StrokeEndLineCap="Flat"
                                   SnapsToDevicePixels="True"
                                   Points="0,10 530,10 530,0 540 10 530, 20 530,10" Canvas.Left="37" Canvas.Top="81"
@@ -184,6 +184,8 @@
                         <Label x:Name="lblinfo4" Content="Номер плавки:" Canvas.Left="32" Canvas.Top="288" Foreground="Black"/>
                         <Label x:Name="lblinfo5" Content="Нормативные документы:" Canvas.Left="32" Canvas.Top="319" Foreground="Black"/>
                     </Canvas>
+                    <Button x:Name="ButtonCancel" Content="Отмена" HorizontalAlignment="Left" Margin="310,286,0,0" VerticalAlignment="Top" Width="100" Height="40" Click="ButtonCancel_Click" IsEnabled="False"/>
+                    <Button x:Name="ButtonSave" Content="Сохранить" HorizontalAlignment="Left" Margin="431,286,0,0" VerticalAlignment="Top" Width="100" Height="40" Click="ButtonSave_Click" IsEnabled="False"/>
                 </Grid>
             </TabItem>
         </TabControl>
@@ -201,5 +203,6 @@
         </StatusBar>
         <Button Content="БД" Height="35" HorizontalAlignment="Right" Margin="0,10,133,0" Name="button5" VerticalAlignment="Top" Width="90" Click="button5_Click" />
         <Button Content="К.О." Height="35" HorizontalAlignment="Left" Margin="374,10,0,0" Name="button6" VerticalAlignment="Top" Width="75" Click="button6_Click" />
+        <Button Content="БД" Height="35" HorizontalAlignment="Right" Margin="0,10,133,0" x:Name="button5_Copy" VerticalAlignment="Top" Width="90" Click="button5_Click" />
     </Grid>
 </Window>
