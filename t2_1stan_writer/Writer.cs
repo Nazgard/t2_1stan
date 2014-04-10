@@ -147,7 +147,7 @@ namespace t2_1stan_writer
                         if (Sampledatacount < 40)
                         {
                             _sampledataBytes[Sampledatacount] = _buffForRead[5];
-                            MainWindow.move_tube();
+                            MainWindow.move_sample_tube();
                             
                             MainWindow.ButtonCancel.IsEnabled = false;
                             MainWindow.ButtonSave.IsEnabled = false;

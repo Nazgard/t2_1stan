@@ -33,6 +33,7 @@ namespace t2_1stan_writer
             TabItem1.Visibility = Visibility.Hidden;
             TabItem2.Visibility = Visibility.Hidden;
             TabItem3.Visibility = Visibility.Hidden;
+            TabItem4.Visibility = Visibility.Hidden;
 
             try
             {
@@ -42,6 +43,16 @@ namespace t2_1stan_writer
             {
                 Button3.IsEnabled = false;
                 Button3.ToolTip = "COM порт не обнаружен";
+            }
+
+            try
+            {
+                FillParameters();
+            }
+            catch (Exception)
+            {
+                
+                throw;
             }
         }
 
@@ -166,42 +177,39 @@ namespace t2_1stan_writer
                 TextBox2.Text != "" &&
                 TextBox3.Text != "")
             {
-                Parameters.Clear();
-                Parameters.Add("smena", ((KeyValuePair<int, string>) ComboBox1.SelectedItem).Key);
-                Parameters.Add("smena_time", ((KeyValuePair<int, string>) ComboBox2.SelectedItem).Key);
-                Parameters.Add("operator1", ((KeyValuePair<int, string>) ComboBox3.SelectedItem).Key);
-                Parameters.Add("operator2", ((KeyValuePair<int, string>) ComboBox4.SelectedItem).Key);
-                Parameters.Add("part", Convert.ToInt32(TextBox4.Text));
-                Parameters.Add("gost", ((KeyValuePair<int, string>) ComboBox7.SelectedItem).Key);
-                Parameters.Add("diameter", ((KeyValuePair<int, string>) ComboBox5.SelectedItem).Key);
-                Parameters.Add("ho", Convert.ToInt32(TextBox1.Text));
-                Parameters.Add("control_sample", ((KeyValuePair<int, string>) ComboBox8.SelectedItem).Key);
-                Parameters.Add("name_defect", ((KeyValuePair<int, string>) ComboBox9.SelectedItem).Key);
-                Parameters.Add("device", ((KeyValuePair<int, string>) ComboBox11.SelectedItem).Key);
-                Parameters.Add("porog", Convert.ToInt32(TextBox2.Text));
-                Parameters.Add("current", Convert.ToInt32(TextBox3.Text));
+                FillParameters();
 
-                lblinfo1.Visibility = Visibility.Visible;
-                lblinfo2.Visibility = Visibility.Visible;
-                lblinfo3.Visibility = Visibility.Visible;
-                lblinfo4.Visibility = Visibility.Visible;
-                lblinfo5.Visibility = Visibility.Visible;
-                lblinfo6.Visibility = Visibility.Visible;
-                ButtonCancel.Visibility = Visibility.Hidden;
-                ButtonSave.Visibility = Visibility.Hidden;
-                lblinfo1.Content = ((KeyValuePair<int, string>)ComboBox1.SelectedItem).Value;
-                lblinfo2.Content = "Специалист АСК ТЭСЦ 2:\t" + ((KeyValuePair<int, string>)ComboBox3.SelectedItem).Value;
-                lblinfo3.Content = "Специалист ОККП:\t" + ((KeyValuePair<int, string>)ComboBox4.SelectedItem).Value;
-                lblinfo4.Content = "Номер плавки:\t\t " + TextBox4.Text;
-                lblinfo5.Content = "Нормативные документы:\t " + ((KeyValuePair<int, string>)ComboBox7.SelectedItem).Value;
-                lblinfo6.Content = "Пройдено труб:\t\t " + _parameters.get_db_last_NumberTube();
-
-                TabControl1.SelectedIndex = 2;
+                TabControl1.SelectedIndex = 3;
             }
             else
             {
                 MessageBox.Show("Заполните все поля");
             }
+        }
+
+        private void FillParameters()
+        {
+            Parameters.Clear();
+            Parameters.Add("smena", ((KeyValuePair<int, string>)ComboBox1.SelectedItem).Key);
+            Parameters.Add("smena_time", ((KeyValuePair<int, string>)ComboBox2.SelectedItem).Key);
+            Parameters.Add("operator1", ((KeyValuePair<int, string>)ComboBox3.SelectedItem).Key);
+            Parameters.Add("operator2", ((KeyValuePair<int, string>)ComboBox4.SelectedItem).Key);
+            Parameters.Add("part", Convert.ToInt32(TextBox4.Text));
+            Parameters.Add("gost", ((KeyValuePair<int, string>)ComboBox7.SelectedItem).Key);
+            Parameters.Add("diameter", ((KeyValuePair<int, string>)ComboBox5.SelectedItem).Key);
+            Parameters.Add("ho", Convert.ToInt32(TextBox1.Text));
+            Parameters.Add("control_sample", ((KeyValuePair<int, string>)ComboBox8.SelectedItem).Key);
+            Parameters.Add("name_defect", ((KeyValuePair<int, string>)ComboBox9.SelectedItem).Key);
+            Parameters.Add("device", ((KeyValuePair<int, string>)ComboBox11.SelectedItem).Key);
+            Parameters.Add("porog", Convert.ToInt32(TextBox2.Text));
+            Parameters.Add("current", Convert.ToInt32(TextBox3.Text));
+
+            lblinfo1.Content = ((KeyValuePair<int, string>)ComboBox1.SelectedItem).Value;
+            lblinfo2.Content = "Специалист АСК ТЭСЦ 2:\t" + ((KeyValuePair<int, string>)ComboBox3.SelectedItem).Value;
+            lblinfo3.Content = "Специалист ОККП:\t" + ((KeyValuePair<int, string>)ComboBox4.SelectedItem).Value;
+            lblinfo4.Content = "Номер плавки:\t\t " + TextBox4.Text;
+            lblinfo5.Content = "Нормативные документы:\t " + ((KeyValuePair<int, string>)ComboBox7.SelectedItem).Value;
+            lblinfo6.Content = "Пройдено труб:\t\t " + _parameters.get_db_last_NumberTube();
         }
 
         public void new_tube()
@@ -224,9 +232,31 @@ namespace t2_1stan_writer
             }));
         }
 
+        public void new_tube_sample()
+        {
+            TubeSample.Width = 0;
+            for (var i = 0; i <= _count; i++)
+            {
+                Canvas1.Children.Remove((UIElement)Canvas1.FindName("errorLine" + i));
+                try
+                {
+                    Canvas1.UnregisterName("errorLine" + i);
+                }
+                catch
+                {
+                }
+            }
+            _count = 0;
+        }
+
         public void move_tube()
         {
             Dispatcher.BeginInvoke(new ThreadStart(delegate { Tube.Width += 4; }));
+        }
+
+        public void move_sample_tube()
+        {
+            TubeSample.Width += 4;
         }
 
         public void error_segment()
@@ -271,15 +301,10 @@ namespace t2_1stan_writer
                 errorLine.StrokeThickness = 4;
                 errorLine.Stroke = redBrush;
                 errorLine.Fill = redBrush;
-                Canvas.RegisterName("errorLine" + _count, errorLine);
+                Canvas1.RegisterName("errorLine" + _count, errorLine);
                 _count++;
-                Canvas.Children.Add(errorLine);
+                Canvas1.Children.Add(errorLine);
             }));
-        }
-
-        public void control_tube()
-        {
-            Dispatcher.BeginInvoke(new ThreadStart(delegate { Tube.Width = 240; }));
         }
 
         private void textBox4_PreviewTextInput(object sender, TextCompositionEventArgs e)
@@ -444,29 +469,6 @@ namespace t2_1stan_writer
                 TextBox3.Text != "")
             {
                 TabControl1.SelectedIndex = 2;
-                lblinfo1.Visibility = Visibility.Hidden;
-                lblinfo2.Visibility = Visibility.Hidden;
-                lblinfo3.Visibility = Visibility.Hidden;
-                lblinfo4.Visibility = Visibility.Hidden;
-                lblinfo5.Visibility = Visibility.Hidden;
-                lblinfo6.Visibility = Visibility.Hidden;
-                ButtonCancel.Visibility = Visibility.Visible;
-                ButtonSave.Visibility = Visibility.Visible;
-
-                Parameters.Clear();
-                Parameters.Add("smena", ((KeyValuePair<int, string>) ComboBox1.SelectedItem).Key);
-                Parameters.Add("smena_time", ((KeyValuePair<int, string>) ComboBox2.SelectedItem).Key);
-                Parameters.Add("operator1", ((KeyValuePair<int, string>) ComboBox3.SelectedItem).Key);
-                Parameters.Add("operator2", ((KeyValuePair<int, string>) ComboBox4.SelectedItem).Key);
-                Parameters.Add("part", Convert.ToInt32(TextBox4.Text));
-                Parameters.Add("gost", ((KeyValuePair<int, string>) ComboBox7.SelectedItem).Key);
-                Parameters.Add("diameter", ((KeyValuePair<int, string>) ComboBox5.SelectedItem).Key);
-                Parameters.Add("ho", Convert.ToInt32(TextBox1.Text));
-                Parameters.Add("control_sample", ((KeyValuePair<int, string>) ComboBox8.SelectedItem).Key);
-                Parameters.Add("name_defect", ((KeyValuePair<int, string>) ComboBox9.SelectedItem).Key);
-                Parameters.Add("device", ((KeyValuePair<int, string>) ComboBox11.SelectedItem).Key);
-                Parameters.Add("porog", Convert.ToInt32(TextBox2.Text));
-                Parameters.Add("current", Convert.ToInt32(TextBox3.Text));
             }
             else
             {
@@ -477,13 +479,13 @@ namespace t2_1stan_writer
         private void ButtonSave_Click(object sender, RoutedEventArgs e)
         {
             _writer.save_sample();
-            new_tube();
+            new_tube_sample();
             _writer.Sampledatacount = 0;
         }
 
         private void ButtonCancel_Click(object sender, RoutedEventArgs e)
         {
-            new_tube();
+            new_tube_sample();
             _writer.Sampledatacount = 0;
         }
     }
