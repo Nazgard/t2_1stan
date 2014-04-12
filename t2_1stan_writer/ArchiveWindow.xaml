@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="Просмотр данных стана 73-219" MinHeight="530" Height="530" MinWidth="965" Width="965" WindowStartupLocation="CenterOwner"
         Background="#FFE0E0E0"
-        Icon="icon.ico"
+        Icon="images\icon.ico"
         Style="{StaticResource VS2012WindowStyle}">
     <Grid>
         <Grid.RowDefinitions>
@@ -69,30 +69,115 @@
             <TreeView.ItemContainerStyle>
                 <Style TargetType="{x:Type TreeViewItem}">
                     <Style.Triggers>
-                        <MultiTrigger>
-                            <MultiTrigger.Conditions>
-                                <Condition Property="IsExpanded" Value="True"/>
-                                <Condition Property="Tag" Value="tube"/>
-                            </MultiTrigger.Conditions>
-                            <MultiTrigger.Setters>
-                                <Setter Property="HeaderTemplate">
-                                    <Setter.Value>
-                                        <DataTemplate>
-                                            <StackPanel Orientation="Horizontal">
-                                                <Image Name="img"
-                                   Width="20"
+                        <Trigger Property="Tag" Value="year">
+                            <Setter Property="HeaderTemplate">
+                                <Setter.Value>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal">
+                                            <Image Name="img"
+                                   Width="14"
+                                   Height="14"
+                                   Stretch="Fill"
+                                   Source="images/calendar.png"/>
+                                            <TextBlock Text="{Binding}" Margin="5,0" />
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Trigger>
+                        <Trigger Property="Tag" Value="month">
+                            <Setter Property="HeaderTemplate">
+                                <Setter.Value>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal">
+                                            <Image Name="img"
+                                   Width="14"
+                                   Height="14"
+                                   Stretch="Fill"
+                                   Source="images/calendar.png"/>
+                                            <TextBlock Text="{Binding}" Margin="5,0" />
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Trigger>
+                        <Trigger Property="Tag" Value="day">
+                            <Setter Property="HeaderTemplate">
+                                <Setter.Value>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal">
+                                            <Image Name="img"
+                                   Width="14"
+                                   Height="14"
+                                   Stretch="Fill"
+                                   Source="images/calendar.png"/>
+                                            <TextBlock Text="{Binding}" Margin="5,0" />
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Trigger>
+                        <Trigger Property="Tag" Value="smena">
+                            <Setter Property="HeaderTemplate">
+                                <Setter.Value>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal">
+                                            <Image Name="img"
+                                   Height="12"
+                                   Stretch="Fill"
+                                   Source="images/112group.png"/>
+                                            <TextBlock Text="{Binding}" Margin="5,0" />
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Trigger>
+                        <Trigger Property="Tag" Value="part">
+                            <Setter Property="HeaderTemplate">
+                                <Setter.Value>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal">
+                                            <Image Name="img"
+                                   Height="23"
+                                   Stretch="Fill"
+                                   Source="images/Melting-Pot-icon.png"/>
+                                            <TextBlock Text="{Binding}" Margin="5,4,5,0" />
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Trigger>
+                        <Trigger Property="Tag" Value="tube0">
+                            <Setter Property="HeaderTemplate">
+                                <Setter.Value>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal">
+                                            <Image Name="img"
                                    Height="20"
                                    Stretch="Fill"
-                                   Source="icon.ico"/>
-                                                <TextBlock Text="{Binding}" Margin="5,0" />
-                                            </StackPanel>
-                                        </DataTemplate>
-                                    </Setter.Value>
-                                </Setter>
-                            </MultiTrigger.Setters>
-                        </MultiTrigger>
+                                   Source="images/pipeline.png"/>
+                                            <TextBlock Text="{Binding}" Margin="5,0" />
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Trigger>
+                        <Trigger Property="Tag" Value="tube1">
+                            <Setter Property="HeaderTemplate">
+                                <Setter.Value>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal">
+                                            <Image Name="img"
+                                   Height="20"
+                                   Stretch="Fill"
+                                   Source="images/pipeline_er.png"/>
+                                            <TextBlock Text="{Binding}" Margin="5,0" />
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Trigger>
                     </Style.Triggers>
-                    
                 </Style>
             </TreeView.ItemContainerStyle>
         </TreeView>

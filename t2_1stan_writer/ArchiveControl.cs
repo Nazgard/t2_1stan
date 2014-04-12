@@ -49,9 +49,9 @@ namespace t2_1stan_writer
                     var item = new TreeViewItem
                     {
                         Uid = _mySqlDataReader.GetString(0),
-                        Style = null,
                         Tag = "year",
-                        Header = _mySqlDataReader.GetString(0)
+                        Header = _mySqlDataReader.GetString(0),
+                        ItemContainerStyle = ArchiveWindow.treeView1.ItemContainerStyle
                     };
                     item.Items.Add("*");
                     ArchiveWindow.treeView1.Items.Add(item);
@@ -79,8 +79,6 @@ namespace t2_1stan_writer
                     _mySqlCommand.CommandText = @"
                         SELECT
                         DISTINCT
-                        MONTHNAME(defectsdata.DatePr),
-                        YEAR(defectsdata.DatePr),
                         DATE_FORMAT(defectsdata.DatePr, '%Y-%m')
                         FROM
                         defectsdata
@@ -98,12 +96,10 @@ namespace t2_1stan_writer
                     {
                         var itemMonth = new TreeViewItem
                         {
-                            Uid =
-                                _mySqlDataReader.GetString(1) + "-" + _mySqlDataReader.GetString(0) + "|" +
-                                _mySqlDataReader.GetString(2),
-                            Style = null,
+                            Uid = _mySqlDataReader.GetString(0),
                             Tag = "month",
-                            Header = _mySqlDataReader.GetString(0)
+                            Header = _mySqlDataReader.GetString(0),
+                            ItemContainerStyle = ArchiveWindow.treeView1.ItemContainerStyle
                         };
                         itemMonth.Items.Add("*");
                         item.Items.Add(itemMonth);
@@ -115,8 +111,7 @@ namespace t2_1stan_writer
                 {
                     _mySqlCommand.CommandText = @"
                         SELECT
-                        DISTINCT
-                        DAY(defectsdata.DatePr),                        
+                        DISTINCT                
                         DATE_FORMAT(defectsdata.DatePr, '%Y-%m-%d')
                         FROM
                         defectsdata
@@ -125,7 +120,7 @@ namespace t2_1stan_writer
                     ";
                     _mySqlCommand.Connection = _connection.MySqlConnection;
                     _mySqlCommand.Parameters.Clear();
-                    _mySqlCommand.Parameters.AddWithValue("A", item.Uid.Split('|')[1]);
+                    _mySqlCommand.Parameters.AddWithValue("A", item.Uid);
 
                     _mySqlDataReader = _mySqlCommand.ExecuteReader();
 
@@ -133,10 +128,10 @@ namespace t2_1stan_writer
                     {
                         var itemDays = new TreeViewItem
                         {
-                            Uid = _mySqlDataReader.GetString(1),
-                            Style = null,
+                            Uid = _mySqlDataReader.GetString(0),
                             Tag = "day",
-                            Header = _mySqlDataReader.GetString(0)
+                            Header = _mySqlDataReader.GetString(0),
+                            ItemContainerStyle = ArchiveWindow.treeView1.ItemContainerStyle
                         };
                         itemDays.Items.Add("*");
                         item.Items.Add(itemDays);
@@ -169,9 +164,9 @@ namespace t2_1stan_writer
                         var itemSmens = new TreeViewItem
                         {
                             Uid = _mySqlDataReader.GetString(2) + "|" + _mySqlDataReader.GetString(3) + "+" + _mySqlDataReader.GetString(2) + " / " + _mySqlDataReader.GetString(0),
-                            Style = null,
                             Tag = "smena",
-                            Header = _mySqlDataReader.GetString(0)
+                            Header = _mySqlDataReader.GetString(0),
+                            ItemContainerStyle = ArchiveWindow.treeView1.ItemContainerStyle
                         };
                         itemSmens.Items.Add("*");
                         item.Items.Add(itemSmens);
@@ -208,9 +203,9 @@ namespace t2_1stan_writer
                                 _mySqlDataReader.GetString(0) + "|" + _mySqlDataReader.GetString(1) + "|" +
                                 _mySqlDataReader.GetString(2) + "|" + _mySqlDataReader.GetString(1) + " / " +
                                 _mySqlDataReader.GetString(3) + " / плавка " + _mySqlDataReader.GetString(0),
-                            Style = null,
                             Tag = "part",
-                            Header = _mySqlDataReader.GetString(0)
+                            Header = "Плавка № " +  _mySqlDataReader.GetString(0),
+                            ItemContainerStyle = ArchiveWindow.treeView1.ItemContainerStyle
                         };
                         itemPart.Items.Add("*");
                         item.Items.Add(itemPart);
@@ -247,8 +242,9 @@ namespace t2_1stan_writer
                         var itemTube = new TreeViewItem
                         {
                             Uid = _mySqlDataReader.GetString(3),
-                            Tag = "tube",
-                            Header = "Труба № " + _mySqlDataReader.GetString(0)
+                            Tag = "tube0",
+                            Header = "Труба № " + _mySqlDataReader.GetString(0),
+                            ItemContainerStyle = ArchiveWindow.treeView1.ItemContainerStyle
                         };
                         if (_mySqlDataReader.GetInt32(0) == 0)
                         {
@@ -260,6 +256,7 @@ namespace t2_1stan_writer
                             {
                                 Color = Colors.Red
                             };
+                            itemTube.Tag = "tube1";
                             itemTube.Foreground = redBrush;
                         }
                         item.Items.Add(itemTube);
@@ -280,7 +277,7 @@ namespace t2_1stan_writer
         {
             try
             {
-                if (item.Tag.ToString() == "tube")
+                if (item.Tag.ToString() == "tube0" || item.Tag.ToString() == "tube1")
                 {
                     Mouse.OverrideCursor = Cursors.Wait;
                     _mySqlCommand.CommandText = @"
@@ -401,7 +398,13 @@ namespace t2_1stan_writer
             {
                 switch (item.Tag.ToString())
                 {
-                    case "tube":
+                    case "tube0":
+                    {
+                        ArchiveWindow.button1.IsEnabled = false;
+                        Tube_Control(item);
+                    }
+                    break;
+                    case "tube1":
                     {
                         ArchiveWindow.button1.IsEnabled = false;
                         Tube_Control(item);
@@ -434,12 +437,12 @@ namespace t2_1stan_writer
                         if (_countsLoaded)
                         {
                             ArchiveWindow.listBox1.Items.Clear();
-                            ArchiveWindow.listBox1.Items.Add("ВРЕМЯ: \t\t\t" + item.Uid.Split('|')[1]);
-                            ArchiveWindow.listBox1.Items.Add("ТРУБ: \t\t\t" + _countMonths[item.Uid.Split('|')[0]]);
+                            ArchiveWindow.listBox1.Items.Add("ВРЕМЯ: \t\t\t" + item.Uid);
+                            ArchiveWindow.listBox1.Items.Add("ТРУБ: \t\t\t" + _countMonths[item.Uid]);
                             ArchiveWindow.listBox1.Items.Add("ДЕФЕКТНЫХ ТРУБ: \t" +
-                                                             _countDefectsMonths[item.Uid.Split('|')[0]]);
-                            double cd = Convert.ToInt32(_countDefectsMonths[item.Uid.Split('|')[0]]);
-                            double c = Convert.ToInt32(_countMonths[item.Uid.Split('|')[0]]);
+                                                             _countDefectsMonths[item.Uid]);
+                            double cd = Convert.ToInt32(_countDefectsMonths[item.Uid]);
+                            double c = Convert.ToInt32(_countMonths[item.Uid]);
                             var result = Math.Round(((cd/c)*100), 2);
                             ArchiveWindow.listBox1.Items.Add("ПРОЦЕНТ БРАКА: \t" + result);
                         }
@@ -694,7 +697,7 @@ namespace t2_1stan_writer
             _mySqlCommand1.CommandText = @"
                 SELECT    
                 Count(defectsdata.IndexData),
-			    DATE_FORMAT(defectsdata.DatePr, '%Y-%M')
+			    DATE_FORMAT(defectsdata.DatePr, '%Y-%m')
                 FROM
                 defectsdata
                 WHERE defectsdata.NumberTube <> 0
@@ -737,7 +740,7 @@ namespace t2_1stan_writer
             _mySqlCommand1.CommandText = @"
                 SELECT    
                 Count(defectsdata.IndexData),
-			    DATE_FORMAT(defectsdata.DatePr, '%Y-%M')
+			    DATE_FORMAT(defectsdata.DatePr, '%Y-%m')
                 FROM
                 defectsdata
                 WHERE

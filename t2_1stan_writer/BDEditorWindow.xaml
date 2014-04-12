@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         Title="Редактирование данных в БД" Height="417" Width="805"
-        Icon="icon.ico"
+        Icon="images\icon.ico"
         Style="{StaticResource VS2012WindowStyle}">
     <Grid>
         <TabControl Margin="10" SelectionChanged="Selector_OnSelectionChanged" Name="TabControl">
