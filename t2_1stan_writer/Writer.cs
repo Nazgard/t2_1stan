@@ -27,7 +27,8 @@ namespace t2_1stan_writer
 
         public void port_Open()
         {
-            _serialPort.Open();
+            if (!_serialPort.IsOpen)
+                _serialPort.Open();
         }
 
         private void SerialPortDataReceived(object sender, SerialDataReceivedEventArgs e)

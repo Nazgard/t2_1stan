@@ -37,12 +37,12 @@ namespace t2_1stan_writer
 
             try
             {
-                _writer.port_Open();
+                //_writer.port_Open();
             }
             catch (Exception)
             {
-                Button3.IsEnabled = false;
-                Button3.ToolTip = "COM порт не обнаружен";
+
+                throw;
             }
 
             try
@@ -178,6 +178,14 @@ namespace t2_1stan_writer
                 TextBox3.Text != "")
             {
                 FillParameters();
+                try
+                {
+                    _writer.port_Open();
+                }
+                catch
+                {
+                    MessageBox.Show("COM порт не обнаружен");
+                }
 
                 TabControl1.SelectedIndex = 3;
             }
@@ -468,6 +476,14 @@ namespace t2_1stan_writer
                 TextBox2.Text != "" &&
                 TextBox3.Text != "")
             {
+                try
+                {
+                    _writer.port_Open();
+                }
+                catch
+                {
+                    MessageBox.Show("COM порт не обнаружен");
+                }
                 TabControl1.SelectedIndex = 2;
             }
             else
