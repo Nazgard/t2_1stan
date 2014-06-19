@@ -21,16 +21,6 @@ namespace t2_1stan_writer
         public BDEditorWindow()
         {
             InitializeComponent();
-            /*fill_dg1();
-            fill_dg2();
-            fill_dg3();
-            fill_dg4();
-            fill_dg5();
-            fill_dg6();
-            fill_dg7();
-            fill_dg8();
-            fill_dg9();
-            fill_dg10();*/
         }
 
 
@@ -73,17 +63,28 @@ namespace t2_1stan_writer
         {
             try
             {
-                _connection.Open();
-                _mySqlCommand.CommandText = @"
-                INSERT INTO operators (Surname, LevelMD, LevelUSD) VALUES (@Surname, @LevelMD, @LevelUSD)
-            ";
-                _mySqlCommand.Connection = _connection.MySqlConnection;
-                _mySqlCommand.Parameters.AddWithValue("Surname", TextBox1.Text);
-                _mySqlCommand.Parameters.AddWithValue("LevelMD", TextBox2.Text);
-                _mySqlCommand.Parameters.AddWithValue("LevelUSD", TextBox3.Text);
-                _mySqlCommand.ExecuteNonQuery();
-                _connection.Close();
-                fill_dg1();
+                var txt1 = TextBox1.Text;
+                var txt2 = TextBox2.Text;
+                var txt3 = TextBox3.Text;
+
+                if (txt1.Trim() != "" && txt2.Trim() != "" && txt3.Trim() != "")
+                {
+                    _connection.Open();
+                    _mySqlCommand.CommandText = @"
+                        INSERT INTO operators (Surname, LevelMD, LevelUSD) VALUES (@Surname, @LevelMD, @LevelUSD)
+                    ";
+                    _mySqlCommand.Connection = _connection.MySqlConnection;
+                    _mySqlCommand.Parameters.AddWithValue("Surname", txt1);
+                    _mySqlCommand.Parameters.AddWithValue("LevelMD", txt2);
+                    _mySqlCommand.Parameters.AddWithValue("LevelUSD", txt3);
+                    _mySqlCommand.ExecuteNonQuery();
+                    _connection.Close();
+                    fill_dg1();
+                }
+                else
+                {
+                    MessageBox.Show("Все поля обязательны для заполнения и не могут быть пустыми");
+                }                
             }
             catch (Exception exception)
             {
@@ -161,16 +162,25 @@ namespace t2_1stan_writer
         {
             try
             {
-                _connection.Open();
-                _mySqlCommand.CommandText = @"
-                    INSERT INTO worksmens (NameSmen) VALUES (@NameSmen)
-                ";
-                _mySqlCommand.Connection = _connection.MySqlConnection;
-                _mySqlCommand.Parameters.Clear();
-                _mySqlCommand.Parameters.AddWithValue("NameSmen", TextBox4.Text);
-                _mySqlCommand.ExecuteNonQuery();
-                _connection.Close();
-                fill_dg2();
+                var txt4 = TextBox4.Text;
+
+                if (txt4.Trim() != "")
+                {
+                    _connection.Open();
+                    _mySqlCommand.CommandText = @"
+                        INSERT INTO worksmens (NameSmen) VALUES (@NameSmen)
+                    ";
+                    _mySqlCommand.Connection = _connection.MySqlConnection;
+                    _mySqlCommand.Parameters.Clear();
+                    _mySqlCommand.Parameters.AddWithValue("NameSmen", txt4);
+                    _mySqlCommand.ExecuteNonQuery();
+                    _connection.Close();
+                    fill_dg2();
+                }
+                else
+                {
+                    MessageBox.Show("Все поля обязательны для заполнения и не могут быть пустыми");
+                }                
             }
             catch (Exception exception)
             {
@@ -246,16 +256,26 @@ namespace t2_1stan_writer
         {
             try
             {
-                _connection.Open();
-                _mySqlCommand.CommandText = @"
-                    INSERT INTO sizetubes (SizeTube) VALUES (@SizeTube)
-                ";
-                _mySqlCommand.Connection = _connection.MySqlConnection;
-                _mySqlCommand.Parameters.Clear();
-                _mySqlCommand.Parameters.AddWithValue("SizeTube", TextBox5.Text);
-                _mySqlCommand.ExecuteNonQuery();
-                _connection.Close();
-                fill_dg3();
+                var txt5 = TextBox5.Text;
+
+                if (txt5.Trim() != "")
+                {
+                    _connection.Open();
+                    _mySqlCommand.CommandText = @"
+                        INSERT INTO sizetubes (SizeTube) VALUES (@SizeTube)
+                    ";
+                    _mySqlCommand.Connection = _connection.MySqlConnection;
+                    _mySqlCommand.Parameters.Clear();
+                    _mySqlCommand.Parameters.AddWithValue("SizeTube", txt5);
+                    _mySqlCommand.ExecuteNonQuery();
+                    _connection.Close();
+                    fill_dg3();
+                }
+                else
+                {
+                    MessageBox.Show("Все поля обязательны для заполнения и не могут быть пустыми");
+                } 
+                
             }
             catch (Exception exception)
             {
@@ -331,20 +351,31 @@ namespace t2_1stan_writer
         {
             try
             {
-                _connection.Open();
-                _mySqlCommand.CommandText = @"
-                    INSERT INTO controlsamples (NameControlSample, Id_SizeTube, DepthMin, DepthMax) VALUES (@NameControlSample, @Id_SizeTube, @DepthMin, @DepthMax)
-                ";
-                _mySqlCommand.Connection = _connection.MySqlConnection;
-                _mySqlCommand.Parameters.Clear();
-                _mySqlCommand.Parameters.AddWithValue("NameControlSample", TextBox6.Text);
-                _mySqlCommand.Parameters.AddWithValue("Id_SizeTube",
-                    ((KeyValuePair<int, string>) ComboBox1.SelectedItem).Key);
-                _mySqlCommand.Parameters.AddWithValue("DepthMin", TextBox7.Text);
-                _mySqlCommand.Parameters.AddWithValue("DepthMax", TextBox8.Text);
-                _mySqlCommand.ExecuteNonQuery();
-                _connection.Close();
-                fill_dg4();
+                var txt6 = TextBox6.Text;
+                var txt7 = TextBox7.Text;
+                var txt8 = TextBox8.Text;
+
+                if (txt6.Trim() != "" && txt7.Trim() != "" && txt8.Trim() != "" && ComboBox1.SelectedIndex != -1)
+                {
+                    _connection.Open();
+                    _mySqlCommand.CommandText = @"
+                        INSERT INTO controlsamples (NameControlSample, Id_SizeTube, DepthMin, DepthMax) VALUES (@NameControlSample, @Id_SizeTube, @DepthMin, @DepthMax)
+                    ";
+                    _mySqlCommand.Connection = _connection.MySqlConnection;
+                    _mySqlCommand.Parameters.Clear();
+                    _mySqlCommand.Parameters.AddWithValue("NameControlSample", txt6);
+                    _mySqlCommand.Parameters.AddWithValue("Id_SizeTube",
+                        ((KeyValuePair<int, string>)ComboBox1.SelectedItem).Key);
+                    _mySqlCommand.Parameters.AddWithValue("DepthMin", txt7);
+                    _mySqlCommand.Parameters.AddWithValue("DepthMax", txt8);
+                    _mySqlCommand.ExecuteNonQuery();
+                    _connection.Close();
+                    fill_dg4();
+                }
+                else
+                {
+                    MessageBox.Show("Все поля обязательны для заполнения и не могут быть пустыми");
+                }                
             }
             catch (Exception exception)
             {
@@ -443,16 +474,25 @@ namespace t2_1stan_writer
         {
             try
             {
-                _connection.Open();
-                _mySqlCommand.CommandText = @"
-                    INSERT INTO gosts (NameGost) VALUES (@NameGost)
-                ";
-                _mySqlCommand.Connection = _connection.MySqlConnection;
-                _mySqlCommand.Parameters.Clear();
-                _mySqlCommand.Parameters.AddWithValue("NameGost", TextBox9.Text);
-                _mySqlCommand.ExecuteNonQuery();
-                _connection.Close();
-                fill_dg5();
+                var txt9 = TextBox9.Text;
+
+                if (txt9.Trim() != "")
+                {
+                    _connection.Open();
+                    _mySqlCommand.CommandText = @"
+                        INSERT INTO gosts (NameGost) VALUES (@NameGost)
+                    ";
+                    _mySqlCommand.Connection = _connection.MySqlConnection;
+                    _mySqlCommand.Parameters.Clear();
+                    _mySqlCommand.Parameters.AddWithValue("NameGost", txt9);
+                    _mySqlCommand.ExecuteNonQuery();
+                    _connection.Close();
+                    fill_dg5();
+                }
+                else
+                {
+                    MessageBox.Show("Все поля обязательны для заполнения и не могут быть пустыми");
+                }                 
             }
             catch (Exception exception)
             {
@@ -528,16 +568,26 @@ namespace t2_1stan_writer
         {
             try
             {
-                _connection.Open();
-                _mySqlCommand.CommandText = @"
-                    INSERT INTO device (NameDevice) VALUES (@NameDevice)
-                ";
-                _mySqlCommand.Connection = _connection.MySqlConnection;
-                _mySqlCommand.Parameters.Clear();
-                _mySqlCommand.Parameters.AddWithValue("NameDevice", TextBox10.Text);
-                _mySqlCommand.ExecuteNonQuery();
-                _connection.Close();
-                fill_dg6();
+                var txt10 = TextBox10.Text;
+
+                if (txt10.Trim() != "")
+                {
+                    _connection.Open();
+                    _mySqlCommand.CommandText = @"
+                        INSERT INTO device (NameDevice) VALUES (@NameDevice)
+                    ";
+                    _mySqlCommand.Connection = _connection.MySqlConnection;
+                    _mySqlCommand.Parameters.Clear();
+                    _mySqlCommand.Parameters.AddWithValue("NameDevice", txt10);
+                    _mySqlCommand.ExecuteNonQuery();
+                    _connection.Close();
+                    fill_dg6();
+                }
+                else
+                {
+                    MessageBox.Show("Все поля обязательны для заполнения и не могут быть пустыми");
+                } 
+                
             }
             catch (Exception exception)
             {
@@ -613,16 +663,25 @@ namespace t2_1stan_writer
         {
             try
             {
-                _connection.Open();
-                _mySqlCommand.CommandText = @"
-                    INSERT INTO sensors (NameSensor) VALUES (@NameSensor)
-                ";
-                _mySqlCommand.Connection = _connection.MySqlConnection;
-                _mySqlCommand.Parameters.Clear();
-                _mySqlCommand.Parameters.AddWithValue("NameSensor", TextBox12.Text);
-                _mySqlCommand.ExecuteNonQuery();
-                _connection.Close();
-                fill_dg10();
+                var txt12 = TextBox12.Text;
+
+                if (txt12.Trim() != "")
+                {
+                    _connection.Open();
+                    _mySqlCommand.CommandText = @"
+                        INSERT INTO sensors (NameSensor) VALUES (@NameSensor)
+                    ";
+                    _mySqlCommand.Connection = _connection.MySqlConnection;
+                    _mySqlCommand.Parameters.Clear();
+                    _mySqlCommand.Parameters.AddWithValue("NameSensor", txt12);
+                    _mySqlCommand.ExecuteNonQuery();
+                    _connection.Close();
+                    fill_dg10();
+                }
+                else
+                {
+                    MessageBox.Show("Все поля обязательны для заполнения и не могут быть пустыми");
+                }                 
             }
             catch (Exception exception)
             {
@@ -809,17 +868,27 @@ namespace t2_1stan_writer
         {
             try
             {
-                _connection.Open();
-                _mySqlCommand.CommandText = @"
-                    INSERT INTO timeintervalsmens (TimeIntervalSmen) VALUES (@TimeIntervalSmen)
-                ";
-                _mySqlCommand.Connection = _connection.MySqlConnection;
-                _mySqlCommand.Parameters.Clear();
-                _mySqlCommand.Parameters.AddWithValue("TimeIntervalSmen",
-                    DateTimeUpDown1.Text + "-" + DateTimeUpDown2.Text);
-                _mySqlCommand.ExecuteNonQuery();
-                _connection.Close();
-                fill_dg8();
+                var txt = DateTimeUpDown1.Text + "-" + DateTimeUpDown2.Text;
+                var txt1 = DateTimeUpDown1.Text;
+                var txt2 = DateTimeUpDown2.Text;
+
+                if (txt1.Trim() != "" && txt2.Trim() != "")
+                {
+                    _connection.Open();
+                    _mySqlCommand.CommandText = @"
+                        INSERT INTO timeintervalsmens (TimeIntervalSmen) VALUES (@TimeIntervalSmen)
+                    ";
+                    _mySqlCommand.Connection = _connection.MySqlConnection;
+                    _mySqlCommand.Parameters.Clear();
+                    _mySqlCommand.Parameters.AddWithValue("TimeIntervalSmen", txt);
+                    _mySqlCommand.ExecuteNonQuery();
+                    _connection.Close();
+                    fill_dg8();
+                }
+                else
+                {
+                    MessageBox.Show("Все поля обязательны для заполнения и не могут быть пустыми");
+                } 
             }
             catch (Exception exception)
             {
@@ -895,16 +964,25 @@ namespace t2_1stan_writer
         {
             try
             {
-                _connection.Open();
-                _mySqlCommand.CommandText = @"
-                    INSERT INTO listdefects (NameDefect) VALUES (@NameDefect)
-                ";
-                _mySqlCommand.Connection = _connection.MySqlConnection;
-                _mySqlCommand.Parameters.Clear();
-                _mySqlCommand.Parameters.AddWithValue("NameDefect", TextBox11.Text);
-                _mySqlCommand.ExecuteNonQuery();
-                _connection.Close();
-                fill_dg9();
+                var txt11 = TextBox11.Text;
+
+                if (txt11.Trim() != "")
+                {
+                    _connection.Open();
+                    _mySqlCommand.CommandText = @"
+                        INSERT INTO listdefects (NameDefect) VALUES (@NameDefect)
+                    ";
+                    _mySqlCommand.Connection = _connection.MySqlConnection;
+                    _mySqlCommand.Parameters.Clear();
+                    _mySqlCommand.Parameters.AddWithValue("NameDefect", txt11);
+                    _mySqlCommand.ExecuteNonQuery();
+                    _connection.Close();
+                    fill_dg9();
+                }
+                else
+                {
+                    MessageBox.Show("Все поля обязательны для заполнения и не могут быть пустыми");
+                } 
             }
             catch (Exception exception)
             {
