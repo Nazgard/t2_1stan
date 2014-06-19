@@ -47,6 +47,7 @@ namespace t2_1stan_writer
                     ";
                     _mySqlCommand.Connection = _connection.MySqlConnection;
                     var dataRowView = (DataRowView) dg1.CurrentItem;
+                    _mySqlCommand.Parameters.Clear();
                     _mySqlCommand.Parameters.AddWithValue("id", dataRowView.Row.ItemArray[0]);
                     _mySqlCommand.ExecuteNonQuery();
                     _connection.Close();
