@@ -56,7 +56,7 @@ namespace t2_1stan_writer
                     WHERE Id_Operator = @id
                 ";
                     _mySqlCommand.Connection = _connection.MySqlConnection;
-                    var dataRowView = (DataRowView) dg1.SelectedItems[0];
+                    var dataRowView = (DataRowView) dg1.CurrentItem;
                     _mySqlCommand.Parameters.AddWithValue("id", dataRowView.Row.ItemArray[0]);
                     _mySqlCommand.ExecuteNonQuery();
                     _connection.Close();
@@ -143,7 +143,7 @@ namespace t2_1stan_writer
                     WHERE Id_WorkSmen = @id
                 ";
                     _mySqlCommand.Connection = _connection.MySqlConnection;
-                    var dataRowView = (DataRowView) dg2.SelectedItems[0];
+                    var dataRowView = (DataRowView) dg2.CurrentItem;
                     _mySqlCommand.Parameters.Clear();
                     _mySqlCommand.Parameters.AddWithValue("id", dataRowView.Row.ItemArray[0]);
                     _mySqlCommand.ExecuteNonQuery();
@@ -228,7 +228,7 @@ namespace t2_1stan_writer
                     WHERE Id_SizeTube = @id
                 ";
                     _mySqlCommand.Connection = _connection.MySqlConnection;
-                    var dataRowView = (DataRowView) dg3.SelectedItems[0];
+                    var dataRowView = (DataRowView) dg3.CurrentItem;
                     _mySqlCommand.Parameters.Clear();
                     _mySqlCommand.Parameters.AddWithValue("id", dataRowView.Row.ItemArray[0]);
                     _mySqlCommand.ExecuteNonQuery();
@@ -313,7 +313,7 @@ namespace t2_1stan_writer
                         WHERE Id_ControlSample = @id
                     ";
                     _mySqlCommand.Connection = _connection.MySqlConnection;
-                    var dataRowView = (DataRowView) dg4.SelectedItems[0];
+                    var dataRowView = (DataRowView) dg4.CurrentItem;
                     _mySqlCommand.Parameters.Clear();
                     _mySqlCommand.Parameters.AddWithValue("id", dataRowView.Row.ItemArray[0]);
                     _mySqlCommand.ExecuteNonQuery();
@@ -425,7 +425,7 @@ namespace t2_1stan_writer
                         WHERE Id_Gost = @id
                     ";
                     _mySqlCommand.Connection = _connection.MySqlConnection;
-                    var dataRowView = (DataRowView) dg5.SelectedItems[0];
+                    var dataRowView = (DataRowView) dg5.CurrentItem;
                     _mySqlCommand.Parameters.Clear();
                     _mySqlCommand.Parameters.AddWithValue("id", dataRowView.Row.ItemArray[0]);
                     _mySqlCommand.ExecuteNonQuery();
@@ -510,7 +510,7 @@ namespace t2_1stan_writer
                         WHERE Id_Device = @id
                     ";
                     _mySqlCommand.Connection = _connection.MySqlConnection;
-                    var dataRowView = (DataRowView) dg6.SelectedItems[0];
+                    var dataRowView = (DataRowView) dg6.CurrentItem;
                     _mySqlCommand.Parameters.Clear();
                     _mySqlCommand.Parameters.AddWithValue("id", dataRowView.Row.ItemArray[0]);
                     _mySqlCommand.ExecuteNonQuery();
@@ -595,7 +595,7 @@ namespace t2_1stan_writer
                         WHERE Id_Sensor = @id
                     ";
                     _mySqlCommand.Connection = _connection.MySqlConnection;
-                    var dataRowView = (DataRowView) dg10.SelectedItems[0];
+                    var dataRowView = (DataRowView) dg10.CurrentItem;
                     _mySqlCommand.Parameters.Clear();
                     _mySqlCommand.Parameters.AddWithValue("id", dataRowView.Row.ItemArray[0]);
                     _mySqlCommand.ExecuteNonQuery();
@@ -680,7 +680,7 @@ namespace t2_1stan_writer
                         WHERE Id = @id
                     ";
                     _mySqlCommand.Connection = _connection.MySqlConnection;
-                    var dataRowView = (DataRowView) dg7.SelectedItems[0];
+                    var dataRowView = (DataRowView) dg7.CurrentItem;
                     _mySqlCommand.Parameters.Clear();
                     _mySqlCommand.Parameters.AddWithValue("id", dataRowView.Row.ItemArray[0]);
                     _mySqlCommand.ExecuteNonQuery();
@@ -791,7 +791,7 @@ namespace t2_1stan_writer
                         WHERE Id_TimeIntervalSmen = @id
                     ";
                     _mySqlCommand.Connection = _connection.MySqlConnection;
-                    var dataRowView = (DataRowView) dg8.SelectedItems[0];
+                    var dataRowView = (DataRowView) dg8.CurrentItem;
                     _mySqlCommand.Parameters.Clear();
                     _mySqlCommand.Parameters.AddWithValue("id", dataRowView.Row.ItemArray[0]);
                     _mySqlCommand.ExecuteNonQuery();
@@ -877,7 +877,7 @@ namespace t2_1stan_writer
                         WHERE Id_NameDefect = @id
                     ";
                     _mySqlCommand.Connection = _connection.MySqlConnection;
-                    var dataRowView = (DataRowView) dg9.SelectedItems[0];
+                    var dataRowView = (DataRowView) dg9.CurrentItem;
                     _mySqlCommand.Parameters.Clear();
                     _mySqlCommand.Parameters.AddWithValue("id", dataRowView.Row.ItemArray[0]);
                     _mySqlCommand.ExecuteNonQuery();
