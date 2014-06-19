@@ -40,11 +40,11 @@ namespace t2_1stan_writer
                 {
                     _connection.Open();
                     _mySqlCommand.CommandText = @"
-                    UPDATE
-                    operators
-                    SET active = 0
-                    WHERE Id_Operator = @id
-                ";
+                        UPDATE
+                        operators
+                        SET active = 0
+                        WHERE Id_Operator = @id
+                    ";
                     _mySqlCommand.Connection = _connection.MySqlConnection;
                     var dataRowView = (DataRowView) dg1.CurrentItem;
                     _mySqlCommand.Parameters.AddWithValue("id", dataRowView.Row.ItemArray[0]);
@@ -112,6 +112,7 @@ namespace t2_1stan_writer
 
                 var dset = new DataSet();
                 dataAdapter.Fill(dset);
+
                 dg1.ItemsSource = dset.Tables[0].DefaultView;
                 _connection.Close();
             }
@@ -1020,60 +1021,63 @@ namespace t2_1stan_writer
 
         private void Selector_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            //MessageBox.Show(TabControl.SelectedIndex.ToString());
-            switch (TabControl.SelectedIndex)
+            if (e.Source is System.Windows.Controls.TabControl)
             {
-                case 0:
-                    {
-                        fill_dg1();
-                    }
-                    break;
-                case 1:
-                    {
-                        fill_dg2();
-                    }
-                    break;
-                case 2:
-                    {
-                        fill_dg3();
-                    }
-                    break;
-                case 3:
-                    {
-                        fill_dg4();
-                    }
-                    break;
-                case 4:
-                    {
-                        fill_dg5();
-                    }
-                    break;
-                case 5:
-                    {
-                        fill_dg6();
-                    }
-                    break;
-                case 6:
-                    {
-                        fill_dg10();
-                    }
-                    break;
-                case 7:
-                    {
-                        fill_dg7();
-                    }
-                    break;
-                case 8:
-                    {
-                        fill_dg8();
-                    }
-                    break;
-                case 9:
-                    {
-                        fill_dg9();
-                    }
-                    break;
-            }
+                //MessageBox.Show(TabControl.SelectedIndex.ToString());
+                switch (TabControl.SelectedIndex)
+                {
+                    case 0:
+                        {
+                            fill_dg1();
+                        }
+                        break;
+                    case 1:
+                        {
+                            fill_dg2();
+                        }
+                        break;
+                    case 2:
+                        {
+                            fill_dg3();
+                        }
+                        break;
+                    case 3:
+                        {
+                            fill_dg4();
+                        }
+                        break;
+                    case 4:
+                        {
+                            fill_dg5();
+                        }
+                        break;
+                    case 5:
+                        {
+                            fill_dg6();
+                        }
+                        break;
+                    case 6:
+                        {
+                            fill_dg10();
+                        }
+                        break;
+                    case 7:
+                        {
+                            fill_dg7();
+                        }
+                        break;
+                    case 8:
+                        {
+                            fill_dg8();
+                        }
+                        break;
+                    case 9:
+                        {
+                            fill_dg9();
+                        }
+                        break;
+                }
+            }            
         }
     }
 }
