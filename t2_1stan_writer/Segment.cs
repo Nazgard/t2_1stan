@@ -8,10 +8,10 @@ namespace t2_1stan_writer
     public class Segment
     {
         private byte _segment_number;
-        public byte Segment_number { get { return _segment_number} set { _segment_number = value; } }
+        public byte Segment_number { get { return _segment_number; } }
 
         private byte _defect;
-        public byte Defect { get { return _defect; } set { _defect = value; } }
+        public byte Defect { get { return _defect; } }
 
         public Segment (Pocket pocket)
         {
