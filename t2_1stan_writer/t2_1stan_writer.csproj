@@ -116,10 +116,14 @@
       <DependentUpon>BDSettingsWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="control_summ.cs" />
+    <Compile Include="Pocket.cs" />
+    <Compile Include="Pocket_Type.cs" />
     <Compile Include="ReportWindow.xaml.cs">
       <DependentUpon>ReportWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Segment.cs" />
     <Compile Include="Styles\CustomizedWindow\VS2012WindowStyle.cs" />
+    <Compile Include="Tube.cs" />
     <Compile Include="Writer.cs" />
     <Page Include="ArchiveWindow.xaml">
       <SubType>Designer</SubType>

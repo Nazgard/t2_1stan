@@ -18,11 +18,15 @@ namespace t2_1stan_writer
         public int Sampledatacount = 0;
         public MainWindow MainWindow;
 
+        private Tube _current_tube;
+        private Pocket pocket;
+
         public Writer()
         {
             _serialPort.DataReceived += SerialPortDataReceived;
             _serialPort.BaudRate = 9600;
             _serialPort.Parity = Parity.None;
+            _current_tube = new Tube();
         }
 
         public void port_Open()
@@ -43,25 +47,18 @@ namespace t2_1stan_writer
 
                 // read byte
                 _buffForRead[10] = (Byte)_serialPort.ReadByte();
-                if (_buffForRead[0] != 0xE6) continue;
-                if (_buffForRead[1] != 0x19) continue;
-                if (_buffForRead[2] != 0xFF) continue;
-                if (_buffForRead[3] != 0x08) continue;
-
-                if (_buffForRead[8] != 0x00) continue;
-                if (_buffForRead[9] != 0x00) continue;
-                if (_buffForRead[10] != 0x00) continue;
-
-                if (_buffForRead[7] != _crc8.ComputeChecksum(_buffForRead, 7)) continue;
+                pocket = new Pocket(_buffForRead);
+                if (!pocket.checkPocket()) continue;
 
                 //НОВАЯ ТРУБА
-                if (_buffForRead[4] == 0x03)
+                if (pocket.Type.Equals(Pocket_Type.TUBE))
                 {
+                    _current_tube = new Tube(pocket);
+
                     MainWindow.new_tube();
 
                     if (MainWindow.Parameters.Count == 13)
                     {
-
                         var hasDeffect = 0;
 
                         _connection.Open();
@@ -82,22 +79,16 @@ namespace t2_1stan_writer
                             myCommand.Parameters.AddWithValue("B",
                                 LastNumberTube(MainWindow.Parameters["part"]) + 1);
                             //РАЗМЕР ТРУБЫ
-                            myCommand.Parameters.AddWithValue("C", _buffForRead[5]);
+                            myCommand.Parameters.AddWithValue("C", _current_tube.Tube_length);
                             //ДЕФЕКТЫ
-                            var deffectsArray = new byte[_buffForRead[5]];
-                            for (var k = 0; k < (int)_buffForRead[5]; k++)
-                            {
-                                if (_buffferRecive[k] != 0) hasDeffect = 1;
-                                deffectsArray[k] = _buffferRecive[k];
-                            }
-                            myCommand.Parameters.AddWithValue("D", deffectsArray);
+                            myCommand.Parameters.AddWithValue("D", _current_tube.getDefectSegments());
                             //ТЕКУЩАЯ ДАТА
                             var theDate = DateTime.Now;
                             myCommand.Parameters.AddWithValue("E", theDate.ToString("yyyy-MM-dd"));
                             //ТЕКУЩИЕ ВРЕМЯ
                             myCommand.Parameters.AddWithValue("F", theDate.ToString("H:mm:ss"));
                             //НАЛИЧИЕ ДЕФФЕКТОВ
-                            myCommand.Parameters.AddWithValue("I", hasDeffect);
+                            myCommand.Parameters.AddWithValue("I", _current_tube.getDefectSegments().Length > 0);
 
                             myCommand.ExecuteNonQuery();
 
@@ -131,16 +122,16 @@ namespace t2_1stan_writer
                 }
 
                 //СЕГМЕНТ ТРУБЫ
-                if (_buffForRead[4] == 0x02)
+                if (pocket.Type.Equals(Pocket_Type.SEGMENT))
                 {
                     MainWindow.move_tube();
-                    _buffferRecive[_buffForRead[5]] = _buffForRead[6];
+                    _current_tube.addSegment(new Segment(pocket));
                 }
 
-                if (_buffForRead[4] == 0x02 && _buffForRead[6] != 0)
+                if (pocket.Type.Equals(Pocket_Type.SEGMENT) && pocket.COMBytes[6] != 0)
                     MainWindow.error_segment();
 
-                if (_buffForRead[4] == 0x01)
+                if (pocket.Type.Equals(Pocket_Type.SAMPLE))
                 {
                     MainWindow.Dispatcher.BeginInvoke(new ThreadStart(delegate
                     {
@@ -153,7 +144,7 @@ namespace t2_1stan_writer
                             MainWindow.ButtonCancel.IsEnabled = false;
                             MainWindow.ButtonSave.IsEnabled = false;
                         }
-                        if (_buffForRead[5] != 0)
+                        if (pocket.COMBytes[5] != 0)
                         {
                             MainWindow.error_sample_segment(Sampledatacount);
                         }
@@ -166,7 +157,7 @@ namespace t2_1stan_writer
                     }));
                 }
 
-                if (_buffForRead[4] != 0x01)
+                if (pocket.Type != Pocket_Type.SAMPLE)
                 {
                     MainWindow.Dispatcher.BeginInvoke(new ThreadStart(delegate
                     {
