@@ -22,9 +22,9 @@ namespace t2_1stan_writer
             _segments.Add(segment);
         }
 
-        public byte[] getDefectSegments ()
+        public Segment[] getDefectSegments ()
         {
-            return _segments.Where<>
+            return _segments.Where(s => !s.Defect.Equals(0x00)).ToArray();
         }
 
     }
