@@ -26,7 +26,7 @@ namespace t2_1stan_writer
             _serialPort.DataReceived += SerialPortDataReceived;
             _serialPort.BaudRate = 9600;
             _serialPort.Parity = Parity.None;
-            _current_tube = new Tube();
+            _current_tube = new Tube(new Pocket(new byte[9]));
         }
 
         public void port_Open()
